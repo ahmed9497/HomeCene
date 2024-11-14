@@ -11,6 +11,16 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary:"#0a5d5d"
+      },
+      
+      fontFamily:{
+        Jost:['Jost'],
+        Poppins:['Poppins']
+      },
+      container: {
+        center: true,
+        padding:'1rem'
       },
     },
   },

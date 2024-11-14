@@ -1,101 +1,284 @@
 import Image from "next/image";
+import Slider from "./components/Slider";
+import { GoRocket } from "react-icons/go";
+import { PiShoppingCartLight } from "react-icons/pi";
+import { useCart } from "./context/CartContext";
+import { CartItem, ProductProps } from "./types/types";
+import AddToCartButton from "./components/AddToCartButton";
+
+import Link from "next/link";
+import Product from "./components/Product";
+import BigProduct from "./components/BigProduct";
+import { GiReturnArrow, GiTakeMyMoney } from "react-icons/gi";
+import { RiSecurePaymentLine } from "react-icons/ri";
+import VerticalSlider from "./components/VerticalSlider";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const products: ProductProps[] = [
+    {
+      id: "1",
+      name: "Biamond Halo Stud Aenean",
+      price: 300,
+      description:
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+      image:
+        "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
+      discountedPrice: "$200",
+      discount: false,
+      rating: 4,
+    },
+    {
+      id: "2",
+      name: "Biamond Halo Stud Aenean",
+      price: 300,
+      description:
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+      image:
+        "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
+      discountedPrice: "$200",
+      discount: true,
+      rating: 4,
+    },
+    {
+      id: "3",
+      name: "Biamond Halo Stud Aenean",
+      price: 300,
+      description:
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+      image:
+        "https://vinova-furstore.myshopify.com/cdn/shop/products/2a_1dae4acc-3f60-44d2-a5cd-d85d36709d25_360x.jpg?v=1694678246",
+      discountedPrice: "$200",
+      discount: false,
+      rating: 4,
+    },
+    {
+      id: "4",
+      name: "Biamond Halo Stud Aenean",
+      price: 300,
+      description:
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+      image:
+        "https://vinova-furstore.myshopify.com/cdn/shop/products/1a_72f2474e-7e99-45e6-96e5-ddda5fc59906_360x.jpg?v=1694678001",
+      discountedPrice: "$200",
+      discount: true,
+      rating: 4,
+    },
+    {
+      id: "5",
+      name: "Biamond Halo Stud Aenean",
+      price: 300,
+      description:
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+      image:
+        "https://vinova-furstore.myshopify.com/cdn/shop/products/3a_360x.jpg?v=1694678220",
+      discountedPrice: "$200",
+      discount: false,
+      rating: 4,
+    },
+    {
+      id: "6",
+      name: "Biamond Halo Stud Aenean",
+      price: 300,
+      description:
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+      image:
+        "https://vinova-furstore.myshopify.com/cdn/shop/products/7a_360x.jpg?v=1694678092",
+      discountedPrice: "$200",
+      discount: false,
+      rating: 4,
+    },
+  ];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  return (
+    <>
+      <Slider />
+      <main className="container">
+        <div className="grid grid-cols-3 gap-3 pt-20">
+          <div className="bg-red-50 grid-cols-1 relative rounded overflow-hidden">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/category1.webp"
+              alt="cat"
+              layout="responsive"
+              width={100}
+              height={100}
+              className="hover:scale-105 transition-all"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <div className="absolute top-1/4 left-3 flex flex-col">
+              <h1 className="text-4xl font-extrabold">New Plants</h1>
+              <p className="text-xl my-3">Get up to 40% off</p>
+              <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
+                SHOP NOW
+              </button>
+            </div>
+          </div>
+          <div className="bg-red-500 grid-cols-1 relative rounded overflow-hidden">
+            {" "}
+            <Image
+              src="/category2.webp"
+              alt="cat"
+              layout="responsive"
+              width={100}
+              height={100}
+              className="hover:scale-105 transition-all"
+            />
+            <div className="absolute top-1/4 left-3 flex flex-col">
+              <h1 className="text-4xl font-extrabold text-white">CHAIN LAMP</h1>
+              <p className="text-xl my-3 text-gray-500">Get up to 40% off</p>
+              <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
+                SHOP NOW
+              </button>
+            </div>
+          </div>
+          <div className="bg-red-900 grid-cols-1 relative rounded overflow-hidden">
+            {" "}
+            <Image
+              src="/category3.webp"
+              alt="cat"
+              layout="responsive"
+              width={100}
+              height={100}
+              className="hover:scale-105 transition-all"
+            />
+            <div className="absolute top-1/4 left-3 flex flex-col">
+              <h1 className="text-4xl font-extrabold">NEW CHAIR</h1>
+              <p className="text-xl my-3">Get up to 40% off</p>
+              <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
+                SHOP NOW
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-4 gap-3 py-16">
+        
+            <div  className={`text-center grid-cols-1 p-3 border `}>
+              <div className="flex justify-center">
+                <GoRocket size={40} color="red" />
+              </div>
+              <h2>Extra Shipping</h2>
+            </div>
+            <div  className={`text-center grid-cols-1 p-3 border `}>
+              <div className="flex justify-center">
+                <GiReturnArrow size={40} color="green" />
+              </div>
+              <h2>Return Policy</h2>
+            </div>
+            <div  className={`text-center grid-cols-1 p-3 border `}>
+              <div className="flex justify-center">
+                <RiSecurePaymentLine size={40} color="light-blue" />
+              </div>
+              <h2>Secure Payments</h2>
+            </div>
+            <div  className={`text-center grid-cols-1 p-3 border `}>
+              <div className="flex justify-center">
+                <GiTakeMyMoney size={40} color="purple" />
+              </div>
+              <h2>Money Back Guarantee</h2>
+            </div>
+          
+        </div>
+
+        <div className=" py-16">
+          <h1 className="text-6xl font-bold uppercase text-center">
+            New Arrival
+          </h1>
+        </div>
+
+        {/* Products */}
+
+        <div className="grid grid-cols-5 gap-5">
+          <div className=" bg-blue-500 col-span-2">
+            <VerticalSlider/>
+          </div>
+          <div className=" grid grid-cols-3 col-span-3 gap-5">
+            {products.map((product, index) => (
+              <div key={product.id}>
+                <Product product={product} quickAddBtn={true} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-10 py-40">
+          <div className=" grid-cols-1 relative rounded overflow-hidden">
+            <Image
+              src="/hanginglights.webp"
+              alt="cat"
+              layout="responsive"
+              width={100}
+              height={100}
+              className="hover:scale-110 duration-500  transition-all "
+            />
+            <div className="absolute top-1/4 left-3 flex flex-col">
+              <h1 className="text-4xl font-extrabold">Hanging Lights</h1>
+              <p className="text-xl my-3 underline">Discover Now</p>
+              {/* <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
+                SHOP NOW
+              </button> */}
+            </div>
+          </div>
+          <div className="grid-cols-1 relative rounded overflow-hidden">
+            {" "}
+            <Image
+              src="/sidetable.webp"
+              alt="cat"
+              layout="responsive"
+              width={100}
+              height={100}
+              className="hover:scale-110 transition-all duration-500"
+            />
+            <div className="absolute top-1/4 left-3 flex flex-col">
+              <h1 className="text-4xl font-extrabold ">Side Tables</h1>
+              <p className="text-xl my-3 text-gray-500 underline">
+                Discover Now
+              </p>
+              {/* <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
+                SHOP NOW
+              </button> */}
+            </div>
+          </div>
+        </div>
+
+        <div className=" py-16">
+          <h1 className="text-6xl font-bold uppercase text-center">
+            Our Products
+          </h1>
+        </div>
+
+        {/* Products */}
+
+        <div className="grid grid-cols-6 gap-5">
+          <div className=" grid grid-cols-2 col-span-2 gap-5">
+            {products.slice(0, 4).map((product, index) => (
+              <div key={product.id}>
+                <Product product={product} quickAddBtn={false} />
+              </div>
+            ))}
+          </div>
+
+
+          <div className="col-span-2">
+            <BigProduct/>
+          </div>
+
+
+          <div className=" grid grid-cols-2 col-span-2 gap-5">
+            {products.slice(2, 6).map((product, index) => (
+              <div key={product.id}>
+                <Product product={product} quickAddBtn={false} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* View All */}
+
+        <div className="flex justify-center my-16">
+          <button className="hover:bg-[#0a5d5d] hover:text-white w-[170px] transition-all duration-200 border-2 rounded-[2px] text-lg bg-white text-[#0a5d5d] border-[#0a5d5d] px-5 py-2">
+            View All
+          </button>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }

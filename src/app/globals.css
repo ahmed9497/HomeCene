@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Jost';
+  src: url('./fonts/Jost-Regular.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('./fonts/Jost-Bold.ttf');
+  font-weight: 900;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('./fonts/Poppins-Regular.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('./fonts/Poppins-Bold.ttf');
+  font-weight: 900;
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -17,5 +37,5 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Jost", Helvetica, sans-serif;
 }
