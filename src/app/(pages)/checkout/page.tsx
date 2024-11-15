@@ -11,21 +11,20 @@ const Checkout = () => {
     formState: { errors },
   } = useForm();
   const { items, totalAmount } = useCart();
-  const handleFormSubmit = async(data: any) => {
+  const handleFormSubmit = async (data: any) => {
     // Pass form data to the parent function (e.g., to make a checkout API request)
     console.log(data);
     try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items }),
       });
-      
 
       const { url } = await response.json();
       window.location.href = url; // Redirect to Stripe Checkout
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -212,11 +211,11 @@ const Checkout = () => {
                 <div className="relative">
                   <div className="absolute bg-primary text-white -top-2 -right-1 rounded-full flex justify-center items-center size-5 text-sm">
                     {" "}
-                    {items.length}
+                    {item.quantity}
                   </div>
 
                   <Image
-                    src={"/chair.webp"}
+                    src={item.image}
                     alt={item.name}
                     width={80}
                     height={80}
@@ -238,8 +237,15 @@ const Checkout = () => {
 
           <div>
             <div className="grid grid-cols-2">
-              <div>Subtotal .24 Items</div>
-              <div className="text-right">$2323</div>
+              <div>
+                Subtotal .{" "}
+                {items?.length > 0 &&
+                  items?.reduce((prev, cur) => {
+                    return prev + cur.quantity;
+                  }, 0)}{" "}
+                Items
+              </div>
+              <div className="text-right">${totalAmount}</div>
             </div>
             <div className="grid grid-cols-2">
               <div>Standard Shipping</div>

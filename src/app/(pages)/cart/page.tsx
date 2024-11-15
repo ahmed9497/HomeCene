@@ -4,9 +4,9 @@ import { useCart } from "@/app/context/CartContext";
 import Image from "next/image";
 import React from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 const Cart = () => {
-    const router = useRouter();
+  const router = useRouter();
   const {
     items,
     addItemToCart,
@@ -16,14 +16,13 @@ const Cart = () => {
     totalAmount,
   } = useCart();
   const handleCheckout = async () => {
-    router.push('/checkout');
+    router.push("/checkout");
     // try {
     //   const response = await fetch('/api/checkout', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
     //     body: JSON.stringify({ items }),
     //   });
-      
 
     //   const { url } = await response.json();
     //   window.location.href = url; // Redirect to Stripe Checkout
@@ -49,7 +48,7 @@ const Cart = () => {
               <div className="flex items-center gap-x-3">
                 <div>
                   <Image
-                    src={"/chair.webp"}
+                    src={item.image}
                     alt={item.name}
                     width={100}
                     height={80}
@@ -88,7 +87,13 @@ const Cart = () => {
 
           <div className="flex my-6 justify-between">
             <div>Total Items:</div>
-            <div>{items?.length} Items</div>
+            <div>
+              {items?.length > 0 &&
+                items?.reduce((prev, cur) => {
+                  return prev + cur.quantity;
+                }, 0)}{" "}
+              Items
+            </div>
           </div>
           <div className="bg-white rounded p-3">
             <div className="flex justify-between">
@@ -105,8 +110,12 @@ const Cart = () => {
               <div className="text-gray-500 font-bold">${totalAmount + 50}</div>
             </div>
           </div>
-          <button onClick={handleCheckout} className="bg-primary w-full py-3 text-lg capitalize font-Poppins hover:bg-white hover:text-primary hover:border-2 border-primary  rounded text-white mt-10">
-            Continue</button>
+          <button
+            onClick={handleCheckout}
+            className="bg-primary w-full py-3 text-lg capitalize font-Poppins hover:bg-white hover:text-primary hover:border-2 border-primary  rounded text-white mt-10"
+          >
+            Continue
+          </button>
         </div>
       </div>
     </div>

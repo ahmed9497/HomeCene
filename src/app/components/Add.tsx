@@ -4,13 +4,20 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { ProductProps } from "../types/types";
 import { useCart } from "../context/CartContext";
 
-const Add: FC<ProductProps> = ({id, name,price}) => {
+
+
+interface AddToCartButtonProps {
+    product: ProductProps;
+    // btnType?:string
+  }
+
+const Add: FC<AddToCartButtonProps> = ({product}) => {
   const { addItemToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = () => {
-    const product = { id, name, quantity, price }; 
-    addItemToCart(product);
+    const p = { id:product.id, name:product.name, quantity: 1, price:product.price,image:product.image };
+    addItemToCart(p);
   };
 
 

@@ -17,17 +17,12 @@ const Product = ({
       key={product.id}
       className="group col-span-1 overflow-hidden cursor-pointer relative"
     >
+      <AddToCartButton product={product} btnType="cartBtn"  />
       <Link
         href={"/product/" + product.name.replaceAll(" ", "-")}
         className="w-full"
         key={product.id}
       >
-        <div
-          className="absolute border  group-hover:block border-primary transition-all delay-100 duration-300 ease-linear
-    rounded-full p-2 right-2 top-2 bg-primary scale-0 group-hover:scale-100 "
-        >
-          <PiShoppingCartLight size={20} color="white" />
-        </div>
         {product?.discount ? (
           <div className="absolute text-sm top-2 left-2 py-[1px] text-white rounded-sm px-2 bg-red-600">
             -54%
@@ -60,7 +55,7 @@ const Product = ({
           </div>
         </div>
       </Link>
-      {quickAddBtn && <AddToCartButton {...product} />}
+      {quickAddBtn && <AddToCartButton product={product}   />}
     </div>
   );
 };

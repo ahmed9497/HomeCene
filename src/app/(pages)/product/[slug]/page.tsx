@@ -70,7 +70,7 @@ const Product = async() => {
             <div className="text-black basis-1/4 font-extrabold uppercase">
               quantity:
             </div>
-            <Add {...product} />
+            <Add product={product} />
           </div>
           <div className="mt-10">
             <div className="text-black basis-1/4 text-sm font-extrabold uppercase">

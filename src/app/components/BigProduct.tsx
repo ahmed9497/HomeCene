@@ -7,10 +7,10 @@ const BigProduct = () => {
     <div>
     <div className="group relative overflow-hidden cursor-pointer">
     <div
-          className="absolute border z-10  group-hover:block border-primary transition-all delay-100 duration-300 ease-linear
-    rounded-full p-2 right-2 top-2 bg-primary scale-0 group-hover:scale-100 "
-        >
-        <PiShoppingCartLight size={20} color="white" />
+        className="absolute border shadow-lg z-10 group-hover:block border-primary transition-all delay-100 duration-300 ease-linear
+    rounded-full p-2 right-2 top-2 bg-primary scale-0 group-hover:scale-100 text-white hover:text-primary hover:bg-white"
+      >
+        <PiShoppingCartLight size={20}  />
       </div>
 
       <div className="z-10 absolute text-sm top-2 left-2 py-[1px] text-white rounded-sm px-2 bg-red-600">

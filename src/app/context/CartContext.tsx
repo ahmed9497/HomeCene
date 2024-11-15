@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { CartItem, CartContextType } from '../types/types';
 
 // Initial state
@@ -25,7 +25,25 @@ interface CartProviderProps {
 export function CartProvider({ children }: CartProviderProps) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-console.log(items)
+console.log(items);
+
+ // Load cart from localStorage on initial render
+ useEffect(() => {
+  const savedCart = localStorage.getItem("cart");
+  const savedTotal = localStorage.getItem("totalAmount");
+  if (savedCart) {
+    setItems(JSON.parse(savedCart));
+  }
+  if (savedTotal) {
+    setTotalAmount(parseFloat(savedTotal));
+  }
+}, []);
+
+// Save cart to localStorage whenever items change
+useEffect(() => {
+  localStorage.setItem("cart", JSON.stringify(items));
+  localStorage.setItem("totalAmount", totalAmount.toString());
+}, [items,totalAmount]);
   const addItemToCart = (item: CartItem) => {
     console.log(item)
     setItems((prevItems) => {
