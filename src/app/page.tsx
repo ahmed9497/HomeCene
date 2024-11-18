@@ -193,7 +193,7 @@ export default function Home() {
         {/* Products */}
 
         <div className="grid grid-cols-5 gap-5">
-          <div className=" bg-blue-500 col-span-2">
+          <div className="  col-span-2">
             <VerticalSlider/>
           </div>
           <div className=" grid grid-cols-3 col-span-3 gap-5">

@@ -17,7 +17,7 @@ const Product = ({
       key={product.id}
       className="group col-span-1 overflow-hidden cursor-pointer relative"
     >
-      <AddToCartButton product={product} btnType="cartBtn"  />
+      <AddToCartButton product={product} btnType="cartBtn" />
       <Link
         href={"/product/" + product.name.replaceAll(" ", "-")}
         className="w-full"
@@ -28,14 +28,22 @@ const Product = ({
             -54%
           </div>
         ) : null}
-        <div>
+        <div className="relative overflow-hidden">
           <Image
             src={`${product.image}`}
             alt={product.name}
             layout="responsive"
             width={100}
             height={100}
-            className="max-h-[260px] object-cover"
+            className="max-h-[260px] object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+          />
+          <Image
+            src="/chair1.webp"
+            alt="cat"
+            layout="responsive"
+            width={100}
+            height={100}
+            className="absolute inset-0 w-full h-full object-cover opacity-0 duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-125 transition-all "
           />
         </div>
         <div className="text-center">
@@ -55,7 +63,7 @@ const Product = ({
           </div>
         </div>
       </Link>
-      {quickAddBtn && <AddToCartButton product={product}   />}
+      {quickAddBtn && <AddToCartButton product={product} />}
     </div>
   );
 };

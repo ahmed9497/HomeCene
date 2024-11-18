@@ -37,7 +37,7 @@ const Header = () => {
             <a href="/" className="text-lg hover:text-gray-300">
               Home
             </a>
-            <a href="/shop" className="text-lg hover:text-gray-300">
+            <a href="/shop/all-products" className="text-lg hover:text-gray-300">
               Shop
             </a>
             <a href="/mirrors" className="text-lg hover:text-gray-300">
