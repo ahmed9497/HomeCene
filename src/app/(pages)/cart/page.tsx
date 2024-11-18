@@ -39,11 +39,11 @@ const Cart = () => {
         Home. Your Shopping Cart
       </div>
       <div className="grid grid-cols-3 gap-x-5">
-        <div className="col-span-2 ">
+        <div className="col-span-2 space-y-3">
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between bg-gray-200 rounded mb-4 items-center px-3 py-2"
+              className="flex justify-between bg-gray-200 rounded  items-center px-3 py-2"
             >
               <div className="flex items-center gap-x-3">
                 <div>

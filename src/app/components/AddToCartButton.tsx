@@ -5,6 +5,7 @@ import { FC } from "react";
 import { useCart } from "../context/CartContext";
 import { ProductProps } from "../types/types";
 import { PiShoppingCartLight } from "react-icons/pi";
+import { toast } from "react-toastify";
 
 interface AddToCartButtonProps {
   product: ProductProps;
@@ -15,8 +16,9 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
   const { addItemToCart } = useCart();
 
   const handleAddToCart = () => {
-    const p = { id:product.id, name:product.name, quantity: 1, price:product.price,image:product.image }; // Example
+    const p = { id:product.id, name:product.name, quantity: 1, price:product.price,image:product.image }; 
     addItemToCart(p);
+    toast.info("Product Added To Cart",{theme:'colored',hideProgressBar:true})
   };
   if (btnType === "cartBtn") {
     return (

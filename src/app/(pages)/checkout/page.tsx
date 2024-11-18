@@ -31,7 +31,7 @@ const Checkout = () => {
   return (
     <div className="container">
       <div className="grid grid-cols-2 py-6">
-        <div className="p-2">
+        <div className="p-2 pb-0 px-6">
           <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-2">
             <h1 className="text-2xl font-bold">Contact</h1>
             {/* Email */}
@@ -105,48 +105,25 @@ const Checkout = () => {
                 </p>
               )}
             </div>
-            {/* Country */}
-            <div>
-              <label htmlFor="country">Country</label>
-              <select
-                id="country"
-                {...register("country", { required: "Country is required" })}
-                className="border p-2 rounded w-full"
-              >
-                <option value="">Select a country</option>
-                <option value="United States">United Arab Emirates</option>
-              </select>
-              {errors.country && (
-                <p className="text-red-500">
-                  {(errors.country as FieldError).message}
-                </p>
-              )}
-            </div>
 
-            <div className="grid grid-cols-3 gap-x-3">
-              {/* City */}
-              <div className="">
-                <label htmlFor="postalCode">City</label>
-                <input
-                  id="city"
-                  type="text"
-                  {...register("city", {
-                    required: "City is required",
-                    //   pattern: {
-                    //     value: /^[0-9]{5}$/,
-                    //     message: "Enter a valid postal code",
-                    //   },
-                  })}
+            <div className="grid grid-cols-2 gap-x-3">
+              <div>
+                <label htmlFor="country">Country</label>
+                <select
+                  id="country"
+                  {...register("country", { required: "Country is required" })}
                   className="border p-2 rounded w-full"
-                />
-                {errors.city && (
+                >
+                  <option value="">Select a country</option>
+                  <option value="United States">United Arab Emirates</option>
+                </select>
+                {errors.country && (
                   <p className="text-red-500">
-                    {(errors.city as FieldError).message}
+                    {(errors.country as FieldError).message}
                   </p>
                 )}
               </div>
 
-              {/* State */}
               <div className="">
                 <label htmlFor="state">State</label>
                 <select
@@ -169,30 +146,8 @@ const Checkout = () => {
                   </p>
                 )}
               </div>
-
-              {/* Postal Code */}
-              <div className="">
-                <label htmlFor="postalCode">Postal Code</label>
-                <input
-                  id="postalCode"
-                  type="text"
-                  {...register("postalCode", {
-                    required: "Postal code is required",
-                    pattern: {
-                      value: /^[0-9]{5}$/,
-                      message: "Enter a valid postal code",
-                    },
-                  })}
-                  className="border p-2 rounded w-full"
-                />
-                {errors.postalCode && (
-                  <p className="text-red-500">
-                    {(errors.postalCode as FieldError).message}
-                  </p>
-                )}
-              </div>
             </div>
-            {/* Submit Button */}
+
             <button
               type="submit"
               className="bg-primary text-white  !mt-4 py-3 rounded w-full hover:bg-white hover:text-primary border-primary border-2 transition"
@@ -201,7 +156,7 @@ const Checkout = () => {
             </button>
           </form>
         </div>
-        <div className="bg-slate-200  p-10 ">
+        <div className="bg-slate-200 rounded-md p-10 ">
           {items.map((item) => (
             <div
               key={item.id}

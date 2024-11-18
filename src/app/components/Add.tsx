@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { ProductProps } from "../types/types";
 import { useCart } from "../context/CartContext";
+import { toast } from "react-toastify";
 
 
 
@@ -18,6 +19,7 @@ const Add: FC<AddToCartButtonProps> = ({product}) => {
   const handleAddToCart = () => {
     const p = { id:product.id, name:product.name, quantity: 1, price:product.price,image:product.image };
     addItemToCart(p);
+    toast.info("Product Added To Cart")
   };
 
 

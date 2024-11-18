@@ -3,6 +3,13 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { CartProvider } from "@/app/context/CartContext";
 import Header from "./components/Header";
+import { ToastContainer, toast, Slide } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+
+
+
+
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -25,14 +32,27 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
       <body>
         <CartProvider>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Slide}
+        />
           <Header />
-          <div className="pt-[60px]">
-          {children}
-          </div>
+       
+          <div className="pt-[60px]">{children}</div>
         </CartProvider>
       </body>
     </html>
