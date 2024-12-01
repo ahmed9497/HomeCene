@@ -99,7 +99,7 @@ export default function Home() {
     <>
       <Slider />
       <main className="container">
-        <div className="grid grid-cols-3 gap-3 pt-20">
+        <div className="grid sm:grid-cols-3 grid-cols-1 gap-3 pt-20">
           <div className="bg-red-50 grid-cols-1 relative rounded overflow-hidden">
             <Image
               src="/category1.webp"
@@ -155,7 +155,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-3 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 py-16">
         
             <div  className={`text-center grid-cols-1 p-3 border `}>
               <div className="flex justify-center">
@@ -185,7 +185,7 @@ export default function Home() {
         </div>
 
         <div className=" py-16">
-          <h1 className="text-6xl font-bold uppercase text-center">
+          <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
             New Arrival
           </h1>
         </div>
@@ -193,10 +193,10 @@ export default function Home() {
         {/* Products */}
 
         <div className="grid grid-cols-5 gap-5">
-          <div className="  col-span-2">
+          <div className="col-span-12 sm:col-span-2">
             <VerticalSlider/>
           </div>
-          <div className=" grid grid-cols-3 col-span-3 gap-5">
+          <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-5">
             {products.map((product, index) => (
               <div key={product.id}>
                 <Product product={product} quickAddBtn={true} />
@@ -205,7 +205,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-10 py-40">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-40">
           <div className=" grid-cols-1 relative rounded overflow-hidden">
             <Image
               src="/hanginglights.webp"
@@ -246,7 +246,7 @@ export default function Home() {
         </div>
 
         <div className=" py-16">
-          <h1 className="text-6xl font-bold uppercase text-center">
+          <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
             Our Products
           </h1>
         </div>
@@ -254,7 +254,7 @@ export default function Home() {
         {/* Products */}
 
         <div className="grid grid-cols-6 gap-5">
-          <div className=" grid grid-cols-2 col-span-2 gap-5">
+          <div className="order-2 sm:order-1 grid grid-cols-2 col-span-12 sm:col-span-2 gap-5">
             {products.slice(0, 4).map((product, index) => (
               <div key={product.id}>
                 <Product product={product} quickAddBtn={false} />
@@ -263,12 +263,12 @@ export default function Home() {
           </div>
 
 
-          <div className="col-span-2">
+          <div className="order-1 sm:order-2 col-span-12 sm:col-span-2">
             <BigProduct/>
           </div>
 
 
-          <div className=" grid grid-cols-2 col-span-2 gap-5">
+          <div className="order-3 sm:order-3 grid grid-cols-2 col-span-12 sm:col-span-2 gap-5">
             {products.slice(2, 6).map((product, index) => (
               <div key={product.id}>
                 <Product product={product} quickAddBtn={false} />

@@ -32,7 +32,7 @@ const Product = async() => {
     <main className="container">
       <div className="flex my-10">Home.</div>
 
-      <div className="grid grid-cols-2 gap-x-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-20">
         <div className="bg-gray-200 flex justify-center">
           {/* <ProductMagnifier/> */}
           <Image
@@ -76,7 +76,7 @@ const Product = async() => {
             <div className="text-black basis-1/4 text-sm font-extrabold uppercase">
               Guaranteed safe checkout:
             </div>
-            <div className="flex items-center justify-between mt-6 w-3/5">
+            <div className="flex items-center justify-between mt-6 sm:w-3/5">
               <div className="bg-gray-200 px-4  py-1 rounded">
                 <RiVisaLine size={25} color="blue" />
               </div>

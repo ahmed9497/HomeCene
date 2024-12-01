@@ -5,12 +5,15 @@ import Image from "next/image";
 import React from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { FaDeleteLeft } from "react-icons/fa6";
+import { RiDeleteBin2Line } from "react-icons/ri";
+import { IoClose } from "react-icons/io5";
 const Cart = () => {
   const router = useRouter();
   const {
     items,
     addItemToCart,
-    updateQuantity,
+    removeItemFromCart,
     decreaseQuantity,
     increaseQuantity,
     totalAmount,
@@ -38,14 +41,21 @@ const Cart = () => {
       <div className="font-extrabold text-sm text-center my-10">
         Home. Your Shopping Cart
       </div>
-      <div className="grid grid-cols-3 gap-x-5">
-        <div className="col-span-2 space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 py-3">
+        <div className="col-span-1 sm:col-span-2 space-y-3">
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between bg-gray-200 rounded  items-center px-3 py-2"
+              className="flex justify-between  relative bg-gray-200 rounded  items-start sm:items-center px-3 py-2"
             >
-              <div className="flex items-center gap-x-3">
+              <div
+                onClick={() => removeItemFromCart(item.id)}
+                className="absolute  -top-2 -right-1 size-7 bg-white border hover:bg-red-100 cursor-pointer rounded-full flex justify-center items-center"
+              >
+                <IoClose size={25} color="red" />
+              </div>
+
+              <div className="flex sm:items-center gap-x-3 flex-wrap">
                 <div>
                   <Image
                     src={item.image}
@@ -58,10 +68,26 @@ const Cart = () => {
                 <div>
                   <h4>{item.name}</h4>
                   <p className="text-gray-600">${item.price}</p>
+                  <div className="border my-2 border-black bg-white rounded-sm basis-full sm:hidden px-3 flex items-center justify-between">
+                    <div>
+                      <button onClick={() => decreaseQuantity(item.id)}>
+                        <FaMinus size={10} className="hover:text-red-500" />
+                      </button>
+                    </div>
+                    <div>{item.quantity}</div>
+                    <div>
+                      <button onClick={() => increaseQuantity(item.id)}>
+                        <FaPlus size={10} className="hover:text-green-500" />
+                      </button>
+                    </div>
+                  </div>
+                <div className="sm:hidden">
+                <p>Subtotal: ${item.price * item.quantity}</p>
+              </div>
                 </div>
               </div>
 
-              <div className="border border-black basis-2/12 px-3 flex items-center justify-between">
+              <div className="border rounded-sm bg-white border-black hidden sm:basis-2/12 px-3 sm:flex items-center justify-between">
                 <div>
                   <button onClick={() => decreaseQuantity(item.id)}>
                     <FaMinus size={10} className="hover:text-red-500" />
@@ -74,13 +100,14 @@ const Cart = () => {
                   </button>
                 </div>
               </div>
-              <div>
+
+              <div className="hidden sm:flex">
                 <p>Subtotal: ${item.price * item.quantity}</p>
               </div>
             </div>
           ))}
         </div>
-        <div className="col-span-1 bg-gray-100 p-5">
+        <div className="col-span-1 bg-gray-100 p-5 rounded">
           <h1 className="text-3xl">Summary</h1>
 
           <hr className="bg-black" />
