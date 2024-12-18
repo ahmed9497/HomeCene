@@ -12,12 +12,12 @@ interface AddToCartButtonProps {
     // btnType?:string
   }
 
-const Add: FC<AddToCartButtonProps> = ({product}) => {
+const Add: FC<AddToCartButtonProps|any> = ({product}) => {
   const { addItemToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = () => {
-    const p = { id:product.id, name:product.name, quantity: 1, price:product.price,image:product.image };
+    const p = { id:product.id, title:product.title, quantity: 1, price:product.price,image:product.image };
     addItemToCart(p);
     toast.info("Product Added To Cart")
   };
@@ -30,7 +30,7 @@ const Add: FC<AddToCartButtonProps> = ({product}) => {
           <FaMinus
             //   color="gray"
             size={10}
-            className="cursor-pointer h-full text-gray-500 hover:text-red-500"
+            className="cursor-pointer h-full text-gray-500 hover:text-red-500 hover:scale-125"
             onClick={(e) => setQuantity(quantity - 1)}
           />
           <input
@@ -42,7 +42,7 @@ const Add: FC<AddToCartButtonProps> = ({product}) => {
           <FaPlus
             //   color="gray"
             size={10}
-            className="cursor-pointer h-full text-gray-500 hover:text-green-500"
+            className="cursor-pointer h-full text-gray-500 hover:text-green-500 hover:scale-125"
             onClick={(e) => setQuantity(quantity + 1)}
           />
         </div>

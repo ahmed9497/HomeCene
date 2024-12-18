@@ -16,84 +16,94 @@ import VerticalSlider from "./components/VerticalSlider";
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth} from '../app/firebase/config';
 // import { useRouter } from "next/navigation";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "./firebase/config";
 
+// const products: ProductProps[] = [
+//   {
+//     id: "1",
+//     name: "Biamond Halo Stud Aenean",
+//     price: 300,
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+//     image:
+//       "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
+//     discountedPrice: "$200",
+//     discount: false,
+//     rating: 4,
+//   },
+//   {
+//     id: "2",
+//     name: "Biamond Halo Stud Aenean",
+//     price: 300,
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+//     image:
+//       "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
+//     discountedPrice: "$200",
+//     discount: true,
+//     rating: 4,
+//   },
+//   {
+//     id: "3",
+//     name: "Biamond Halo Stud Aenean",
+//     price: 300,
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+//     image:
+//       "https://vinova-furstore.myshopify.com/cdn/shop/products/2a_1dae4acc-3f60-44d2-a5cd-d85d36709d25_360x.jpg?v=1694678246",
+//     discountedPrice: "$200",
+//     discount: false,
+//     rating: 4,
+//   },
+//   {
+//     id: "4",
+//     name: "Biamond Halo Stud Aenean",
+//     price: 300,
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+//     image:
+//       "https://vinova-furstore.myshopify.com/cdn/shop/products/1a_72f2474e-7e99-45e6-96e5-ddda5fc59906_360x.jpg?v=1694678001",
+//     discountedPrice: "$200",
+//     discount: true,
+//     rating: 4,
+//   },
+//   {
+//     id: "5",
+//     name: "Biamond Halo Stud Aenean",
+//     price: 300,
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+//     image:
+//       "https://vinova-furstore.myshopify.com/cdn/shop/products/3a_360x.jpg?v=1694678220",
+//     discountedPrice: "$200",
+//     discount: false,
+//     rating: 4,
+//   },
+//   {
+//     id: "6",
+//     name: "Biamond Halo Stud Aenean",
+//     price: 300,
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
+//     image:
+//       "https://vinova-furstore.myshopify.com/cdn/shop/products/7a_360x.jpg?v=1694678092",
+//     discountedPrice: "$200",
+//     discount: false,
+//     rating: 4,
+//   },
+// ];
 
-export default function Home() {
-  const products: ProductProps[] = [
-    {
-      id: "1",
-      name: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
-      discountedPrice: "$200",
-      discount: false,
-      rating: 4,
-    },
-    {
-      id: "2",
-      name: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
-      discountedPrice: "$200",
-      discount: true,
-      rating: 4,
-    },
-    {
-      id: "3",
-      name: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/2a_1dae4acc-3f60-44d2-a5cd-d85d36709d25_360x.jpg?v=1694678246",
-      discountedPrice: "$200",
-      discount: false,
-      rating: 4,
-    },
-    {
-      id: "4",
-      name: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/1a_72f2474e-7e99-45e6-96e5-ddda5fc59906_360x.jpg?v=1694678001",
-      discountedPrice: "$200",
-      discount: true,
-      rating: 4,
-    },
-    {
-      id: "5",
-      name: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/3a_360x.jpg?v=1694678220",
-      discountedPrice: "$200",
-      discount: false,
-      rating: 4,
-    },
-    {
-      id: "6",
-      name: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/7a_360x.jpg?v=1694678092",
-      discountedPrice: "$200",
-      discount: false,
-      rating: 4,
-    },
-  ];
- 
+export default async function  Home() {
+  const productCollection = collection(db, "products");
+  const featuredQuery = query(productCollection, where("featuredProduct", "==", true));
+  const productSnapshot = await getDocs(featuredQuery);
+
+  const products = productSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+ console.log(products)
  
   return (
     <>
@@ -146,7 +156,7 @@ export default function Home() {
               className="hover:scale-105 transition-all"
             />
             <div className="absolute top-1/4 left-3 flex flex-col">
-              <h1 className="text-4xl font-extrabold">NEW CHAIR</h1>
+              <h1 className="text-4xl font-extrabold">Wooden Decor</h1>
               <p className="text-xl my-3">Get up to 40% off</p>
               <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
                 SHOP NOW
@@ -197,7 +207,7 @@ export default function Home() {
             <VerticalSlider/>
           </div>
           <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-5">
-            {products.map((product, index) => (
+            {products.map((product:any, index:number) => (
               <div key={product.id}>
                 <Product product={product} quickAddBtn={true} />
               </div>
@@ -208,15 +218,15 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-40">
           <div className=" grid-cols-1 relative rounded overflow-hidden">
             <Image
-              src="/hanginglights.webp"
+              src="/Mirrors.jpeg"
               alt="cat"
               layout="responsive"
               width={100}
               height={100}
               className="hover:scale-110 duration-500  transition-all "
             />
-            <div className="absolute top-1/4 left-3 flex flex-col">
-              <h1 className="text-4xl font-extrabold">Hanging Lights</h1>
+            <div className="absolute top-1/4 left-3 flex flex-col text-white">
+              <h1 className="text-4xl font-extrabold">Mirrors</h1>
               <p className="text-xl my-3 underline">Discover Now</p>
               {/* <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
                 SHOP NOW
@@ -234,7 +244,7 @@ export default function Home() {
               className="hover:scale-110 transition-all duration-500"
             />
             <div className="absolute top-1/4 left-3 flex flex-col">
-              <h1 className="text-4xl font-extrabold ">Side Tables</h1>
+              <h1 className="text-4xl font-extrabold ">Vase & Decor</h1>
               <p className="text-xl my-3 text-gray-500 underline">
                 Discover Now
               </p>
@@ -255,7 +265,7 @@ export default function Home() {
 
         <div className="grid grid-cols-6 gap-5">
           <div className="order-2 sm:order-1 grid grid-cols-2 col-span-12 sm:col-span-2 gap-5">
-            {products.slice(0, 4).map((product, index) => (
+            {products.slice(0, 4).map((product:any, index:number) => (
               <div key={product.id}>
                 <Product product={product} quickAddBtn={false} />
               </div>
@@ -269,7 +279,7 @@ export default function Home() {
 
 
           <div className="order-3 sm:order-3 grid grid-cols-2 col-span-12 sm:col-span-2 gap-5">
-            {products.slice(2, 6).map((product, index) => (
+            {products.slice(2, 6).map((product:any, index:number) => (
               <div key={product.id}>
                 <Product product={product} quickAddBtn={false} />
               </div>

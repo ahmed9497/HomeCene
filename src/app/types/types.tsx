@@ -1,7 +1,7 @@
 // types/cart.ts
 export interface CartItem {
     id: string;
-    name: string;
+    title: string;
     price: number;
     quantity: number;
     image:string;
@@ -20,11 +20,12 @@ export interface CartItem {
   
   export interface ProductProps {
     id: string;
-    name: string;
+    title: string;
     price: number;
     description:string;
     image:string;
     discountedPrice:string;
     discount:boolean;
     rating:number;
+    variant?:any;
   }

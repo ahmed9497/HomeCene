@@ -16,7 +16,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
   const { addItemToCart } = useCart();
 
   const handleAddToCart = () => {
-    const p = { id:product.id, name:product.name, quantity: 1, price:product.price,image:product.image }; 
+    const p = { id:product.id, title:product.title, quantity: 1, price:product.price,image:product.image }; 
     addItemToCart(p);
     toast.info("Product Added To Cart",{theme:'colored',hideProgressBar:true})
   };
@@ -24,7 +24,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
     return (
         <div
         className="absolute border shadow-lg group-hover:block border-primary transition-all delay-100 duration-300 ease-linear
-    rounded-full p-2 right-2 top-2 bg-primary scale-0 group-hover:scale-100 text-white hover:text-primary hover:bg-white"
+    rounded-full p-2 right-2 top-2 z-10 bg-primary scale-0 group-hover:scale-100 text-white hover:text-primary hover:bg-white"
     onClick={handleAddToCart}
       >
         {/* <div className="fixed z-10 bottom-full mb-2  left-1/2 -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

@@ -30,8 +30,8 @@ const Checkout = () => {
 
   return (
     <div className="container">
-      <div className="grid grid-cols-2 py-6">
-        <div className="p-2 pb-0 px-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 py-6">
+        <div className="order-2 sm:order-1 p-2 pb-0 sm:px-6">
           <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-2">
             <h1 className="text-2xl font-bold">Contact</h1>
             {/* Email */}
@@ -156,7 +156,8 @@ const Checkout = () => {
             </button>
           </form>
         </div>
-        <div className="bg-slate-200 rounded-md p-10 ">
+
+        <div className="order-1 sm:order-2 bg-slate-200 rounded-md p-10 ">
           {items.map((item) => (
             <div
               key={item.id}
@@ -171,14 +172,14 @@ const Checkout = () => {
 
                   <Image
                     src={item.image}
-                    alt={item.name}
+                    alt={item.title}
                     width={80}
                     height={80}
                     className="rounded size-[80px] object-cover"
                   />
                 </div>
                 <div>
-                  <h4>{item.name}</h4>
+                  <h4>{item.title}</h4>
                   <p className="text-gray-600">${item.price}</p>
                 </div>
               </div>

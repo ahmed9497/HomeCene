@@ -59,14 +59,14 @@ const Cart = () => {
                 <div>
                   <Image
                     src={item.image}
-                    alt={item.name}
+                    alt={item.title}
                     width={100}
                     height={80}
                     className="rounded"
                   />
                 </div>
                 <div>
-                  <h4>{item.name}</h4>
+                  <h4>{item.title}</h4>
                   <p className="text-gray-600">${item.price}</p>
                   <div className="border my-2 border-black bg-white rounded-sm basis-full sm:hidden px-3 flex items-center justify-between">
                     <div>

@@ -11,7 +11,7 @@ export default async function ShopPage({ params }: { params: tParams }) {
   const products: ProductProps[] = [
     {
       id: "1",
-      name: "Biamond Halo Stud Aenean",
+      title: "Biamond Halo Stud Aenean",
       price: 300,
       description:
         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
@@ -23,7 +23,7 @@ export default async function ShopPage({ params }: { params: tParams }) {
     },
     {
       id: "2",
-      name: "Biamond Halo Stud Aenean",
+      title: "Biamond Halo Stud Aenean",
       price: 300,
       description:
         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
@@ -35,7 +35,7 @@ export default async function ShopPage({ params }: { params: tParams }) {
     },
     {
       id: "3",
-      name: "Biamond Halo Stud Aenean",
+      title: "Biamond Halo Stud Aenean",
       price: 300,
       description:
         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
@@ -47,7 +47,7 @@ export default async function ShopPage({ params }: { params: tParams }) {
     },
     {
       id: "4",
-      name: "Biamond Halo Stud Aenean",
+      title: "Biamond Halo Stud Aenean",
       price: 300,
       description:
         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
@@ -59,7 +59,7 @@ export default async function ShopPage({ params }: { params: tParams }) {
     },
     {
       id: "5",
-      name: "Biamond Halo Stud Aenean",
+      title: "Biamond Halo Stud Aenean",
       price: 300,
       description:
         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
@@ -71,7 +71,7 @@ export default async function ShopPage({ params }: { params: tParams }) {
     },
     {
       id: "6",
-      name: "Biamond Halo Stud Aenean",
+      title: "Biamond Halo Stud Aenean",
       price: 300,
       description:
         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
