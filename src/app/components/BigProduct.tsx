@@ -18,15 +18,15 @@ const BigProduct = () => {
       </div>
 
       <Image
-        src="/chair.webp"
+        src="/lady.jpeg"
         alt="cat"
         layout="responsive"
         width={100}
         height={100}
-        className="w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+        className="w-full bg-gray-100 h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
       />
       <Image
-        src="/chair1.webp"
+        src="/decor.png"
         alt="cat"
         layout="responsive"
         width={100}

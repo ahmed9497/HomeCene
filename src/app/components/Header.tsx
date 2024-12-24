@@ -9,6 +9,8 @@ import { FaRegCircleUser, FaUser } from "react-icons/fa6";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
 import { signOut } from "firebase/auth";
+import Image from "next/image";
+
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,13 +24,13 @@ const Header = () => {
     sessionStorage.removeItem("user");
   };
   return (
-    <header className="bg-gray-100 text-primary font-Poppins z-10 fixed top-0 w-full shadow-lg h-[56px]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-3">
+    <header className="bg-gray-100 text-primary font-Poppins z-10 fixed top-0 w-full shadow-lg h-[56px] flex items-center">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="/" className="text-2xl font-bold">
-              MyLogo
+              <Image src="/logo.png" width={80} height={90} alt="homecene-logo"/>
             </a>
           </div>
 
