@@ -9,7 +9,7 @@ const slides = [
     id: 1,
     title: "Summer Sale Collections",
     description: "Sale! Up to 50% off!",
-    img: "/slider.webp",
+    img: "/Banner.png",
     url: "/",
     bg: "bg-gradient-to-r from-yellow-50 to-pink-50",
   },
@@ -54,7 +54,7 @@ const Slider = () => {
             key={slide.id}
           >
             {/* TEXT CONTAINER */}
-            <div className="h-1/2 xl:w-1/2 xl:h-full flex flex-col items-center justify-center gap-8 2xl:gap-12 text-center">
+            {/* <div className="h-1/2 xl:w-1/2 xl:h-full flex flex-col items-center justify-center gap-8 2xl:gap-12 text-center">
               <h2 className="text-xl lg:text-3xl 2xl:text-5xl">
                 {slide.description}
               </h2>
@@ -66,9 +66,9 @@ const Slider = () => {
                   SHOP NOW
                 </button>
               </Link>
-            </div>
+            </div> */}
             {/* IMAGE CONTAINER */}
-            <div className="h-1/2 xl:w-1/2 xl:h-full relative">
+            <div className="h-1/2 xl:w-full xl:h-full relative">
               <Image
                 src={slide.img}
                 alt=""
