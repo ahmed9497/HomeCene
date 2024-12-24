@@ -1,4 +1,5 @@
 
+
 import Image from "next/image";
 import Slider from "./components/Slider";
 import { GoRocket } from "react-icons/go";
@@ -18,7 +19,7 @@ import {auth} from '../app/firebase/config';
 // import { useRouter } from "next/navigation";
 import { collection, getDocs, getDocsFromServer, query, where } from "firebase/firestore";
 import { db } from "./firebase/config";
-
+export const fetchCache = "force-no-store";// Disables caching for the page
 // const products: ProductProps[] = [
 //   {
 //     id: "1",
