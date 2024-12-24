@@ -16,7 +16,7 @@ import VerticalSlider from "./components/VerticalSlider";
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth} from '../app/firebase/config';
 // import { useRouter } from "next/navigation";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, getDocsFromServer, query, where } from "firebase/firestore";
 import { db } from "./firebase/config";
 
 // const products: ProductProps[] = [
@@ -94,10 +94,24 @@ import { db } from "./firebase/config";
 //   },
 // ];
 
+// export async function getServerSideProps() {
+//   const productCollection = collection(db, "products");
+//   const featuredQuery = query(productCollection, where("featuredProduct", "==", true));
+//   const productSnapshot = await getDocsFromServer(featuredQuery);
+
+//   const products = productSnapshot.docs.map((doc) => ({
+//     id: doc.id,
+//     ...doc.data(),
+//   }));
+
+//   return {
+//     props: { products },
+//   };
+// }
 export default async function  Home() {
   const productCollection = collection(db, "products");
   const featuredQuery = query(productCollection, where("featuredProduct", "==", true));
-  const productSnapshot = await getDocs(featuredQuery);
+  const productSnapshot = await getDocsFromServer(featuredQuery);
 
   const products = productSnapshot.docs.map((doc) => ({
     id: doc.id,
