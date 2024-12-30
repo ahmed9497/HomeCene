@@ -56,15 +56,15 @@ const Cart = () => {
               </div>
 
               <div className="flex sm:items-center gap-x-3 flex-wrap">
-                <div>
+             {item?.image&&   <div>
                   <Image
-                    src={item.image}
+                    src={item?.image}
                     alt={item.title}
                     width={100}
                     height={80}
                     className="rounded"
                   />
-                </div>
+                </div>}
                 <div>
                   <h4>{item.title}</h4>
                   <p className="text-gray-600">${item.price}</p>

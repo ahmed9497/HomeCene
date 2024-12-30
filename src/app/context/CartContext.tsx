@@ -87,6 +87,7 @@ export function CartProvider({ children }: CartProviderProps) {
     }
   };
   const updateQuantity = (itemId: any, newQuantity: number) => {
+    
     setItems((prevItems) => {
       const itemIndex = prevItems.findIndex((i) => i.id == itemId);
 
@@ -107,6 +108,7 @@ export function CartProvider({ children }: CartProviderProps) {
     );
   };
   const increaseQuantity = (itemId: string) => {
+    
     setItems((prevItems) => {
       return prevItems.map((item) =>
         item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item

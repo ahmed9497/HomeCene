@@ -16,7 +16,9 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
   const { addItemToCart } = useCart();
 
   const handleAddToCart = () => {
-    const p = { id:product.id, title:product.title, quantity: 1, price:product.price,image:product.image }; 
+    
+   
+    const p = { id:product.id, title:product.title, quantity: 1, price:parseInt(product.variant[0].price[0]),image:product.image }; 
     addItemToCart(p);
     toast.info("Product Added To Cart",{theme:'colored',hideProgressBar:true})
   };
