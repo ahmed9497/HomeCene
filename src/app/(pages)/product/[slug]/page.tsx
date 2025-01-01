@@ -33,7 +33,8 @@ interface PageProps {
 
 // // Generate Metadata Dynamically
 export async function generateMetadata({ params }: any): Promise<Metadata> {
-  const product = await fetchProduct(params.slug);
+  const { slug } = await params;
+  const product = await fetchProduct(slug);
 
   if (!product) {
     return {
@@ -67,9 +68,9 @@ async function fetchProduct(slug: string): Promise<any> {
 
 const Product = async ({ params }: any) => {
 
-  const product = await fetchProduct('Golden-Framed-Oval-Wall-Mirror');
-
   const { slug } = await params;
+  const product = await fetchProduct(slug);
+
   
   
   
@@ -106,8 +107,8 @@ const Product = async ({ params }: any) => {
         <div> 
           {/* {JSON.stringify(product)} */}
           <div>
-            <h1 className="font-semibold  text-4xl">
-              {product?.title} ({product.variant?.length} Sizes)
+            <h1 className="font-semibold capitalize text-4xl">
+              {product?.title} {product?.variant?.length > 1? `(${product?.variant?.length} Sizes)` : ''} 
             </h1>
           </div>
         <SelectSize product={product}/>
@@ -116,12 +117,12 @@ const Product = async ({ params }: any) => {
           </div>
           <p className="mt-4 text-gray-400">{product?.description}</p>
 
-          <div className="flex gap-x-10 mt-4 text-sm">
+          {/* <div className="flex gap-x-10 mt-4 text-sm">
             <div className="text-black basis-1/4 font-extrabold uppercase">
               TAGS:
             </div>
             <div className="text-gray-800">Mirrors</div>
-          </div>
+          </div> */}
           <div className="flex gap-x-10 mt-4 text-sm">
             <div className="text-black basis-1/4 font-extrabold uppercase">
               Category:

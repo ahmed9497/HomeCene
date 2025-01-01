@@ -48,7 +48,7 @@ export default function RootLayout({
           />
           <Header />
 
-          <div className="pt-[60px]">{children}</div>
+          <div className="pt-[60px] pb-10">{children}</div>
           <Footer/>
         </CartProvider>
       </body>

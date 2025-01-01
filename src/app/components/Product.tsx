@@ -15,7 +15,7 @@ const Product = ({
   return (
     <div
       key={product.id}
-      className="group col-span-1 hover:border hover:rounded hover:p-1 hover:transition-all overflow-hidden cursor-pointer relative"
+      className="group col-span-1 hover:border-primary hover:shadow-lg hover:border hover:rounded hover:p-1 hover:transition-all overflow-hidden cursor-pointer relative"
     >
       <AddToCartButton product={product} btnType="cartBtn" />
       <Link
@@ -47,8 +47,8 @@ const Product = ({
             className="absolute inset-0 w-full h-full object-cover opacity-0 duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-125 transition-all "
           /> */}
         </div>
-        <div className="text-center">
-          <h1 className="font-Poppins group-hover:text-[12px]">
+        <div className="text-center group-hover:bg-[#0a5d5d3b] group-hover:p-[2px] group-hover:rounded">
+          <h1 className="font-Poppins group-hover:text-[12px] text-[14px] hover:text-primary">
             {product?.title}
             <span className="text-[12px] text-slate-500">
               &nbsp; {product?.variant?.length > 1? `(${product?.variant?.length} Sizes)` : ''} 
@@ -57,19 +57,25 @@ const Product = ({
           <div className="flex justify-center">
             {product?.variant[0]?.discount ? (
               <>
-                <h2 className="text-primary">{product?.discountedPrice}</h2>
+                <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">{product?.discountedPrice}</h2>
 
-                <h2 className="text-gray-300 line-through ml-3">
+                <h2 className="text-gray-300 line-through ml-3 group-hover:text-[12px] group-hover:font-semibold">
                   Dhs. {product?.variant[0]?.price[0]}
                 </h2>
               </>
             ) : (
-              <h2 className="text-primary">Dhs. {product?.variant[0]?.price[0]}</h2>
+              <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">Dhs. {product?.variant[0]?.price[0]}</h2>
             )}
           </div>
+          {/* <button
+        // onClick={handleAddToCart}
+        className="rounded-[4px] mt-2 bg-white text-[#0a5d5d] border px-5 w-full hover:bg-[#0a5d5d] transition-all ease-in delay-150 hover:text-white  py-1"
+      >
+        Quick Add
+      </button> */}
         </div>
       </Link>
-      {quickAddBtn && <AddToCartButton product={product} />}
+      {/* {quickAddBtn && <AddToCartButton product={product} />} */}
     </div>
   );
 };

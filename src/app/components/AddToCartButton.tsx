@@ -48,7 +48,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
     return (
       <button
         onClick={handleAddToCart}
-        className="rounded-[4px]  bg-white text-[#0a5d5d] border px-5 w-full hover:bg-[#0a5d5d] transition-all ease-in delay-150 hover:text-white  py-1"
+        className="rounded-[4px] mt-2 bg-white text-[#0a5d5d] border px-5 w-full hover:bg-[#0a5d5d] transition-all ease-in delay-150 hover:text-white  py-1"
       >
         Quick Add
       </button>

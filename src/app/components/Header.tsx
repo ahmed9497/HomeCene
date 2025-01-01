@@ -1,6 +1,6 @@
 // components/Header.tsx
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa"; // Using React Icons for Cart icon
 import { useCart } from "../context/CartContext";
 import { useRouter } from "next/navigation";
@@ -11,26 +11,55 @@ import { auth } from "../firebase/config";
 import { signOut } from "firebase/auth";
 import Image from "next/image";
 
-
 const Header = () => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { items } = useCart();
   const [user] = useAuthState(auth);
-  console.log(items, "item headrs", user);
-  const router = useRouter();
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY) {
+        setIsScrollingDown(true); // Hide the header when scrolling down
+      } else {
+        setIsScrollingDown(false); // Show the header when scrolling up
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll); // Clean up the listener
+    };
+  }, [lastScrollY]);
   const logOut = () => {
     signOut(auth);
     sessionStorage.removeItem("user");
   };
   return (
-    <header className="bg-gray-100 text-primary font-Poppins z-10 fixed top-0 w-full shadow-lg h-[56px] flex items-center">
+    <header
+      className={`bg-gray-100 text-primary font-Poppins z-10 fixed top-0 w-full shadow-lg h-[56px] flex items-center 
+    transition-transform duration-300 ${
+      isScrollingDown ? "-translate-y-full" : "translate-y-0"
+    }`}
+    >
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="/" className="text-2xl font-bold">
-              <Image src="/logo.png" width={80} height={90} alt="homecene-logo"/>
+              <Image
+                src="/logo.png"
+                width={80}
+                height={90}
+                alt="homecene-logo"
+              />
             </a>
           </div>
 
@@ -39,7 +68,10 @@ const Header = () => {
             <a href="/" className="text-lg hover:text-gray-300">
               Home
             </a>
-            <a href="/shop/all-products" className="text-lg hover:text-gray-300">
+            <a
+              href="/shop/all-products"
+              className="text-lg hover:text-gray-300"
+            >
               Shop
             </a>
             <a href="/mirrors" className="text-lg hover:text-gray-300">
@@ -49,10 +81,7 @@ const Header = () => {
 
           {/* Cart Icon */}
           <div className="flex items-center space-x-4 relative">
-            <button
-              className="flex items-center gap-x-2 relative group"
-              
-            >
+            <button className="flex items-center gap-x-2 relative group">
               {user ? (
                 <>
                   <span onClick={() => logOut()}>Logout</span>{" "}
@@ -60,7 +89,7 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <span onClick={() => router.push('/auth/login')}>Login</span>{" "}
+                  <span onClick={() => router.push("/auth/login")}>Login</span>{" "}
                   <FaRegCircleUser size={25} className="z-10" />
                 </>
               )}
