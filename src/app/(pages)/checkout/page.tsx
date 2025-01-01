@@ -43,7 +43,7 @@ const Checkout = () => {
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+Dhs. /,
                     message: "Enter a valid email address",
                   },
                 })}
@@ -180,12 +180,12 @@ const Checkout = () => {
                 </div>
                 <div>
                   <h4>{item.title}</h4>
-                  <p className="text-gray-600">${item.price}</p>
+                  <p className="text-gray-600">Dhs. {item.price}</p>
                 </div>
               </div>
 
               <div>
-                <p>Subtotal: ${item.price * item.quantity}</p>
+                <p>Subtotal: Dhs. {item.price * item.quantity}</p>
               </div>
             </div>
           ))}
@@ -201,15 +201,15 @@ const Checkout = () => {
                   }, 0)}{" "}
                 Items
               </div>
-              <div className="text-right">${totalAmount}</div>
+              <div className="text-right">Dhs. {totalAmount}</div>
             </div>
             <div className="grid grid-cols-2">
               <div>Standard Shipping</div>
-              <div className="text-right">$30</div>
+              <div className="text-right">Dhs. 30</div>
             </div>
             <div className="grid grid-cols-2 text-2xl  my-6 font-extrabold">
               <div className="">Total</div>
-              <div className="text-right">${totalAmount + 30}</div>
+              <div className="text-right">Dhs. {totalAmount + 30}</div>
             </div>
           </div>
         </div>

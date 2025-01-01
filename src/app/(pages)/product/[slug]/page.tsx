@@ -23,30 +23,57 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import SelectSize from "@/app/components/SelectSize";
-const Product = async ({ params }: { params: any }) => {
-  // const product = {
-  //   id: "1",
-  //   title: "Biamond Halo Stud Aenean",
-  //   price: 300,
-  //   description:
-  //     "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-  //   image:
-  //     "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
-  //   discountedPrice: "$200",
-  //   discount: false,
-  //   rating: 4,
-  // };
-  const { slug } = await params;
-  console.log(slug);
-  // Query Firestore to find the product by slug
+import Head from "next/head";
+import { Metadata } from "next";
+
+
+interface PageProps {
+  params: { slug: string };
+}
+
+// // Generate Metadata Dynamically
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  const product = await fetchProduct(params.slug);
+
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+      description: 'The product you are looking for does not exist.',
+    };
+  }
+
+  return {
+    title: `${product.title} - HomeCene`,
+    description: product.description,
+    openGraph: {
+      title: `${product.title} - HomeCene`,
+      description: product.description,
+      images: [{ url: product.image }],
+    },
+  };
+}
+
+// Function to fetch product details
+async function fetchProduct(slug: string): Promise<any> {
   const productCollection = collection(db, "products");
   const productQuery = query(
     productCollection,
     where("title", "==", slug?.replaceAll("-", " "))
   );
   const productSnapshot = await getDocs(productQuery);
+  const product = productSnapshot.docs[0].data();
+  return product;
+}
+
+const Product = async ({ params }: any) => {
+
+  const product = await fetchProduct('Golden-Framed-Oval-Wall-Mirror');
+
+  const { slug } = await params;
   
-  if (productSnapshot.empty) {
+  
+  
+  if (!product) {
     return (
       <div>
         <h1>Product Not Found</h1>
@@ -54,10 +81,13 @@ const Product = async ({ params }: { params: any }) => {
       </div>
     );
   }
-  const product = productSnapshot.docs[0].data();
+  // const product = productSnapshot.docs[0].data();
   console.log(product);
 
   return (
+    <>
+    
+      
     <main className="container">
       <div className="flex my-10">Home.</div>
 
@@ -90,13 +120,13 @@ const Product = async ({ params }: { params: any }) => {
             <div className="text-black basis-1/4 font-extrabold uppercase">
               TAGS:
             </div>
-            <div className="text-gray-800">Armchair</div>
+            <div className="text-gray-800">Mirrors</div>
           </div>
           <div className="flex gap-x-10 mt-4 text-sm">
             <div className="text-black basis-1/4 font-extrabold uppercase">
               Category:
             </div>
-            <div className="text-gray-800">Armchair</div>
+            <div className="text-gray-800 uppercase">{product?.category}</div>
           </div>
 
 
@@ -131,6 +161,7 @@ const Product = async ({ params }: { params: any }) => {
         </div>
       </div>
     </main>
+    </>
   );
 };
 

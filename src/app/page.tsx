@@ -29,7 +29,7 @@ import { db } from "./firebase/config";
 //       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
 //     image:
 //       "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
-//     discountedPrice: "$200",
+//     discountedPrice: "Dhs. 200",
 //     discount: false,
 //     rating: 4,
 //   },
@@ -41,7 +41,7 @@ import { db } from "./firebase/config";
 //       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
 //     image:
 //       "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
-//     discountedPrice: "$200",
+//     discountedPrice: "Dhs. 200",
 //     discount: true,
 //     rating: 4,
 //   },
@@ -53,7 +53,7 @@ import { db } from "./firebase/config";
 //       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
 //     image:
 //       "https://vinova-furstore.myshopify.com/cdn/shop/products/2a_1dae4acc-3f60-44d2-a5cd-d85d36709d25_360x.jpg?v=1694678246",
-//     discountedPrice: "$200",
+//     discountedPrice: "Dhs. 200",
 //     discount: false,
 //     rating: 4,
 //   },
@@ -65,7 +65,7 @@ import { db } from "./firebase/config";
 //       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
 //     image:
 //       "https://vinova-furstore.myshopify.com/cdn/shop/products/1a_72f2474e-7e99-45e6-96e5-ddda5fc59906_360x.jpg?v=1694678001",
-//     discountedPrice: "$200",
+//     discountedPrice: "Dhs. 200",
 //     discount: true,
 //     rating: 4,
 //   },
@@ -77,7 +77,7 @@ import { db } from "./firebase/config";
 //       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
 //     image:
 //       "https://vinova-furstore.myshopify.com/cdn/shop/products/3a_360x.jpg?v=1694678220",
-//     discountedPrice: "$200",
+//     discountedPrice: "Dhs. 200",
 //     discount: false,
 //     rating: 4,
 //   },
@@ -89,7 +89,7 @@ import { db } from "./firebase/config";
 //       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
 //     image:
 //       "https://vinova-furstore.myshopify.com/cdn/shop/products/7a_360x.jpg?v=1694678092",
-//     discountedPrice: "$200",
+//     discountedPrice: "Dhs. 200",
 //     discount: false,
 //     rating: 4,
 //   },

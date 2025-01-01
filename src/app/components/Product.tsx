@@ -15,7 +15,7 @@ const Product = ({
   return (
     <div
       key={product.id}
-      className="group col-span-1 overflow-hidden cursor-pointer relative"
+      className="group col-span-1 hover:border hover:rounded hover:p-1 hover:transition-all overflow-hidden cursor-pointer relative"
     >
       <AddToCartButton product={product} btnType="cartBtn" />
       <Link
@@ -23,7 +23,7 @@ const Product = ({
         className="w-full"
         key={product.id}
       >
-        {product?.discount ? (
+        {product?.variant[0]?.discount ? (
           <div className="absolute text-sm top-2 z-10 left-2 py-[1px] text-white rounded-sm px-2 bg-red-600">
             -54%
           </div>
@@ -48,18 +48,23 @@ const Product = ({
           /> */}
         </div>
         <div className="text-center">
-          <h1 className="font-Poppins">{product?.title} <span className="text-[12px] text-slate-500">({product?.variant?.length} Sizes)</span></h1>
+          <h1 className="font-Poppins group-hover:text-[12px]">
+            {product?.title}
+            <span className="text-[12px] text-slate-500">
+              &nbsp; {product?.variant?.length > 1? `(${product?.variant?.length} Sizes)` : ''} 
+            </span>
+          </h1>
           <div className="flex justify-center">
-            {product?.discount ? (
+            {product?.variant[0]?.discount ? (
               <>
                 <h2 className="text-primary">{product?.discountedPrice}</h2>
 
                 <h2 className="text-gray-300 line-through ml-3">
-                  {product?.price}
+                  Dhs. {product?.variant[0]?.price[0]}
                 </h2>
               </>
             ) : (
-              <h2 className="text-primary">{product?.price}</h2>
+              <h2 className="text-primary">Dhs. {product?.variant[0]?.price[0]}</h2>
             )}
           </div>
         </div>

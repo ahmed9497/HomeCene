@@ -25,7 +25,7 @@ export interface CartItem {
     description:string;
     image:string;
     discountedPrice:string;
-    discount:boolean;
+    discount?:boolean;
     rating:number;
     variant?:any;
   }

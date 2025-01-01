@@ -9,25 +9,34 @@ import { toast } from "react-toastify";
 
 interface AddToCartButtonProps {
   product: ProductProps;
-  btnType?:string
+  btnType?: string;
 }
 
 const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
   const { addItemToCart } = useCart();
 
   const handleAddToCart = () => {
-    
-   
-    const p = { id:product.id, title:product.title, quantity: 1, price:parseInt(product.variant[0].price[0]),image:product.image }; 
+    const p = {
+      id: product.id,
+      title: product.title,
+      quantity: 1,
+      price: parseInt(product.variant[0].price[0]),
+      image: product.image,
+    };
     addItemToCart(p);
-    toast.info("Product Added To Cart",{theme:'colored',hideProgressBar:true})
+    toast.info("Product Added To Cart", {
+      theme: "colored",
+      hideProgressBar: true,
+    });
+    const audio = new Audio('/add-to-basket.mp3');
+    audio.play().catch((err) => console.error('Failed to play sound:', err));
   };
   if (btnType === "cartBtn") {
     return (
-        <div
+      <div
         className="absolute border shadow-lg group-hover:block border-primary transition-all delay-100 duration-300 ease-linear
     rounded-full p-2 right-2 top-2 z-10 bg-primary scale-0 group-hover:scale-100 text-white hover:text-primary hover:bg-white"
-    onClick={handleAddToCart}
+        onClick={handleAddToCart}
       >
         {/* <div className="fixed z-10 bottom-full mb-2  left-1/2 -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           Quick Add
@@ -35,8 +44,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
         <PiShoppingCartLight size={20} />
       </div>
     );
-  }
-  else  {
+  } else {
     return (
       <button
         onClick={handleAddToCart}
@@ -44,7 +52,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
       >
         Quick Add
       </button>
-    )
+    );
   }
 };
 
