@@ -9,7 +9,18 @@ const Checkout = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm(
+    {
+      defaultValues:{
+        email:"",
+        name:"",
+        phone:"",
+        address:"",
+        country:"UAE",
+        state:null
+      }
+    }
+  );
   const { items, totalAmount } = useCart();
   const handleFormSubmit = async (data: any) => {
     // Pass form data to the parent function (e.g., to make a checkout API request)
@@ -43,7 +54,7 @@ const Checkout = () => {
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+Dhs. /,
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                     message: "Enter a valid email address",
                   },
                 })}
@@ -113,9 +124,11 @@ const Checkout = () => {
                   id="country"
                   {...register("country", { required: "Country is required" })}
                   className="border p-2 rounded w-full"
+                  disabled
+                  
                 >
-                  <option value="">Select a country</option>
-                  <option value="United States">United Arab Emirates</option>
+                  {/* <option value="">Select a country</option> */}
+                  <option value="UAE">United Arab Emirates</option>
                 </select>
                 {errors.country && (
                   <p className="text-red-500">
@@ -128,6 +141,7 @@ const Checkout = () => {
                 <label htmlFor="state">State</label>
                 <select
                   id="state"
+                 
                   {...register("state", { required: "State is required" })}
                   className="border p-2 rounded w-full"
                 >
@@ -140,7 +154,7 @@ const Checkout = () => {
                   <option value="Fujairah">Fujairah</option>
                   <option value="Ras Al Khaimah">Ras Al Khaimah</option>
                 </select>
-                {errors.country && (
+                {errors.state && (
                   <p className="text-red-500">
                     {(errors.state as FieldError).message}
                   </p>

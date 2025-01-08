@@ -1,89 +1,93 @@
 import Product from "@/app/components/Product";
 import ShopCategories from "@/app/components/ShopCategories";
+import { db } from "@/app/firebase/config";
 import { ProductProps } from "@/app/types/types";
+import {
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  startAfter,
+  where,
+} from "firebase/firestore";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoMenu } from "react-icons/io5";
 
-type tParams = Promise<{ slug: string[] }>;
+type tParams = Promise<{ slug: string }>;
 
-export default async function ShopPage({ params }: { params: tParams }) {
-  const products: ProductProps[] = [
-    {
-      id: "1",
-      title: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
-      discountedPrice: "$200",
-      discount: false,
-      rating: 4,
-    },
-    {
-      id: "2",
-      title: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
-      discountedPrice: "$200",
-      discount: true,
-      rating: 4,
-    },
-    {
-      id: "3",
-      title: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/2a_1dae4acc-3f60-44d2-a5cd-d85d36709d25_360x.jpg?v=1694678246",
-      discountedPrice: "$200",
-      discount: false,
-      rating: 4,
-    },
-    {
-      id: "4",
-      title: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/1a_72f2474e-7e99-45e6-96e5-ddda5fc59906_360x.jpg?v=1694678001",
-      discountedPrice: "$200",
-      discount: true,
-      rating: 4,
-    },
-    {
-      id: "5",
-      title: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/3a_360x.jpg?v=1694678220",
-      discountedPrice: "$200",
-      discount: false,
-      rating: 4,
-    },
-    {
-      id: "6",
-      title: "Biamond Halo Stud Aenean",
-      price: 300,
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-      image:
-        "https://vinova-furstore.myshopify.com/cdn/shop/products/7a_360x.jpg?v=1694678092",
-      discountedPrice: "$200",
-      discount: false,
-      rating: 4,
-    },
-  ];
+async function fetchProducts(
+  slug = "all-product",
+  cursor = null,
+  pageSize = 6
+) {
+  const productCollection = collection(db, "products");
+  let productQuery;
+  if (slug === "all-products") {
+    productQuery = cursor
+      ? query(
+          productCollection,
+          orderBy("slug"),
+          orderBy("id"),
+          startAfter(cursor),
+          limit(pageSize)
+        )
+      : query(
+          productCollection,
+          orderBy("slug", "asc"),
+          orderBy("id"),
+          limit(pageSize)
+        );
+  } else {
+    productQuery = cursor
+      ? query(
+          productCollection,
+          where("category", "==", slug.replaceAll("-"," ")),
+          orderBy("slug"),
+          orderBy("id"),
+          startAfter(cursor),
+          limit(pageSize)
+        )
+      : query(
+          productCollection,
+          where("category", "==", slug.replaceAll("-"," ")),
+          orderBy("slug", "asc"),
+          orderBy("id"),
+          limit(pageSize)
+        );
+  }
+  const snapshot = await getDocs(productQuery);
+  const products = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  const lastVisible: any = products[products.length - 1] || null;
+
+  return { products, lastVisible };
+}
+
+export default async function ShopPage({
+  params,
+  searchParams,
+}: {
+  params: tParams;
+  searchParams: any;
+}) {
   const { slug } = await params;
+  console.log(slug);
+  const { cursor, page } = await searchParams;
+  const currentPage = parseInt(page || "1", 10);
+  const pageSize = 10;
 
+  const { products, lastVisible } = await fetchProducts(slug, cursor, pageSize);
+  const nextPageCursor = lastVisible
+    ? encodeURIComponent(lastVisible.slug)
+    : null;
+  const onPageChange = (page: number) => {
+    console.log(page);
+  };
   return (
     <div className="container">
       <div className="grid grid-cols-4 gap-x-16">
@@ -96,14 +100,86 @@ export default async function ShopPage({ params }: { params: tParams }) {
         </div>
         <div className="col-span-3  p-4">
           <div className="mt-16 grid grid-cols-4 gap-5">
-            {[...products,...products].map((product, index) => (
-              <div key={product.id+index}>
-                <Product product={product} quickAddBtn={true} />
-              </div>
-            ))}
+            {products &&
+              products.map((product, index) => (
+                <div key={product.id + index}>
+                  <Product product={product} quickAddBtn={true} />
+                </div>
+              ))}
           </div>
+
+          <div className="mt-6 flex justify-center space-x-4">
+            {page > 1 && (
+              <a
+                href={`?page=${+currentPage - 1}`}
+                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black rounded w-[100px] text-center"
+              >
+                Previous
+              </a>
+            )}
+            {nextPageCursor && (
+              <a
+                href={`?page=${+currentPage + 1}&cursor=${nextPageCursor}`}
+                className="px-4 py-2 bg-black  hover:bg-primary text-white rounded w-[100px] text-center"
+              >
+                Next
+              </a>
+            )}
+          </div>
+          {/* <Pagination onPageChange={onPageChange}/> */}
         </div>
       </div>
     </div>
   );
 }
+// 'use Client'
+// const Pagination: React.FC<any> = ({ currentPage=1, totalPages=10, onPageChange }) => {
+
+//   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+//   return (
+//     <div className="flex items-center justify-center space-x-2 mt-4">
+//       {/* Previous Button */}
+//       <button
+//         // onClick={() => onPageChange(currentPage - 1)}
+//         disabled={currentPage === 1}
+//         className={`px-4 py-2 rounded-md ${
+//           currentPage === 1
+//             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+//             : "bg-gray-800 text-white hover:bg-gray-700"
+//         }`}
+//       >
+//         Previous
+//       </button>
+
+//       {/* Page Numbers */}
+//       {pageNumbers.map((page) => (
+//         <button
+//           key={page}
+//           // onClick={() => onPageChange(page)}
+//           className={`px-4 py-2 rounded-md ${
+//             currentPage === page
+//               ? "bg-blue-500 text-white font-bold"
+//               : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+//           }`}
+//         >
+//           {page}
+//         </button>
+//       ))}
+
+//       {/* Next Button */}
+//       <button
+//         // onClick={() => onPageChange(currentPage + 1)}
+//         disabled={currentPage === totalPages}
+//         className={`px-4 py-2 rounded-md ${
+//           currentPage === totalPages
+//             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+//             : "bg-gray-800 text-white hover:bg-gray-700"
+//         }`}
+//       >
+//         Next
+//       </button>
+
+//     </div>
+//   );
+// };

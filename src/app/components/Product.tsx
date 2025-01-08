@@ -5,7 +5,7 @@ import { PiShoppingCartLight } from "react-icons/pi";
 import AddToCartButton from "./AddToCartButton";
 import { ProductProps } from "../types/types";
 
-const Product = ({
+const Product:any = ({
   product,
   quickAddBtn,
 }: {
@@ -23,7 +23,7 @@ const Product = ({
         className="w-full"
         key={product.id}
       >
-        {product?.variant[0]?.discount ? (
+        {product?.variant&&product?.variant[0]?.discount ? (
           <div className="absolute text-sm top-2 z-10 left-2 py-[1px] text-white rounded-sm px-2 bg-red-600">
             -54%
           </div>
@@ -48,14 +48,14 @@ const Product = ({
           /> */}
         </div>
         <div className="text-center group-hover:bg-[#0a5d5d3b] group-hover:p-[2px] group-hover:rounded">
-          <h1 className="font-Poppins group-hover:text-[12px] text-[14px] hover:text-primary">
+          <h1 className="font-Poppins group-hover:text-[12px] text-[14px] hover:text-primary capitalize">
             {product?.title}
             <span className="text-[12px] text-slate-500">
               &nbsp; {product?.variant?.length > 1? `(${product?.variant?.length} Sizes)` : ''} 
             </span>
           </h1>
           <div className="flex justify-center">
-            {product?.variant[0]?.discount ? (
+            {product?.variant&&product?.variant[0]?.discount ? (
               <>
                 <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">{product?.discountedPrice}</h2>
 
@@ -64,7 +64,7 @@ const Product = ({
                 </h2>
               </>
             ) : (
-              <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">Dhs. {product?.variant[0]?.price[0]}</h2>
+              <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">Dhs. {product?.variant&&product?.variant[0]?.price[0]}</h2>
             )}
           </div>
           {/* <button

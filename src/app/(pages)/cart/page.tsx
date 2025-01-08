@@ -55,18 +55,20 @@ const Cart = () => {
                 <IoClose size={25} color="red" />
               </div>
 
-              <div className="flex sm:items-center gap-x-3 flex-wrap">
-             {item?.image&&   <div>
-                  <Image
-                    src={item?.image}
-                    alt={item.title}
-                    width={100}
-                    height={80}
-                    className="rounded"
-                  />
-                </div>}
+              <div className="flex basis-2/5 sm:items-center gap-x-3 flex-wrap">
+                {item?.image && (
+                  <div>
+                    <Image
+                      src={item?.image}
+                      alt={item.title}
+                      width={100}
+                      height={80}
+                      className="rounded"
+                    />
+                  </div>
+                )}
                 <div>
-                  <h4>{item.title}</h4>
+                  <h4 className="capitalize">{item.title}</h4>
                   <p className="text-gray-600">Dhs. {item.price}</p>
                   <div className="border my-2 border-black bg-white rounded-sm basis-full sm:hidden px-3 flex items-center justify-between">
                     <div>
@@ -81,9 +83,9 @@ const Cart = () => {
                       </button>
                     </div>
                   </div>
-                <div className="sm:hidden">
-                <p>Subtotal: Dhs. {item.price * item.quantity}</p>
-              </div>
+                  <div className="sm:hidden">
+                    <p>Subtotal: Dhs. {item.price * item.quantity}</p>
+                  </div>
                 </div>
               </div>
 
@@ -134,7 +136,9 @@ const Cart = () => {
             <hr />
             <div className="flex mt-4 justify-between">
               <div>Total Price:</div>
-              <div className="text-gray-500 font-bold">Dhs. {totalAmount + 30}</div>
+              <div className="text-gray-500 font-bold">
+                Dhs. {totalAmount + 30}
+              </div>
             </div>
           </div>
           <button

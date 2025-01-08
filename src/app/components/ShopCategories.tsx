@@ -33,12 +33,20 @@ const ShopCategories = () => {
         Lamps
       </Link>
       <Link
-        href={"/shop/decoration-pieces"}
+        href={"/shop/vase-and-decor"}
         className={`px-3 py-2 rounded hover:bg-primary hover:text-white ${
           pathname === "/shop/decoration-pieces" ? "bg-primary text-white" : "bg-[#efefef]"
         }`}
       >
-        Decoration Pieces
+        Vase & Decor
+      </Link>
+      <Link
+        href={"/shop/artificial-plants"}
+        className={`px-3 py-2 rounded hover:bg-primary hover:text-white ${
+          pathname === "/shop/artificial-plants" ? "bg-primary text-white" : "bg-[#efefef]"
+        }`}
+      >
+        Artificial Plants
       </Link>
     </div>
   );

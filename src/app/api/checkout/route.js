@@ -9,11 +9,15 @@ export async function POST(req) {
 
     const lineItems = items.map(item => ({
       price_data: {
-        currency: 'usd',
-        product_data: { name: item.name },
-        unit_amount: item.price,
+        currency: 'aed',
+        product_data: {
+          name: item.title,
+          description: 'Stylish and elegant wristwatch',
+          images: ['https://example.com/watch.jpg']
+        },
+        unit_amount: Math.round(parseFloat(item.price) * 100),
       },
-      quantity: item.quantity,
+      quantity: parseInt(item.quantity),
     }));
 
     const session = await stripe.checkout.sessions.create({

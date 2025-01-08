@@ -16,7 +16,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
   const { addItemToCart } = useCart();
 
   const handleAddToCart = () => {
-    const p = {
+    const p:any = {
       id: product.id,
       title: product.title,
       quantity: 1,

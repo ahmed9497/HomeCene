@@ -20,95 +20,9 @@ import {auth} from '../app/firebase/config';
 import { collection, getDocs, getDocsFromServer, query, where } from "firebase/firestore";
 import { db } from "./firebase/config";
 
-// const products: ProductProps[] = [
-//   {
-//     id: "1",
-//     name: "Biamond Halo Stud Aenean",
-//     price: 300,
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-//     image:
-//       "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
-//     discountedPrice: "Dhs. 200",
-//     discount: false,
-//     rating: 4,
-//   },
-//   {
-//     id: "2",
-//     name: "Biamond Halo Stud Aenean",
-//     price: 300,
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-//     image:
-//       "https://vinova-furstore.myshopify.com/cdn/shop/products/40a_360x.jpg?v=1694677930",
-//     discountedPrice: "Dhs. 200",
-//     discount: true,
-//     rating: 4,
-//   },
-//   {
-//     id: "3",
-//     name: "Biamond Halo Stud Aenean",
-//     price: 300,
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-//     image:
-//       "https://vinova-furstore.myshopify.com/cdn/shop/products/2a_1dae4acc-3f60-44d2-a5cd-d85d36709d25_360x.jpg?v=1694678246",
-//     discountedPrice: "Dhs. 200",
-//     discount: false,
-//     rating: 4,
-//   },
-//   {
-//     id: "4",
-//     name: "Biamond Halo Stud Aenean",
-//     price: 300,
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-//     image:
-//       "https://vinova-furstore.myshopify.com/cdn/shop/products/1a_72f2474e-7e99-45e6-96e5-ddda5fc59906_360x.jpg?v=1694678001",
-//     discountedPrice: "Dhs. 200",
-//     discount: true,
-//     rating: 4,
-//   },
-//   {
-//     id: "5",
-//     name: "Biamond Halo Stud Aenean",
-//     price: 300,
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-//     image:
-//       "https://vinova-furstore.myshopify.com/cdn/shop/products/3a_360x.jpg?v=1694678220",
-//     discountedPrice: "Dhs. 200",
-//     discount: false,
-//     rating: 4,
-//   },
-//   {
-//     id: "6",
-//     name: "Biamond Halo Stud Aenean",
-//     price: 300,
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridicu lus mus. Donec quam felis, ultra cies nec, pellentesque...",
-//     image:
-//       "https://vinova-furstore.myshopify.com/cdn/shop/products/7a_360x.jpg?v=1694678092",
-//     discountedPrice: "Dhs. 200",
-//     discount: false,
-//     rating: 4,
-//   },
-// ];
 
-// export async function getServerSideProps() {
-//   const productCollection = collection(db, "products");
-//   const featuredQuery = query(productCollection, where("featuredProduct", "==", true));
-//   const productSnapshot = await getDocsFromServer(featuredQuery);
 
-//   const products = productSnapshot.docs.map((doc) => ({
-//     id: doc.id,
-//     ...doc.data(),
-//   }));
 
-//   return {
-//     props: { products },
-//   };
-// }
 export const dynamic = "force-dynamic";// Disables caching for the page
 export default async function  Home() {
   const productCollection = collection(db, "products");
@@ -126,7 +40,7 @@ export default async function  Home() {
       <Slider />
       <main className="container">
         <div className="grid sm:grid-cols-3 grid-cols-1 gap-3 pt-20">
-          <div className="bg-red-50 grid-cols-1 relative rounded overflow-hidden">
+          <div className="grid-cols-1 relative rounded overflow-hidden">
             <Image
               src="/category1.webp"
               alt="cat"
@@ -143,7 +57,7 @@ export default async function  Home() {
               </button>
             </div>
           </div>
-          <div className="bg-red-500 grid-cols-1 relative rounded overflow-hidden">
+          <div className="grid-cols-1 relative rounded overflow-hidden">
             {" "}
             <Image
               src="/category2.webp"
@@ -161,7 +75,7 @@ export default async function  Home() {
               </button>
             </div>
           </div>
-          <div className="bg-red-900 grid-cols-1 relative rounded overflow-hidden">
+          <div className="grid-cols-1 relative rounded overflow-hidden">
             {" "}
             <Image
               src="/category3.webp"
