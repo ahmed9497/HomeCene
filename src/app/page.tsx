@@ -33,8 +33,9 @@ export default async function  Home() {
     id: doc.id,
     ...doc.data(),
   }));
-
- 
+  let en:any = process.env.FIREBASE_ADMIN_CREDENTIALS ;
+  console.log(process.env.FIREBASE_ADMIN_CREDENTIALS)
+ console.log(JSON.parse(en))
   return (
     <>
       <Slider />

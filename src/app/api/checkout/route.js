@@ -24,8 +24,8 @@ export async function POST(req) {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:3000/cart`,
+      success_url: `https://homecene.com/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://homecene.com/cart`,
     });
 
     return new Response(JSON.stringify({ url: session.url }), { status: 200 });
