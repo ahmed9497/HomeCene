@@ -1,8 +1,10 @@
 'use client'
 import { useState } from 'react';
 import {useCreateUserWithEmailAndPassword} from 'react-firebase-hooks/auth'
-import {auth} from '@/app/firebase/config'
+import {db, auth} from '@/app/firebase/config'
 import { useRouter } from 'next/navigation';
+import { doc, setDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -11,8 +13,18 @@ const SignUp = () => {
 const router = useRouter();
   const handleSignUp = async () => {
     try {
-        const res = await createUserWithEmailAndPassword(email, password)
-        console.log({res})
+        const userCredential:any = await createUserWithEmailAndPassword(email, password)
+     
+        const user = userCredential.user;
+
+      // Store additional user details in Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        // name,
+        email: user.email,
+        phone:'',
+        createdAt: new Date(),
+      });
+      toast.success("Registered")
         sessionStorage.setItem('user', 'true')
         setEmail('');
         setPassword('');

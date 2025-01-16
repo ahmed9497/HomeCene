@@ -3,21 +3,54 @@
 import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa"; // Using React Icons for Cart icon
 import { useCart } from "../context/CartContext";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { IoCartOutline } from "react-icons/io5";
-import { FaRegCircleUser, FaUser } from "react-icons/fa6";
+import { FaAngleDown, FaRegCircleUser, FaUser } from "react-icons/fa6";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase/config";
+import { auth, db } from "../firebase/config";
 import { signOut } from "firebase/auth";
 import Image from "next/image";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import Link from "next/link";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 
 const Header = () => {
   const router = useRouter();
+  const pathname = usePathname();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { items } = useCart();
   const [user] = useAuthState(auth);
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [profile, setProfile] = useState<any>();
+
+  useEffect(() => {
+    if (user?.uid) {
+      const fetchProfile = async () => {
+        const d = doc(db, "users", user.uid);
+
+        const docSnap = await getDoc(d);
+        if (docSnap.exists()) {
+          let profile = docSnap.data();
+          setProfile(profile);
+        } else {
+          console.log("No such document!");
+        }
+      
+        // setLoading(false);
+      };
+
+      fetchProfile();
+    }
+  }, [user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,10 +74,61 @@ const Header = () => {
   const logOut = () => {
     signOut(auth);
     sessionStorage.removeItem("user");
+    router.push("/");
+  };
+  if (pathname.includes("auth")) {
+    return null;
+  }
+  const Dropdown = () => {
+    return (
+      <Menu as="div" className="relative inline-block text-left">
+        <MenuButton className="inline-flex items-center gap-x-2 justify-center w-full px-4 py-2 text-sm font-medium text-primary hover:bg-[#0a5d5d1f] rounded-md focus:outline-none">
+          <FaRegCircleUser size={25} /> {profile?.name} <FaAngleDown />
+        </MenuButton>
+        <MenuItems className="absolute left-1 mt-2 w-56 bg-white border border-gray-300 divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+          <MenuItem>
+            {({ active }) => (
+              <Link
+                href="/account/profile"
+                className={`block px-4 py-2 text-center  text-sm ${
+                  active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                }`}
+              >
+                Profile
+              </Link>
+            )}
+          </MenuItem>
+          <MenuItem>
+            {({ active }) => (
+              <Link
+                href="/account/orders"
+                className={`block px-4 py-2 text-center text-sm ${
+                  active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                }`}
+              >
+                My Orders
+              </Link>
+            )}
+          </MenuItem>
+          <MenuItem>
+            {({ active }) => (
+              <button
+                onClick={logOut}
+                className={`block px-4 w-full py-2 text-sm ${
+                  active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                }`}
+              >
+                Logout
+              </button>
+            )}
+          </MenuItem>
+        </MenuItems>
+      </Menu>
+    );
   };
   return (
     <header
-      className={`bg-gray-100 text-primary font-Poppins z-10 fixed top-0 w-full shadow-lg h-[56px] flex items-center 
+      className={`bg-white text-primary font-Poppins z-50 fixed top-0 w-full shadow-lg h-[56px] flex items-center 
     transition-transform duration-300 ${
       isScrollingDown ? "-translate-y-full" : "translate-y-0"
     }`}
@@ -80,27 +164,28 @@ const Header = () => {
           </nav>
 
           {/* Cart Icon */}
-          <div className="flex items-center space-x-4 relative">
-            <button className="flex items-center gap-x-2 relative group">
-              {user ? (
+          <div className="flex items-center  relative">
+            {user ? (
+              <>
+                {/* <span onClick={() => logOut()}>Logout</span>{" "}
+                  <img src="/Avatar.png" className="size-10" />{" "} */}
+                <Dropdown />
+              </>
+            ) : (
+              <button className="flex items-center gap-x-2 rounded-full justify-center relative group size-10 hover:bg-[#0a5d5d1f]">
                 <>
-                  <span onClick={() => logOut()}>Logout</span>{" "}
-                  <img src="/Avatar.png" className="size-10" />{" "}
+                  <span onClick={() => router.push("/auth/login")}>
+                    <FaRegCircleUser size={25} className="z-10" />
+                  </span>
                 </>
-              ) : (
-                <>
-                  <span onClick={() => router.push("/auth/login")}>Login</span>{" "}
-                  <FaRegCircleUser size={25} className="z-10" />
-                </>
-              )}
-            </button>
-            <div className="flex items-center space-x-4 relative">
-              <div className="absolute bg-primary text-white -top-2 left-8 rounded-full flex justify-center items-center size-4 text-[12px]">
-                {" "}
+              </button>
+            )}
+            <div className="flex items-center relative">
+              <div className="absolute bg-primary text-white -top-1 left-6 rounded-full flex justify-center items-center size-4 text-[12px]">
                 {items.length}
               </div>
               <button
-                className="text-lg relative group"
+                className="text-lg relative group size-10 rounded-full flex justify-center items-center hover:bg-[#0a5d5d1f]"
                 onClick={() => router.push("/cart")}
               >
                 <IoCartOutline size={25} className="z-10" />

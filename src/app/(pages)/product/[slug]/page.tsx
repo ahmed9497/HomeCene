@@ -89,7 +89,7 @@ const Product = async ({ params }: any) => {
     <>
     
       
-    <main className="container">
+    <main className="container page">
       <div className="flex my-10">Home.</div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-20">
@@ -111,7 +111,7 @@ const Product = async ({ params }: any) => {
               {product?.title} {product?.variant?.length > 1? `(${product?.variant?.length} Sizes)` : ''} 
             </h1>
           </div>
-        <SelectSize product={product}/>
+        {/* <SelectSize product={product}/> */}
           <div className="font-extrabold text-2xl font-Poppins mt-4">
             {/* ${product?.variant?.price[]} */}
           </div>
@@ -123,18 +123,11 @@ const Product = async ({ params }: any) => {
             </div>
             <div className="text-gray-800">Mirrors</div>
           </div> */}
-          <div className="flex gap-x-10 mt-4 text-sm">
-            <div className="text-black basis-1/4 font-extrabold uppercase">
-              Category:
-            </div>
-            <div className="text-gray-800 uppercase">{product?.category}</div>
-          </div>
+         
 
 
-          <div className="mt-10">
-            <div className="text-black basis-1/4 font-extrabold uppercase">
-              quantity:
-            </div>
+          <div className="mt-1">
+           
             <Add product={product} />
           </div>
           <div className="mt-10">

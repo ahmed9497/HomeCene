@@ -34,7 +34,8 @@ const Cart = () => {
     // }
   };
   return (
-    <div className="container">
+    
+    <div className="container page">
       <div className="font-extrabold text-3xl text-center mt-10">
         Your Shopping Cart
       </div>

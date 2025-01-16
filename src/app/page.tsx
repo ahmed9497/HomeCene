@@ -33,11 +33,9 @@ export default async function  Home() {
     id: doc.id,
     ...doc.data(),
   }));
-  let en:any = process.env.FIREBASE_ADMIN_CREDENTIALS ;
-  console.log(process.env.FIREBASE_ADMIN_CREDENTIALS)
- console.log(JSON.parse(en))
+
   return (
-    <>
+    <div className="page">
       <Slider />
       <main className="container">
         <div className="grid sm:grid-cols-3 grid-cols-1 gap-3 pt-20">
@@ -226,6 +224,6 @@ export default async function  Home() {
           </button>
         </div>
       </main>
-    </>
+    </div>
   );
 }

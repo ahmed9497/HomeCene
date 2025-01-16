@@ -89,7 +89,7 @@ export default async function ShopPage({
     console.log(page);
   };
   return (
-    <div className="container">
+    <div className="container page">
       <div className="grid grid-cols-4 gap-x-16">
         <div className="cols-span-2 p-4">
           <div className=" gap-x-3 flex items-center text-xl font-bold uppercase">

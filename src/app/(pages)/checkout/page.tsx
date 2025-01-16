@@ -1,56 +1,146 @@
 "use client";
 import { useCart } from "@/app/context/CartContext";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FieldError, useForm } from "react-hook-form";
 
+import { db, auth } from "@/app/firebase/config";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  useAuthState,
+  useCreateUserWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
+import { generateStrongPassword } from "@/app/utils/helper";
+import { toast } from "react-toastify";
+import Link from "next/link";
+
 const Checkout = () => {
+  // const [createUserWithEmailAndPassword] =
+  //   useCreateUserWithEmailAndPassword(auth);
+  const [user] = useAuthState(auth);
+  const [profile, setProfile] = useState<any>();
+  const [isDisable,setIsDisable] = useState(false)
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm(
-    {
-      defaultValues:{
-        email:"",
-        name:"",
-        phone:"",
-        address:"",
-        country:"UAE",
-        state:null
-      }
-    }
-  );
+    setValue,
+  } = useForm({
+    defaultValues: {
+      email: "",
+      name: "",
+      phone: "",
+      address: "",
+      country: "UAE",
+      state: null,
+    },
+  });
+
   const { items, totalAmount } = useCart();
+  useEffect(() => {
+    if (user?.uid) {
+      const fetchProfile = async () => {
+        console.log(user.uid);
+        const q = query(
+          collection(db, "users"),
+          where("userId", "==", user.uid)
+        );
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          let profile = querySnapshot.docs[0].data();
+          console.log(profile);
+          setProfile(profile);
+          setValue("name", profile?.name);
+          setValue("email", profile?.email);
+          setValue("phone", profile?.phone);
+          setValue("address", profile?.address);
+          setValue("country", profile?.country);
+          setValue("state", profile?.state);
+          setIsDisable(true);
+         
+        } else {
+          console.log("No user found with the given email.");
+          return null;
+        }
+        // setLoading(false);
+      };
+
+      fetchProfile();
+    }
+  }, [user]);
   const handleFormSubmit = async (data: any) => {
-    // Pass form data to the parent function (e.g., to make a checkout API request)
-    console.log(data);
+    console.log(data,items);
     try {
+      if (!user?.uid) {
+        const password = generateStrongPassword(16);
+        const userCredential: any = await createUserWithEmailAndPassword(
+          auth,
+          data.email,
+          password
+        );
+             
+        const user = userCredential.user;
+
+        data.userId = user.uid;
+
+        await setDoc(doc(db, "users", user.uid), {
+          ...data,
+          createdAt: new Date(),
+        });
+      } else {
+        data.userId = profile?.userId;
+      }
+      
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify({ items, data }),
       });
 
       const { url } = await response.json();
       window.location.href = url; // Redirect to Stripe Checkout
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (error:any) {
+      
+      console.log("Error:", error);
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("This email is already in use. Please try logging in or use a different email.",{hideProgressBar:true})
+      }
+    
+      // Handle other Firebase error messages
+      if (error.message.includes("EMAIL_EXISTS")) {
+        toast.error("This email is already registered. Please log in instead.",{hideProgressBar:true})
+      }
     }
   };
 
+
   return (
-    <div className="container">
+    <div className="container page">
       <div className="grid grid-cols-1 sm:grid-cols-2 py-6">
         <div className="order-2 sm:order-1 p-2 pb-0 sm:px-6">
           <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-2">
             <h1 className="text-2xl font-bold">Contact</h1>
             {/* Email */}
             <div>
+              <div className="flex justify-between">
               <label htmlFor="email">Email</label>
+              {!user?.uid &&<Link href={'/auth/login'} className="underline">Login</Link>}
+              </div>
               <input
                 id="email"
                 type="email"
+                disabled={isDisable}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -125,7 +215,6 @@ const Checkout = () => {
                   {...register("country", { required: "Country is required" })}
                   className="border p-2 rounded w-full"
                   disabled
-                  
                 >
                   {/* <option value="">Select a country</option> */}
                   <option value="UAE">United Arab Emirates</option>
@@ -141,7 +230,6 @@ const Checkout = () => {
                 <label htmlFor="state">State</label>
                 <select
                   id="state"
-                 
                   {...register("state", { required: "State is required" })}
                   className="border p-2 rounded w-full"
                 >

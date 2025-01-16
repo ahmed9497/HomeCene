@@ -39,3 +39,6 @@ body {
   background: var(--background);
   font-family: "Jost", Helvetica, sans-serif;
 }
+.page{
+  padding-top: 60px;
+}

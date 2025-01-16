@@ -19,7 +19,7 @@ export interface CartItem {
   }
   
   export interface ProductProps {
-    id: string;
+    id?: string;
     title: string;
     price: number;
     description:string;

@@ -1,8 +1,14 @@
+'use client'
+import { usePathname } from 'next/navigation';
 import React from 'react'
 
 const Footer = () => {
+  const pathname = usePathname();
+  if(pathname.includes("auth")){
+    return null;
+  }
   return (
-   <footer className="bg-primary text-gray-300 py-10">
+   <footer className="bg-primary text-gray-300 py-10 rounded-t-3xl">
   <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
     {/* Logo & About Section */}
     <div>
@@ -35,7 +41,7 @@ const Footer = () => {
   </div>
   {/* Footer Bottom */}
   <div className="mt-8 border-t border-gray-700 pt-6 text-center text-sm">
-    <p>© 2024 HomeCene. All rights reserved.</p>
+    <p>© {new Date().getFullYear()} HomeCene. All rights reserved.</p>
     <div className="flex justify-center space-x-4 mt-4">
       <a href="#" className="hover:text-gray-400">Privacy Policy</a>
       <a href="#" className="hover:text-gray-400">Terms of Service</a>

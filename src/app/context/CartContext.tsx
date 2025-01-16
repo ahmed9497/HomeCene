@@ -31,7 +31,7 @@ interface CartProviderProps {
 export function CartProvider({ children }: CartProviderProps) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  console.log(items);
+
 
   // Load cart from localStorage on initial render
   useEffect(() => {
