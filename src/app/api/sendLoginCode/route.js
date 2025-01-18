@@ -1,9 +1,7 @@
 
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import nodemailer from "nodemailer";
-
 import * as admin from "firebase-admin";
-import { error } from "console";
+
 
 
 // Initialize Firebase Admin SDK
@@ -28,7 +26,7 @@ export async function POST(req, res) {
     try {
 
         const user = await admin.auth().getUserByEmail(email);
-        console.log(user,"----")
+        
         const userDoc = await db.collection("users").doc(user.uid).get();
 
         if (!userDoc.exists) {
@@ -37,8 +35,7 @@ export async function POST(req, res) {
 
 
             const code = Math.floor(100000 + Math.random() * 900000); 
-        console.log(code ,"******code ********")
-            // Store the code in Firestore
+      
             await db.collection("loginCodes").doc(email).set({
                 code,
                 expiresAt: admin.firestore.FieldValue.serverTimestamp(),

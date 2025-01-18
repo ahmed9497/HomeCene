@@ -36,7 +36,7 @@ const BigProduct = () => {
     </div>
     <div className="text-center my-3">
       <h1 className="font-Poppins">Biamond Halo Stud Aenean</h1>
-      <h2 className="text-primary">Dhs. 900</h2>
+      <h2 className="text-primary">Aed 900</h2>
     </div>
     </div>
   )

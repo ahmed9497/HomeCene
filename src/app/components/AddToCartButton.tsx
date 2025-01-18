@@ -16,12 +16,17 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
   const { addItemToCart } = useCart();
 
   const handleAddToCart = () => {
+    
     const p:any = {
+    
       id: product.id,
       title: product.title,
       quantity: 1,
-      price: parseInt(product.variant[0].price[0]),
+      price: product.variant[0]?.discount ?parseInt(product.variant[0].discountedPrice[0]) :parseInt(product.variant[0].price[0]),
       image: product.image,
+      selectedSize:product.variant[0]?.size||"",
+      selectedColor:product.variant[0]?.colors&&product.variant[0]?.colors[0] ||"",
+      selectedFeature:product.variant[0]?.feature&&product.variant[0]?.feature[0]||""
     };
     addItemToCart(p);
     toast.info("Product Added To Cart", {

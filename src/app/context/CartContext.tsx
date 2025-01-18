@@ -52,13 +52,19 @@ export function CartProvider({ children }: CartProviderProps) {
   }, [items, totalAmount]);
 
   const addItemToCart = (item: CartItem) => {
+    
     const itemIndex = items.findIndex((i) => i.id === item.id);
     let updatedItems;
 
     if (itemIndex >= 0) {
       // Update the quantity of the existing item
       updatedItems = [...items];
-      updatedItems[itemIndex].quantity += item.quantity;
+      updatedItems[itemIndex] = {
+        ...updatedItems[itemIndex], // Retain existing fields
+        ...item,                   // Update fields with the new item's values
+        quantity: updatedItems[itemIndex].quantity + item.quantity, // Increment quantity
+      };
+
     } else {
       // Add the new item to the cart
       updatedItems = [...items, item];

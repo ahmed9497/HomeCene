@@ -36,12 +36,13 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
       id: product.id,
       title: product.title,
       quantity: quantity,
-      price: parseInt(product.variant[0].price[0]),
+      price: product.variant[activeVariant]?.discount ?parseInt(product.variant[activeVariant].discountedPrice[0]) :parseInt(product.variant[activeVariant].price[0]),
       image: product.image,
       selectedSize,
       selectedColor,
       selectedFeature
     };
+    console.log(p)
     addItemToCart(p);
     toast.info("Product Added To Cart", {
       theme: "colored",
@@ -61,8 +62,21 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
     <>
       <div>
         <div className="font-bold text-primary text-2xl font-Poppins mt-4">
-          Dhs. {product?.variant[activeVariant]?.price[selectedFeatureIndex]}.00
+          Aed {product?.variant[activeVariant]?.price[selectedFeatureIndex]}.00
         </div>
+        <div className="flex justify-center">
+            {product?.variant&&product?.variant[activeVariant]?.discount ? (
+              <>
+                <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold"> Aed {product?.variant[activeVariant]?.discountedPrice}</h2>
+
+                <h2 className="text-gray-300 line-through ml-3 group-hover:text-[12px] group-hover:font-semibold">
+                  Aed {product?.variant[activeVariant]?.price[0]}
+                </h2>
+              </>
+            ) : (
+              <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">Aed {product?.variant&&product?.variant[activeVariant]?.price[0]}</h2>
+            )}
+          </div>
         <div className="flex gap-x-10 mt-4 text-sm ">
           <div className="text-black basis-1/4 font-extrabold uppercase">
             Size:

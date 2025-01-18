@@ -26,7 +26,7 @@ const SelectSize: FC<any> = ({ product }) => {
   return (
     <div>
       <div className="font-bold text-primary text-2xl font-Poppins mt-4">
-        Dhs. {product?.variant[activeVariant]?.price[selectedFeatureIndex]}.00
+        Aed {product?.variant[activeVariant]?.price[selectedFeatureIndex]}.00
       </div>
       <div className="flex gap-x-10 mt-4 text-sm ">
         <div className="text-black basis-1/4 font-extrabold uppercase">

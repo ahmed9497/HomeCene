@@ -70,7 +70,7 @@ const Cart = () => {
                 )}
                 <div>
                   <h4 className="capitalize">{item.title}</h4>
-                  <p className="text-gray-600">Dhs. {item.price}</p>
+                  <p className="text-gray-600">Aed {item.price}</p>
                   <div className="border my-2 border-black bg-white rounded-sm basis-full sm:hidden px-3 flex items-center justify-between">
                     <div>
                       <button onClick={() => decreaseQuantity(item.id)}>
@@ -85,7 +85,7 @@ const Cart = () => {
                     </div>
                   </div>
                   <div className="sm:hidden">
-                    <p>Subtotal: Dhs. {item.price * item.quantity}</p>
+                    <p>Subtotal: Aed {item.price * item.quantity}</p>
                   </div>
                 </div>
               </div>
@@ -105,7 +105,7 @@ const Cart = () => {
               </div>
 
               <div className="hidden sm:flex">
-                <p>Subtotal: Dhs. {item.price * item.quantity}</p>
+                <p>Subtotal: Aed {item.price * item.quantity}</p>
               </div>
             </div>
           ))}
@@ -128,17 +128,17 @@ const Cart = () => {
           <div className="bg-white rounded p-3">
             <div className="flex justify-between">
               <div>Total Amount:</div>
-              <div>Dhs. {totalAmount}</div>
+              <div>Aed {totalAmount}</div>
             </div>
             <div className="flex my-4 justify-between">
               <div>Standard Shipping: </div>
-              <div>Dhs. 30</div>
+              <div>Aed 30</div>
             </div>
             <hr />
             <div className="flex mt-4 justify-between">
               <div>Total Price:</div>
               <div className="text-gray-500 font-bold">
-                Dhs. {totalAmount + 30}
+                Aed {totalAmount + 30}
               </div>
             </div>
           </div>

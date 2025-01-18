@@ -290,12 +290,12 @@ router.push('/account/orders')
               type="submit"
               className="bg-primary text-white  text-xl !mt-8 py-3  rounded w-full hover:bg-white hover:text-primary border-primary border-2 transition"
             >
-              {selectedMethod === "credit_card" && `Pay ${totalAmount} Dhs.`}
+              {selectedMethod === "credit_card" && `Pay ${totalAmount} Aed`}
               {selectedMethod === "cod" && "Complete Order"}
               {selectedMethod === "tabby" && "Proceed to Checkout"}
               {selectedMethod === "tamara" && "Proceed to Checkout"}
-              {selectedMethod === "gpay" && `Pay ${totalAmount} Dhs.`}
-              {selectedMethod === "apple_pay" && `Pay ${totalAmount} Dhs.`}
+              {selectedMethod === "gpay" && `Pay ${totalAmount} Aed`}
+              {selectedMethod === "apple_pay" && `Pay ${totalAmount} Aed`}
             </button>
           </form>
         </div>
@@ -324,12 +324,12 @@ router.push('/account/orders')
                   </div>
                   <div>
                     <h4>{item.title}</h4>
-                    <p className="text-gray-600">Dhs. {item.price}</p>
+                    <p className="text-gray-600">Aed {item.price}</p>
                   </div>
                 </div>
 
                 <div>
-                  <p>Subtotal: Dhs. {item.price * item.quantity}</p>
+                  <p>Subtotal: Aed {item.price * item.quantity}</p>
                 </div>
               </div>
             ))}
@@ -345,15 +345,15 @@ router.push('/account/orders')
                     }, 0)}{" "}
                   Items
                 </div>
-                <div className="text-right">Dhs. {totalAmount}</div>
+                <div className="text-right">Aed {totalAmount}</div>
               </div>
               <div className="grid grid-cols-2">
                 <div>Standard Shipping</div>
-                <div className="text-right">Dhs. 30</div>
+                <div className="text-right">Aed 30</div>
               </div>
               <div className="grid grid-cols-2 text-2xl  my-6 font-extrabold">
                 <div className="">Total</div>
-                <div className="text-right">Dhs. {totalAmount + 30}</div>
+                <div className="text-right">Aed {totalAmount + 30}</div>
               </div>
             </div>
           </div>
