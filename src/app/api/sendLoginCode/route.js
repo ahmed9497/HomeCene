@@ -65,8 +65,8 @@ export async function POST(req, res) {
         
         
     } catch (error) {
-        // console.error(error?.errorInfo,"****");
-        if(error?.errorInfo.code ==='auth/user-not-found'){
+        console.log(error,"****");
+        if(error?.errorInfo?.code ==='auth/user-not-found'){
             return new Response(JSON.stringify({ error: "Email not exist. Create your order first" }), { status: 500 });
         }
         else{
