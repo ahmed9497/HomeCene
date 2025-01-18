@@ -37,7 +37,7 @@ export async function POST(req, res) {
 
 
             const code = Math.floor(100000 + Math.random() * 900000); 
-
+        console.log(code ,"******code ********")
             // Store the code in Firestore
             await db.collection("loginCodes").doc(email).set({
                 code,

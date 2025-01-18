@@ -68,7 +68,7 @@ const Login = () => {
       }
     }
     } catch (e) {
-      console.error(e);
+      console.log(e);
       console.log("Err", e);
     }
   };
