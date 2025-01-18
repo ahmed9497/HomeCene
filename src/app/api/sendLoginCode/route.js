@@ -45,22 +45,22 @@ export async function POST(req, res) {
             });
 
             // Send the code via email
-            // const transporter = nodemailer.createTransport({
-            //     host: "smtp.hostinger.com",
-            //     port: 465,
-            //     secure: true,
-            //     auth: {
-            //         user: process.env.EMAIL_USERNAME,
-            //         pass: process.env.EMAIL_PASSWORD,
-            //     },
-            // });
+            const transporter = nodemailer.createTransport({
+                host: "smtp.hostinger.com",
+                port: 465,
+                secure: true,
+                auth: {
+                    user: process.env.EMAIL_USERNAME,
+                    pass: process.env.EMAIL_PASSWORD,
+                },
+            });
 
-            // await transporter.sendMail({
-            //     from: `HomeCene <${process.env.EMAIL_USERNAME}>`,
-            //     to: email,
-            //     subject: "Your HomeCene Login Code",
-            //     text: `Your login code is: ${code}`,
-            // });
+            await transporter.sendMail({
+                from: `HomeCene <${process.env.EMAIL_USERNAME}>`,
+                to: email,
+                subject: "Your HomeCene Login Code",
+                text: `Your login code is: ${code}`,
+            });
             return new Response(JSON.stringify({ message: "Code sent over email" }), { status: 200 });
         
         
