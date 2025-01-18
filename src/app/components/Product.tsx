@@ -25,7 +25,7 @@ const Product:any = ({
       >
         {product?.variant&&product?.variant[0]?.discount ? (
           <div className="absolute text-sm top-2 z-10 left-2 py-[1px] text-white rounded-sm px-2 bg-red-600">
-            -54%
+            {product?.variant&&product?.variant[0]?.discountPercentage[0]}
           </div>
         ) : null}
         <div className="relative overflow-hidden">
@@ -57,7 +57,7 @@ const Product:any = ({
           <div className="flex justify-center">
             {product?.variant&&product?.variant[0]?.discount ? (
               <>
-                <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">{product?.discountedPrice}</h2>
+                <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold"> Dhs. {product?.variant[0]?.discountedPrice}</h2>
 
                 <h2 className="text-gray-300 line-through ml-3 group-hover:text-[12px] group-hover:font-semibold">
                   Dhs. {product?.variant[0]?.price[0]}

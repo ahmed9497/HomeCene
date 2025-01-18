@@ -22,13 +22,18 @@ import {
 import { generateStrongPassword } from "@/app/utils/helper";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import PaymentMethod from "@/app/components/PaymentMethod";
+import { useRouter } from "next/navigation";
+
 
 const Checkout = () => {
   // const [createUserWithEmailAndPassword] =
   //   useCreateUserWithEmailAndPassword(auth);
   const [user] = useAuthState(auth);
   const [profile, setProfile] = useState<any>();
-  const [isDisable,setIsDisable] = useState(false)
+  const [isDisable, setIsDisable] = useState(false);
+  const [selectedMethod, setSelectedMethod] = useState("credit_card");
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -68,7 +73,6 @@ const Checkout = () => {
           setValue("country", profile?.country);
           setValue("state", profile?.state);
           setIsDisable(true);
-         
         } else {
           console.log("No user found with the given email.");
           return null;
@@ -80,7 +84,7 @@ const Checkout = () => {
     }
   }, [user]);
   const handleFormSubmit = async (data: any) => {
-    console.log(data,items);
+    console.log(selectedMethod,data, items);
     try {
       if (!user?.uid) {
         const password = generateStrongPassword(16);
@@ -89,7 +93,7 @@ const Checkout = () => {
           data.email,
           password
         );
-             
+
         const user = userCredential.user;
 
         data.userId = user.uid;
@@ -101,7 +105,22 @@ const Checkout = () => {
       } else {
         data.userId = profile?.userId;
       }
-      
+
+
+      if(selectedMethod ==='cod'){
+        
+        const response = await fetch("/api/order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items, data,totalAmount }),
+        });
+  
+        const { message } = await response.json();
+router.push('/account/orders')
+        return;
+      }
+
+         // Handle Stripe payment
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -110,32 +129,42 @@ const Checkout = () => {
 
       const { url } = await response.json();
       window.location.href = url; // Redirect to Stripe Checkout
-    } catch (error:any) {
-      
+
+
+    } catch (error: any) {
       console.log("Error:", error);
       if (error.code === "auth/email-already-in-use") {
-        toast.error("This email is already in use. Please try logging in or use a different email.",{hideProgressBar:true})
+        toast.error(
+          "This email is already in use. Please try logging in or use a different email.",
+          { hideProgressBar: true }
+        );
       }
-    
+
       // Handle other Firebase error messages
       if (error.message.includes("EMAIL_EXISTS")) {
-        toast.error("This email is already registered. Please log in instead.",{hideProgressBar:true})
+        toast.error(
+          "This email is already registered. Please log in instead.",
+          { hideProgressBar: true }
+        );
       }
     }
   };
-
 
   return (
     <div className="container page">
       <div className="grid grid-cols-1 sm:grid-cols-2 py-6">
         <div className="order-2 sm:order-1 p-2 pb-0 sm:px-6">
-          <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-2">
+          <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
             <h1 className="text-2xl font-bold">Contact</h1>
             {/* Email */}
             <div>
               <div className="flex justify-between">
-              <label htmlFor="email">Email</label>
-              {!user?.uid &&<Link href={'/auth/login'} className="underline">Login</Link>}
+                <label htmlFor="email">Email</label>
+                {!user?.uid && (
+                  <Link href={"/auth/login"} className="underline">
+                    Login
+                  </Link>
+                )}
               </div>
               <input
                 id="email"
@@ -250,68 +279,82 @@ const Checkout = () => {
               </div>
             </div>
 
+            <h1 className="text-2xl font-bold">Payment Methods:</h1>
+            <PaymentMethod
+              selectedMethod={selectedMethod}
+              setSelectedMethod={setSelectedMethod}
+            />
+
             <button
+              name="submit-btn"
               type="submit"
-              className="bg-primary text-white  !mt-4 py-3 rounded w-full hover:bg-white hover:text-primary border-primary border-2 transition"
+              className="bg-primary text-white  text-xl !mt-8 py-3  rounded w-full hover:bg-white hover:text-primary border-primary border-2 transition"
             >
-              Proceed to Checkout
+              {selectedMethod === "credit_card" && `Pay ${totalAmount} Dhs.`}
+              {selectedMethod === "cod" && "Complete Order"}
+              {selectedMethod === "tabby" && "Proceed to Checkout"}
+              {selectedMethod === "tamara" && "Proceed to Checkout"}
+              {selectedMethod === "gpay" && `Pay ${totalAmount} Dhs.`}
+              {selectedMethod === "apple_pay" && `Pay ${totalAmount} Dhs.`}
             </button>
           </form>
         </div>
 
         <div className="order-1 sm:order-2 bg-slate-200 rounded-md p-10 ">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="flex justify-between  rounded mb-4 items-center"
-            >
-              <div className="flex items-center gap-x-3">
-                <div className="relative">
-                  <div className="absolute bg-primary text-white -top-2 -right-1 rounded-full flex justify-center items-center size-5 text-sm">
-                    {" "}
-                    {item.quantity}
+          <div className="sticky top-[60px]">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="flex justify-between  rounded mb-4 items-center"
+              >
+                <div className="flex items-center gap-x-3">
+                  <div className="relative">
+                    <div className="absolute bg-primary text-white -top-2 -right-1 rounded-full flex justify-center items-center size-5 text-sm">
+                     
+                      {item.quantity}
+                    </div>
+
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      width={80}
+                      height={80}
+                      className="rounded size-[80px] object-cover"
+                    />
                   </div>
-
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    width={80}
-                    height={80}
-                    className="rounded size-[80px] object-cover"
-                  />
+                  <div>
+                    <h4>{item.title}</h4>
+                    <p className="text-gray-600">Dhs. {item.price}</p>
+                  </div>
                 </div>
+
                 <div>
-                  <h4>{item.title}</h4>
-                  <p className="text-gray-600">Dhs. {item.price}</p>
+                  <p>Subtotal: Dhs. {item.price * item.quantity}</p>
                 </div>
               </div>
+            ))}
+            <div className="h-[1px] mb-2 bg-gray-400" />
 
-              <div>
-                <p>Subtotal: Dhs. {item.price * item.quantity}</p>
+            <div>
+              <div className="grid grid-cols-2">
+                <div>
+                  Subtotal .{" "}
+                  {items?.length > 0 &&
+                    items?.reduce((prev, cur) => {
+                      return prev + cur.quantity;
+                    }, 0)}{" "}
+                  Items
+                </div>
+                <div className="text-right">Dhs. {totalAmount}</div>
               </div>
-            </div>
-          ))}
-          <div className="h-[1px] bg-gray-400" />
-
-          <div>
-            <div className="grid grid-cols-2">
-              <div>
-                Subtotal .{" "}
-                {items?.length > 0 &&
-                  items?.reduce((prev, cur) => {
-                    return prev + cur.quantity;
-                  }, 0)}{" "}
-                Items
+              <div className="grid grid-cols-2">
+                <div>Standard Shipping</div>
+                <div className="text-right">Dhs. 30</div>
               </div>
-              <div className="text-right">Dhs. {totalAmount}</div>
-            </div>
-            <div className="grid grid-cols-2">
-              <div>Standard Shipping</div>
-              <div className="text-right">Dhs. 30</div>
-            </div>
-            <div className="grid grid-cols-2 text-2xl  my-6 font-extrabold">
-              <div className="">Total</div>
-              <div className="text-right">Dhs. {totalAmount + 30}</div>
+              <div className="grid grid-cols-2 text-2xl  my-6 font-extrabold">
+                <div className="">Total</div>
+                <div className="text-right">Dhs. {totalAmount + 30}</div>
+              </div>
             </div>
           </div>
         </div>
