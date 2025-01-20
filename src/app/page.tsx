@@ -14,9 +14,6 @@ import BigProduct from "./components/BigProduct";
 import { GiReturnArrow, GiTakeMyMoney } from "react-icons/gi";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import VerticalSlider from "./components/VerticalSlider";
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {auth} from '../app/firebase/config';
-// import { useRouter } from "next/navigation";
 import { collection, getDocs, getDocsFromServer, query, where } from "firebase/firestore";
 import { db } from "./firebase/config";
 

@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   // trailingSlash:true,
   images: {
-    domains: ['images.pexels.com','vinova-furstore.myshopify.com'],
+    domains: ['images.pexels.com','vinova-furstore.myshopify.com','res.cloudinary.com'],
   },
 };
 

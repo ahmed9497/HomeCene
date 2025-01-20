@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { ProductProps } from "../types/types";
 import { useCart } from "../context/CartContext";
@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 // import SelectSize from "./SelectSize";
 import { FaCircle } from "react-icons/fa6";
 import { HiLightBulb } from "react-icons/hi";
-
+import {fbEvent} from '@/app/lib/fpixel';
 interface AddToCartButtonProps {
   product: ProductProps;
   // btnType?:string
@@ -30,19 +30,31 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(0);
   const [activeVariant, setActiveVariant] = useState(0);
 
+
   const handleAddToCart = () => {
-    console.log(product?.variant[activeVariant])
+
+    console.log(product?.variant[activeVariant]);
+    let calPrice =  product.variant[activeVariant]?.discount ?parseInt(product.variant[activeVariant].discountedPrice[0]) :parseInt(product.variant[activeVariant].price[0]);
+
+    fbEvent("AddToCart",{
+      content_ids: [product.id], // ID of the product added to the cart
+        content_name: product.title, // Name of the product
+        content_category: product.category, // Category of the product
+        value: calPrice * quantity, // Total price for the quantity added to the cart
+        currency: 'AED', // Currency (e.g., USD, AED)
+        quantity: quantity,
+    })
     const p = {
       id: product.id,
       title: product.title,
       quantity: quantity,
-      price: product.variant[activeVariant]?.discount ?parseInt(product.variant[activeVariant].discountedPrice[0]) :parseInt(product.variant[activeVariant].price[0]),
+      price: calPrice,
       image: product.image,
       selectedSize,
       selectedColor,
       selectedFeature
     };
-    console.log(p)
+
     addItemToCart(p);
     toast.info("Product Added To Cart", {
       theme: "colored",
@@ -61,15 +73,15 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
   return (
     <>
       <div>
-        <div className="font-bold text-primary text-2xl font-Poppins mt-4">
+        {/* <div className="font-bold text-primary text-2xl font-Poppins mt-4">
           Aed {product?.variant[activeVariant]?.price[selectedFeatureIndex]}.00
-        </div>
-        <div className="flex justify-center">
+        </div> */}
+        <div className="font-bold flex text-primary text-2xl font-Poppins">
             {product?.variant&&product?.variant[activeVariant]?.discount ? (
               <>
                 <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold"> Aed {product?.variant[activeVariant]?.discountedPrice}</h2>
 
-                <h2 className="text-gray-300 line-through ml-3 group-hover:text-[12px] group-hover:font-semibold">
+                <h2 className="text-gray-300 line-through ml-3 font-thin group-hover:text-[12px] group-hover:font-semibold">
                   Aed {product?.variant[activeVariant]?.price[0]}
                 </h2>
               </>
@@ -77,6 +89,8 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
               <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">Aed {product?.variant&&product?.variant[activeVariant]?.price[0]}</h2>
             )}
           </div>
+
+          { product?.variant[activeVariant]?.size &&
         <div className="flex gap-x-10 mt-4 text-sm ">
           <div className="text-black basis-1/4 font-extrabold uppercase">
             Size:
@@ -104,7 +118,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
             </div>
           </div>
         </div>
-
+}
         {product?.variant[activeVariant]?.colors?.length ? (
           <div className="flex gap-x-10 mt-4 text-sm items-center">
             <div className="text-black basis-1/4 font-extrabold uppercase">
@@ -244,6 +258,14 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
         <button
           onClick={() => {
             handleAddToCart();
+            fbEvent("InitiateCheckout",{
+              content_ids: [product.id], // ID of the product added to the cart
+                content_name: product.title, // Name of the product
+                content_category: product.category, // Category of the product
+                value: product.variant[activeVariant]?.discount ?parseInt(product.variant[activeVariant].discountedPrice[0]) :parseInt(product.variant[activeVariant].price[0]) * quantity, // Total price for the quantity added to the cart
+                currency: 'AED', // Currency (e.g., USD, AED)
+                quantity: quantity,
+            })
             router.push("/checkout");
           }}
           className="bg-white py-2 rounded w-full border-2 border-primary hover:text-white hover:bg-primary text-primary"

@@ -8,7 +8,9 @@ import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 import Script from "next/script";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
+
+
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -32,12 +34,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html >
       <body>
+  
       <Suspense fallback={<p>Loading...</p>}>
-        <Script
+        <Script strategy="beforeInteractive"
           id="facebook-pixel"
-          strategy="afterInteractive" // Ensures script is loaded after the page is interactive
+          // Ensures script is loaded after the page is interactive
           dangerouslySetInnerHTML={{
             __html: `
             !function(f,b,e,v,n,t,s)

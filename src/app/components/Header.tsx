@@ -128,10 +128,7 @@ const Header = () => {
   };
   return (
     <header
-      className={`bg-white text-primary font-Poppins z-50 fixed top-0 w-full shadow-lg h-[56px] flex items-center 
-    transition-transform duration-300 ${
-      isScrollingDown ? "-translate-y-full" : "translate-y-0"
-    }`}
+      className={`bg-white text-primary font-Poppins z-50 fixed top-0 w-full shadow-lg h-[56px] flex items-center`}
     >
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">

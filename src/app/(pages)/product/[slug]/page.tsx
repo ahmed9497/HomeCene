@@ -25,7 +25,8 @@ import { db } from "../../../firebase/config";
 import SelectSize from "@/app/components/SelectSize";
 import Head from "next/head";
 import { Metadata } from "next";
-
+import ProductPageImage from "@/app/components/ProductpageImage";
+import ViewContentEvent from "@/app/components/ViewContentEvent";
 
 interface PageProps {
   params: { slug: string };
@@ -38,8 +39,8 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 
   if (!product) {
     return {
-      title: 'Product Not Found',
-      description: 'The product you are looking for does not exist.',
+      title: "Product Not Found",
+      description: "The product you are looking for does not exist.",
     };
   }
 
@@ -59,21 +60,18 @@ async function fetchProduct(slug: string): Promise<any> {
   const productCollection = collection(db, "products");
   const productQuery = query(
     productCollection,
-    where("title", "==", slug?.replaceAll("-", " "))
+    where("title", "==", decodeURIComponent(slug)?.replaceAll("-", " "))
   );
   const productSnapshot = await getDocs(productQuery);
-  const product = productSnapshot.docs[0].data();
+
+  const product = productSnapshot.docs[0]?.data();
   return product;
 }
 
 const Product = async ({ params }: any) => {
-
   const { slug } = await params;
   const product = await fetchProduct(slug);
 
-  
-  
-  
   if (!product) {
     return (
       <div>
@@ -87,55 +85,62 @@ const Product = async ({ params }: any) => {
 
   return (
     <>
-    
-      
-    <main className="container page">
-      <div className="flex my-10">Home.</div>
+      <main className="container page min-h-[900px]">
+        <div className="flex my-10">Home.</div>
+        {/* Track FB ViewContent */}
+        <ViewContentEvent
+          contentId={product.id}
+          contentName={product.name}
+          contentCategory={product.category}
+          value={
+            product.variant[0]?.discount
+              ? parseInt(product.variant[0].discountedPrice[0])
+              : parseInt(product.variant[0].price[0])
+          }
+          currency="AED"
+        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-20">
+          <ProductPageImage product={product} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-20">
-        <div className="bg-gray-200 flex justify-center">
-          {/* <ProductMagnifier/> */}
-          <Image
-            src="/chair1.webp"
-            alt={product?.title}
-            layout="contain"
-            width={500}
-            height={500}
-          />
-        </div>
+          <div className="col-span-1">
+            <div>
+              <h1 className="font-semibold capitalize text-4xl">
+                {product?.title}{" "}
+                {product?.variant?.length > 1
+                  ? `(${product?.variant?.length} Sizes)`
+                  : ""}
+              </h1>
+            </div>
+            {/* <SelectSize product={product}/> */}
+            <div className="font-extrabold text-2xl font-Poppins mt-4">
+              {/* ${product?.variant?.price[]} */}
+            </div>
+            <p className="mt-4 text-gray-400">{product?.description}</p>
 
-        <div> 
-          {/* {JSON.stringify(product)} */}
-          <div>
-            <h1 className="font-semibold capitalize text-4xl">
-              {product?.title} {product?.variant?.length > 1? `(${product?.variant?.length} Sizes)` : ''} 
-            </h1>
-          </div>
-        {/* <SelectSize product={product}/> */}
-          <div className="font-extrabold text-2xl font-Poppins mt-4">
-            {/* ${product?.variant?.price[]} */}
-          </div>
-          <p className="mt-4 text-gray-400">{product?.description}</p>
-
-          {/* <div className="flex gap-x-10 mt-4 text-sm">
+            {/* <div className="flex gap-x-10 mt-4 text-sm">
             <div className="text-black basis-1/4 font-extrabold uppercase">
               TAGS:
             </div>
             <div className="text-gray-800">Mirrors</div>
           </div> */}
-         
 
-
-          <div className="mt-1">
-           
-            <Add product={product} />
-          </div>
-          <div className="mt-10">
-            <div className="text-black basis-1/4 text-sm font-extrabold uppercase">
-              Guaranteed safe checkout:
+            <div className="mt-1">
+              <Add product={product} />
             </div>
-            <div className="flex items-center justify-between mt-6 sm:w-3/5">
-              <div className="bg-gray-200 px-4  py-1 rounded">
+            <div className="mt-10">
+              <div className="text-black basis-1/4 text-sm font-extrabold uppercase">
+                Guaranteed safe checkout:
+              </div>
+
+              <div className="flex items-center justify-between mt-6 sm:w-3/5">
+                <Image
+                  src="/payment-gateway.webp"
+                  alt="payemnt-gateways"
+                  layout="responsive"
+                  width={300}
+                  height={300}
+                />
+                {/* <div className="bg-gray-200 px-4  py-1 rounded">
                 <RiVisaLine size={25} color="blue" />
               </div>
               <div className="bg-gray-200 px-4  py-1 rounded">
@@ -149,12 +154,12 @@ const Product = async ({ params }: any) => {
               </div>
               <div className="bg-gray-200 px-4  py-1 rounded">
                 <FaCcDiscover size={25} color="orange" />
+              </div> */}
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
     </>
   );
 };

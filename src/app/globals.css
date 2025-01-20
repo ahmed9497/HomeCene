@@ -42,3 +42,19 @@ body {
 .page{
   padding-top: 60px;
 }
+@keyframes slideDownWithClip {
+  0% {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-down-clip {
+  animation: slideDownWithClip 1s ease-out forwards;
+}
