@@ -76,17 +76,18 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
         {/* <div className="font-bold text-primary text-2xl font-Poppins mt-4">
           Aed {product?.variant[activeVariant]?.price[selectedFeatureIndex]}.00
         </div> */}
-        <div className="font-bold flex text-primary text-2xl font-Poppins">
+        <div className="font-bold flex items-center text-primary gap-x-4 text-2xl font-Poppins">
             {product?.variant&&product?.variant[activeVariant]?.discount ? (
               <>
-                <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold"> Aed {product?.variant[activeVariant]?.discountedPrice}</h2>
-
-                <h2 className="text-gray-300 line-through ml-3 font-thin group-hover:text-[12px] group-hover:font-semibold">
-                  Aed {product?.variant[activeVariant]?.price[0]}
+                <h2 className="text-gray-300 line-through font-normal text-[18px] group-hover:font-semibold">
+                  Aed {product?.variant[activeVariant]?.price[0]}.00
                 </h2>
+                <div className="h-6 w-[2px] bg-gray-300"></div>
+                <h2 className="text-black  group-hover:font-semibold"> Aed {product?.variant[activeVariant]?.discountedPrice}.00</h2>
+                <div className="text-sm py-[1px] text-white rounded-full px-4 bg-red-600">{product?.variant[activeVariant]?.discountPercentage}</div>
               </>
             ) : (
-              <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">Aed {product?.variant&&product?.variant[activeVariant]?.price[0]}</h2>
+              <h2 className="text-primary  group-hover:font-semibold">Aed {product?.variant&&product?.variant[activeVariant]?.price[0]}</h2>
             )}
           </div>
 

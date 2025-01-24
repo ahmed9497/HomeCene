@@ -27,6 +27,8 @@ import Head from "next/head";
 import { Metadata } from "next";
 import ProductPageImage from "@/app/components/ProductpageImage";
 import ViewContentEvent from "@/app/components/ViewContentEvent";
+import { TbTruckDelivery } from "react-icons/tb";
+import { GoClock } from "react-icons/go";
 
 interface PageProps {
   params: { slug: string };
@@ -132,29 +134,25 @@ const Product = async ({ params }: any) => {
                 Guaranteed safe checkout:
               </div>
 
-              <div className="flex items-center justify-between mt-6 sm:w-3/5">
+              <div className="flex items-center justify-between mt-2 sm:w-3/5">
                 <Image
-                  src="/payment-gateway.webp"
+                  src="/payment-methods.png"
                   alt="payemnt-gateways"
                   layout="responsive"
                   width={300}
                   height={300}
                 />
-                {/* <div className="bg-gray-200 px-4  py-1 rounded">
-                <RiVisaLine size={25} color="blue" />
               </div>
-              <div className="bg-gray-200 px-4  py-1 rounded">
-                <RiMastercardLine size={25} color="red" />
+              <div className="mt-12">
+              <div className="flex mb-4 gap-x-4 text-sm items-center">
+                <GoClock size={20}/>
+                Orders ship within 5 to 10 business days
               </div>
-              <div className="bg-gray-200 px-4  py-1 rounded">
-                <SiAmericanexpress size={25} color="green" />
+
+              <div className="flex gap-x-4 text-sm items-center">
+                <TbTruckDelivery size={20}/>
+                Hoorey ! This item ships free all over UAE
               </div>
-              <div className="bg-gray-200 px-4  py-1 rounded">
-                <RiPaypalFill size={25} color="dodgerblue" />
-              </div>
-              <div className="bg-gray-200 px-4  py-1 rounded">
-                <FaCcDiscover size={25} color="orange" />
-              </div> */}
               </div>
             </div>
           </div>

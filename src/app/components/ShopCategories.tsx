@@ -18,8 +18,8 @@ const categories=[
     href:'/shop/lamps'
   },
   {
-    title:'Vase & Decor',
-    href:'/shop/decoration-pieces'
+    title:'Vase & Decore',
+    href:'/shop/vase-&-decore'
   },
   {
     title:'Artificial Plants',
