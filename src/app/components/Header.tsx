@@ -21,6 +21,36 @@ import {
   getDoc,
 } from "firebase/firestore";
 
+const headerMenu = [
+  {
+    title: "Home",
+    href: "/",
+  },
+  {
+    title: "Shop",
+    href: "/shop/all-products",
+  },
+  {
+    title: "Mirrors",
+    href: "/shop/mirrors",
+  },
+  {
+    title: "Lamps",
+    href: "/shop/lamps",
+  },
+  {
+    title: "Vase & Decore",
+    href: "/shop/vase-&-decore",
+  },
+  {
+    title: "Artifical Plants",
+    href: "/shop/artificial-plants",
+  },
+  {
+    title: "Wooden Decore",
+    href: "/shop/wooden-decore",
+  },
+];
 const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -44,7 +74,7 @@ const Header = () => {
         } else {
           console.log("No such document!");
         }
-      
+
         // setLoading(false);
       };
 
@@ -128,9 +158,9 @@ const Header = () => {
   };
   return (
     <header
-      className={`bg-white text-primary font-Poppins z-50 fixed top-0 w-full shadow-md h-[56px] flex items-center`}
+      className={`bg-white text-primary font-Poppins z-50 fixed top-0 w-full shadow-md min-h-[56px] flex items-center`}
     >
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto w-full py-3 sm:py-0 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex-shrink-0">
@@ -146,37 +176,16 @@ const Header = () => {
 
           {/* Menu - Desktop */}
           <nav className="hidden md:flex gap-x-4 text-sm ">
-            <a href="/" className="text-black hover:text-primary group hover:font-semibold transition-all hover:transform hover:scale-110 ">
-              Home
-              <div className="w-[0px] border-b-2 border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div>
-            </a>
-            <a
-              href="/shop/all-products"
-              className="text-black hover:text-primary group hover:font-semibold transition-all hover:transform hover:scale-110"
-            >
-              Shop
-              <div className="w-[0px] border-b-2 border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div>
-            </a>
-            <a href="/shop/mirrors" className="text-black hover:text-primary group hover:font-semibold transition-all hover:transform hover:scale-110">
-              Mirrors
-              <div className="w-[0px] border-b-2 border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div>
-            </a>
-            <a href="/shop/lamps" className="text-black hover:text-primary group hover:font-semibold transition-all hover:transform hover:scale-110">
-              Lamps
-              <div className="w-[0px] border-b-2 border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div>
-            </a>
-            <a href="/shop/vase-&-decore" className="text-black hover:text-primary group hover:font-semibold transition-all hover:transform hover:scale-110">
-              Vase & Decore
-              <div className="w-[0px] border-b-2 border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div>
-            </a>
-            <a href="/shop/artificial-plants" className="text-black hover:text-primary group hover:font-semibold transition-all hover:transform hover:scale-110">
-              Artifical Plants
-              <div className="w-[0px] border-b-2 border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div>
-            </a>
-            <a href="/shop/wooden-decore" className="text-black hover:text-primary group hover:font-semibold transition-all hover:transform hover:scale-110">
-              Wooden Decore
-              <div className="w-[0px] border-b-2 border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div>
-            </a>
+            {headerMenu.map((menu, index) => (
+              <a
+                href={menu.href}
+                key={index}
+                className="text-black hover:text-primary group hover:font-semibold transition-all hover:transform hover:scale-110 "
+              >
+                {menu.title}
+                <div className="w-[0px] border-b border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div>
+              </a>
+            ))}
           </nav>
 
           {/* Cart Icon */}
@@ -210,10 +219,10 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button (Hamburger Icon) */}
-          <div className="md:hidden ">
+          <div className="md:hidden flex">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white focus:outline-none "
+              className="text-primary focus:outline-none "
             >
               {isMenuOpen ? (
                 <svg
@@ -252,17 +261,18 @@ const Header = () => {
 
         {/* Mobile Menu - Conditional Rendering */}
         {isMenuOpen && (
-          <div className="md:hidden">
-            <nav className="space-y-4">
-              <a href="/" className="block text-lg hover:text-gray-300">
-                Home
-              </a>
-              <a href="/shop" className="block text-lg hover:text-gray-300">
-                Shop
-              </a>
-              <a href="/mirrors" className="block text-lg hover:text-gray-300">
-                Mirrors
-              </a>
+          <div className="md:hidden mt-3">
+            <nav className="flex flex-col gap-y-1">
+              {headerMenu.map((menu, index) => (
+                <a
+                  href={menu.href}
+                  key={index}
+                  className="text-black hover:text-primary rounded-sm group hover:font-semibold py-2 bg-primary active:bg-primary active:text-white bg-opacity-5 text-center"
+                >
+                  {menu.title}
+                  {/* <div className="w-[0px] border-b border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div> */}
+                </a>
+              ))}
             </nav>
           </div>
         )}

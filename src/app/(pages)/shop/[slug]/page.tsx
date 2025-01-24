@@ -124,8 +124,8 @@ export default async function ShopPage({
   };
   return (
     <div className="container page">
-      <div className="grid grid-cols-4 gap-x-16">
-        <div className="cols-span-2 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-x-16">
+        <div className="col-span-1 sm:cols-span-2 p-4">
           <div className="sticky top-[80px]">
           <div className=" gap-x-3 flex items-center text-xl font-bold uppercase">
             <IoMenu size={30} />
@@ -134,8 +134,8 @@ export default async function ShopPage({
           <ShopCategories />
           </div>
         </div>
-        <div className="col-span-3  p-4">
-          <div className="mt-16 grid grid-cols-4 gap-5">
+        <div className="cols-span-1 sm:col-span-3  p-4">
+          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-5">
             {products &&
               products.map((product, index) => (
                 <div key={product.id + index}>
