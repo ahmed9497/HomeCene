@@ -28,10 +28,25 @@ const SuccessPage = () => {
             throw new Error("Failed to fetch session details");
           }
           const { stripeSession } = await response.json();
+          console.log(stripeSession)
           setSession(stripeSession);
           setLoading(false);
+          if (typeof window !== "undefined" && window.fbq) {
+            // Track the Purchase event
+            window.fbq("track", "Purchase", {
+              content_ids: stripeSession?.line_items?.data.map((item: any) => item.id), // Array of product IDs
+              content_name: "Order Purchase", // Description of the purchase
+              value: stripeSession?.amount_total / 100, // Total amount of the order
+              currency: "AED", // Currency of the transaction
+              num_items: stripeSession.line_items?.data.reduce((acc: number, item: any) => acc + item.quantity, 0), // Total number of items purchased
+              contents: stripeSession?.line_items?.data.map((item: any) => ({
+                id: item.id,
+                quantity: item.quantity,
+              })), // Details of items purchased
+            });
+          }
         } catch (error) {
-          console.error("Error fetching session details:", error);
+          console.log("Error fetching session details:", error);
           setLoading(false);
         }
       };

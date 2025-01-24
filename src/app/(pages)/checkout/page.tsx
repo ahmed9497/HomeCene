@@ -301,7 +301,7 @@ router.push('/account/orders')
         </div>
 
         <div className="order-1 sm:order-2 bg-slate-200 rounded-md p-10 ">
-          <div className="sticky top-[60px]">
+          <div className="sticky top-[70px]">
             {items.map((item) => (
               <div
                 key={item.id}

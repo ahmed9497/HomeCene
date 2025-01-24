@@ -5,66 +5,83 @@ import { PiShoppingCartLight } from "react-icons/pi";
 import AddToCartButton from "./AddToCartButton";
 import { ProductProps } from "../types/types";
 
-const Product:any = ({
+const Product: any = ({
   product,
   quickAddBtn,
 }: {
   product: ProductProps;
   quickAddBtn: boolean;
 }) => {
+ 
   return (
     <div
       key={product.id}
-      className="group col-span-1 hover:border-primary hover:shadow-lg hover:border hover:rounded hover:p-1 hover:transition-all overflow-hidden cursor-pointer relative"
+      className="group  rounded-sm col-span-1 hover:border-primary hover:shadow-lg hover:border hover:rounded hover:p-1 hover:transition-all overflow-hidden cursor-pointer relative"
     >
       <AddToCartButton product={product} btnType="cartBtn" />
+      <div className=" min-h-64 w-full">
       <Link
         href={"/product/" + product?.title?.replaceAll(" ", "-")}
-        className="w-full"
+        // className="w-full h-full"
         key={product.id}
       >
-        {product?.variant&&product?.variant[0]?.discount ? (
+        {product?.variant && product?.variant[0]?.discount ? (
           <div className="absolute text-sm top-2 z-10 left-2 py-[1px] text-white rounded-sm px-2 bg-red-600">
-            {product?.variant&&product?.variant[0]?.discountPercentage[0]}
+            {product?.variant && product?.variant[0]?.discountPercentage[0]}
           </div>
         ) : null}
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden max-h-[260px] h-[260px] rounded-sm bg-imgBg flex items-center">
+         {product?.images?.length > 0 &&
           <Image
             // src={`${product?.image}`}
-            src="/chair1.webp"
+            src={
+             product?.images[0]
+            }
             alt={product?.title}
-            layout="responsive"
+            // layout="responsive"
             width={100}
             height={100}
-            className="max-h-[260px] object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
-          />
-          {/* <Image
-            src="/chair1.webp"
-            alt="cat"
-            layout="responsive"
-            width={100}
-            height={100}
-            className="absolute inset-0 w-full h-full object-cover opacity-0 duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-125 transition-all "
-          /> */}
+            className="max-h-[260px] h-auto w-full object-cover  transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+          />}
+          {product?.images?.length >= 2 && (
+            <Image
+              src={
+                product?.images[1]
+              }
+              alt={product?.title}
+              // layout="responsive"
+              width={100}
+              height={100}
+              className="absolute max-h-[260px] h-auto w-full  object-cover opacity-0 duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-125 transition-all "
+            />
+          )}
         </div>
-        <div className="text-center group-hover:bg-[#0a5d5d3b] group-hover:p-[2px] group-hover:rounded">
+        <div className="text-center mt-2 group-hover:bg-[#0a5d5d3b] group-hover:p-[2px] group-hover:rounded">
           <h1 className="font-Poppins group-hover:text-[12px] text-[14px] hover:text-primary capitalize">
             {product?.title}
             <span className="text-[12px] text-slate-500">
-              &nbsp; {product?.variant?.length > 1? `(${product?.variant?.length} Sizes)` : ''} 
+              &nbsp;{" "}
+              {product?.variant?.length > 1
+                ? `(${product?.variant?.length} Sizes)`
+                : ""}
             </span>
           </h1>
-          <div className="flex justify-center">
-            {product?.variant&&product?.variant[0]?.discount ? (
+          <div className="flex justify-center font-Poppins">
+            {product?.variant && product?.variant[0]?.discount ? (
               <>
-                <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold"> Aed {product?.variant[0]?.discountedPrice}</h2>
+                <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">
+                  {" "}
+                  Aed {product?.variant[0]?.discountedPrice}
+                </h2>
 
-                <h2 className="text-gray-300 line-through ml-3 group-hover:text-[12px] group-hover:font-semibold">
+                <h2 className="text-gray-300 line-through ml-3 group-hover:text-[12px] group-hover:text-slate-500 group-hover:font-semibold">
                   Aed {product?.variant[0]?.price[0]}
                 </h2>
               </>
             ) : (
-              <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">Aed {product?.variant&&product?.variant[0]?.price[0]}</h2>
+              <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">
+                Aed {product?.variant && product?.variant[0]?.price[0]}
+              </h2>
             )}
           </div>
           {/* <button
@@ -75,7 +92,9 @@ const Product:any = ({
       </button> */}
         </div>
       </Link>
+
       {/* {quickAddBtn && <AddToCartButton product={product} />} */}
+    </div>
     </div>
   );
 };

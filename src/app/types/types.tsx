@@ -28,4 +28,5 @@ export interface CartItem {
     discount?:boolean;
     rating:number;
     variant?:any;
+    images:string[]
   }

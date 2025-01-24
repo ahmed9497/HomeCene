@@ -80,6 +80,14 @@ export async function POST(req: NextRequest) {
     }
     
   }
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+    console.log(session)
+    // Update the Firestore document
+    // await db.collection('orders').doc(session.id).update({
+    //   status: 'paid',
+    // });
+  }
 
 
   return NextResponse.json({ received: true }, { status: 200 });

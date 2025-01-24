@@ -4,8 +4,10 @@ import { db } from "@/app/firebase/config";
 import { ProductProps } from "@/app/types/types";
 import {
   collection,
+  endBefore,
   getDocs,
   limit,
+  limitToLast,
   orderBy,
   query,
   startAfter,
@@ -13,6 +15,7 @@ import {
 } from "firebase/firestore";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 
 type tParams = Promise<{ slug: string }>;
@@ -20,6 +23,8 @@ type tParams = Promise<{ slug: string }>;
 async function fetchProducts(
   slug = "all-product",
   cursor = null,
+  id = null,
+  direction = "next",
   pageSize = 6
 ) {
   const productCollection = collection(db, "products");
@@ -28,14 +33,16 @@ async function fetchProducts(
     productQuery = cursor
       ? query(
           productCollection,
+          where("status", "==", true),
           orderBy("slug"),
           orderBy("id"),
-          startAfter(cursor),
-          limit(pageSize)
+          direction === "next" ? startAfter(cursor, id) : endBefore(cursor),
+          direction === "next" ? limit(pageSize) : limitToLast(pageSize)
         )
       : query(
           productCollection,
-          orderBy("slug", "asc"),
+          where("status", "==", true),
+          orderBy("slug"),
           orderBy("id"),
           limit(pageSize)
         );
@@ -43,16 +50,26 @@ async function fetchProducts(
     productQuery = cursor
       ? query(
           productCollection,
-          where("category", "==", slug.replaceAll("-"," ")),
+          where(
+            "category",
+            "==",
+            decodeURIComponent(slug)?.replaceAll("-", " ")
+          ),
+          where("status", "==", true),
           orderBy("slug"),
           orderBy("id"),
-          startAfter(cursor),
-          limit(pageSize)
+          direction === "next" ? startAfter(cursor) : endBefore(cursor),
+          direction === "next" ? limit(pageSize) : limitToLast(pageSize)
         )
       : query(
           productCollection,
-          where("category", "==", slug.replaceAll("-"," ")),
-          orderBy("slug", "asc"),
+          where(
+            "category",
+            "==",
+            decodeURIComponent(slug)?.replaceAll("-", " ")
+          ),
+          where("status", "==", true),
+          orderBy("slug"),
           orderBy("id"),
           limit(pageSize)
         );
@@ -63,9 +80,17 @@ async function fetchProducts(
     ...doc.data(),
   }));
 
-  const lastVisible: any = products[products.length - 1] || null;
+  const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+  const lastCursor = lastVisible
+    ? [lastVisible.data().slug, lastVisible.data().id]
+    : null;
 
-  return { products, lastVisible };
+  const firstVisible = snapshot.docs[0];
+  const firstCursor = firstVisible
+    ? [firstVisible.data().slug, firstVisible.data().id]
+    : null;
+
+  return { products, firstCursor, lastCursor };
 }
 
 export default async function ShopPage({
@@ -76,15 +101,24 @@ export default async function ShopPage({
   searchParams: any;
 }) {
   const { slug } = await params;
-  console.log(slug);
-  const { cursor, page } = await searchParams;
-  const currentPage = parseInt(page || "1", 10);
-  const pageSize = 10;
 
-  const { products, lastVisible } = await fetchProducts(slug, cursor, pageSize);
-  const nextPageCursor = lastVisible
-    ? encodeURIComponent(lastVisible.slug)
-    : null;
+  const { cursor, page, id, direction = "next" } = await searchParams;
+  const currentPage = parseInt(page || "1", 10);
+  const pageSize = 12;
+  const { products, firstCursor, lastCursor } = await fetchProducts(
+    slug,
+    cursor,
+    id,
+    direction,
+    pageSize
+  );
+
+  const nextPageCursor = lastCursor;
+  // ? encodeURIComponent(lastCursor[0])
+  // : null;
+  const prevPageCursor = firstCursor;
+  // ? encodeURIComponent(firstCursor[0])
+  // : null;
   const onPageChange = (page: number) => {
     console.log(page);
   };
@@ -92,11 +126,13 @@ export default async function ShopPage({
     <div className="container page">
       <div className="grid grid-cols-4 gap-x-16">
         <div className="cols-span-2 p-4">
+          <div className="sticky top-[80px]">
           <div className=" gap-x-3 flex items-center text-xl font-bold uppercase">
             <IoMenu size={30} />
             Categories
           </div>
           <ShopCategories />
+          </div>
         </div>
         <div className="col-span-3  p-4">
           <div className="mt-16 grid grid-cols-4 gap-5">
@@ -108,25 +144,28 @@ export default async function ShopPage({
               ))}
           </div>
 
-          <div className="mt-6 flex justify-center space-x-4">
-            {page > 1 && (
+          <div className="my-16 flex justify-center space-x-4">
+            {page > 1 && prevPageCursor && (
               <a
-                href={`?page=${+currentPage - 1}`}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black rounded w-[100px] text-center"
+                href={`?page=${+currentPage - 1}&cursor=${
+                  prevPageCursor[0]
+                }&id=${prevPageCursor[1]}&direction=previous`}
+                className="flex items-center justify-center gap-x-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black rounded w-[150px] text-center"
               >
-                Previous
+                <FaAngleLeft color="black"/> Previous 
               </a>
             )}
             {nextPageCursor && (
-              <a
-                href={`?page=${+currentPage + 1}&cursor=${nextPageCursor}`}
-                className="px-4 py-2 bg-black  hover:bg-primary text-white rounded w-[100px] text-center"
+              <a 
+                href={`?page=${+currentPage + 1}&cursor=${
+                  nextPageCursor[0]
+                }&id=${nextPageCursor[1]}&direction=next`}
+                className="flex items-center justify-center gap-x-2 px-4 py-2 bg-black  hover:bg-primary text-white rounded w-[150px] text-center"
               >
-                Next
+                Next <FaAngleRight color="white"/>
               </a>
             )}
           </div>
-          {/* <Pagination onPageChange={onPageChange}/> */}
         </div>
       </div>
     </div>

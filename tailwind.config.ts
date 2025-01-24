@@ -23,6 +23,9 @@ export default {
         center: true,
         padding:'1rem'
       },
+      transitionDuration: {
+        '2000': '2000ms',
+      }
     },
   },
   plugins: [],

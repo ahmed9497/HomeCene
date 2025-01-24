@@ -61,7 +61,7 @@ console.log(data)
       payment_intent_data: {
         metadata: {
          ...data,
-         orderDetails:JSON.stringify(orderMetadata)
+         orderDetails:JSON.stringify(orderMetadata),
         },
       },
      
