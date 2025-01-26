@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 const ProductPageImage = ({product}:{product:any}) => {
     const [activeImg,setActiveImg] = useState(0);
   return (
-    <div className="bg-imgBg border-primary border-opacity-30 border col-span-1 justify-center max-h-[500px] rounded-md">
+    <div className="col-span-1 ">
     {/* <ProductMagnifier/> */}
     {/* <Image
     src={product.images.length ? product.images[0] :"/chair1.webp"}
@@ -13,22 +13,26 @@ const ProductPageImage = ({product}:{product:any}) => {
     // width={100}
     height={500}
   /> */}
+  <div className="bg-imgBg max-w-[500px] p-1 border-primary border-opacity-30 border mx-auto  rounded-md">
+
+
    { product?.images?.length > 0 &&
-    <div className="flex justify-center items-center">
+    <div className="max-h-[610px] flex justify-center items-center">
       <img
         src={
           product?.images?.length ? product?.images[activeImg] : "/chair1.webp"
         }
         alt={product?.title}
-        className="object-contain h-[500px]"
+        className="object-cover h-[600px] rounded-md"
       />
     </div>
 }
-    <div className="flex flex-wrap gap-x-4 mt-3">
+      </div>
+    <div className="flex justify-center flex-wrap gap-x-4 mt-3">
       {product?.images?.length >0 &&
         product.images.map((i: any,index:number) => (
-          <div key={index} className={`w-20 border border-opacity-30 rounded-md bg-imgBg cursor-pointer ${activeImg === index && 'border-primary'}`} onClick={()=>setActiveImg(index)}>
-            <img src={product?.images[index]} className="h-auto" />
+          <div key={index} className={`w-20 border  h-[80px] p-1 rounded-sm bg-imgBg cursor-pointer ${activeImg === index && 'border-primary'}`} onClick={()=>setActiveImg(index)}>
+            <img src={product?.images[index]} className="object-cover w-full h-full rounded-sm" alt={product.title}/>
           </div>
         ))}
     </div>

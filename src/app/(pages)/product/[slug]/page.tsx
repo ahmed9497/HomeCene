@@ -2,7 +2,7 @@ import Add from "@/app/components/Add";
 import ProductMagnifier from "@/app/components/ProductMagnifier";
 import Image from "next/image";
 
-import { FaMinus, FaPlus } from "react-icons/fa";
+import { FaAngleRight, FaHome, FaMinus, FaPlus } from "react-icons/fa";
 import { FaCcDiscover } from "react-icons/fa6";
 import {
   RiDiscordLine,
@@ -29,33 +29,34 @@ import ProductPageImage from "@/app/components/ProductpageImage";
 import ViewContentEvent from "@/app/components/ViewContentEvent";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GoClock } from "react-icons/go";
+import Link from "next/link";
 
 interface PageProps {
   params: { slug: string };
 }
 
 // // Generate Metadata Dynamically
-export async function generateMetadata({ params }: any): Promise<Metadata> {
-  const { slug } = await params;
-  const product = await fetchProduct(slug);
+// export async function generateMetadata({ params }: any): Promise<Metadata> {
+//   const { slug } = await params;
+//   const product = await fetchProduct(slug);
 
-  if (!product) {
-    return {
-      title: "Product Not Found",
-      description: "The product you are looking for does not exist.",
-    };
-  }
+//   if (!product) {
+//     return {
+//       title: "Product Not Found",
+//       description: "The product you are looking for does not exist.",
+//     };
+//   }
 
-  return {
-    title: `${product.title} - HomeCene`,
-    description: product.description,
-    openGraph: {
-      title: `${product.title} - HomeCene`,
-      description: product.description,
-      images: [{ url: product.image }],
-    },
-  };
-}
+//   return {
+//     title: `${product.title} - HomeCene`,
+//     description: product.description,
+//     openGraph: {
+//       title: `${product.title} - HomeCene`,
+//       description: product.description,
+//       images: [{ url: product.image }],
+//     },
+//   };
+// }
 
 // Function to fetch product details
 async function fetchProduct(slug: string): Promise<any> {
@@ -65,7 +66,6 @@ async function fetchProduct(slug: string): Promise<any> {
     where("title", "==", decodeURIComponent(slug)?.replaceAll("-", " "))
   );
   const productSnapshot = await getDocs(productQuery);
-
   const product = productSnapshot.docs[0]?.data();
   return product;
 }
@@ -82,13 +82,14 @@ const Product = async ({ params }: any) => {
       </div>
     );
   }
-  // const product = productSnapshot.docs[0].data();
-  console.log(product);
+
 
   return (
     <>
       <main className="container page min-h-[900px]">
-        <div className="flex my-10">Home.</div>
+        <div className="my-10 bg-primary items-center capitalize bg-opacity-20 text-[12px] px-2 py-1 rounded-md gap-x-1 inline-flex">
+         <Link href={'/'} className="flex gap-x-1 items-center"><FaHome/> Home</Link> <FaAngleRight/>  <Link href={`/shop/${product.category}`} className="flex items-center">{product.category}</Link> <FaAngleRight/>{product.title}
+          </div>
         {/* Track FB ViewContent */}
         <ViewContentEvent
           contentId={product.id}
@@ -101,7 +102,7 @@ const Product = async ({ params }: any) => {
           }
           currency="AED"
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-20">
           <ProductPageImage product={product} />
 
           <div className="col-span-1">
@@ -138,9 +139,10 @@ const Product = async ({ params }: any) => {
                 <Image
                   src="/payment-methods.png"
                   alt="payemnt-gateways"
-                  layout="responsive"
+                  // layout="responsive"
                   width={300}
                   height={300}
+                  className="w-auto h-auto"
                 />
               </div>
               <div className="mt-12">

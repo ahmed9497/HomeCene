@@ -34,25 +34,29 @@ const Product: any = ({
          {product?.images?.length > 0 &&
           <Image
             // src={`${product?.image}`}
+            unoptimized
             src={
              product?.images[0]
             }
             alt={product?.title}
             // layout="responsive"
+            quality={100}
             width={100}
             height={100}
-            className="max-h-[260px] h-auto w-full object-cover  transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+            className="max-h-[260px] h-full w-full object-cover  transition-opacity duration-700 ease-in-out group-hover:opacity-0"
           />}
           {product?.images?.length >= 2 && (
             <Image
               src={
                 product?.images[1]
               }
+              unoptimized
               alt={product?.title}
               // layout="responsive"
+              quality={100}
               width={100}
               height={100}
-              className="absolute max-h-[260px] h-auto w-full  object-cover opacity-0 duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-125 transition-all "
+              className="absolute max-h-[260px] h-full w-full  object-cover opacity-0 duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-125 transition-all "
             />
           )}
         </div>

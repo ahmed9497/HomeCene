@@ -170,6 +170,7 @@ const Header = () => {
                 width={80}
                 height={90}
                 alt="homecene-logo"
+                className="w-[80px] h-[auto]"
               />
             </a>
           </div>

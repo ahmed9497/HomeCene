@@ -25,7 +25,6 @@ import Link from "next/link";
 import PaymentMethod from "@/app/components/PaymentMethod";
 import { useRouter } from "next/navigation";
 
-
 const Checkout = () => {
   // const [createUserWithEmailAndPassword] =
   //   useCreateUserWithEmailAndPassword(auth);
@@ -84,7 +83,7 @@ const Checkout = () => {
     }
   }, [user]);
   const handleFormSubmit = async (data: any) => {
-    console.log(selectedMethod,data, items);
+    console.log(selectedMethod, data, items);
     try {
       if (!user?.uid) {
         const password = generateStrongPassword(16);
@@ -106,31 +105,27 @@ const Checkout = () => {
         data.userId = profile?.userId;
       }
 
-
-      if(selectedMethod ==='cod'){
-        
+      if (selectedMethod === "cod") {
         const response = await fetch("/api/order", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items, data,totalAmount }),
+          body: JSON.stringify({ items, data, totalAmount }),
         });
-  
+
         const { message } = await response.json();
-router.push('/account/orders')
+        router.push("/account/orders");
         return;
       }
 
-         // Handle Stripe payment
+      // Handle Stripe payment
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items, data }),
+        body: JSON.stringify({ items, data,totalAmount }),
       });
 
       const { url } = await response.json();
       window.location.href = url; // Redirect to Stripe Checkout
-
-
     } catch (error: any) {
       console.log("Error:", error);
       if (error.code === "auth/email-already-in-use") {
@@ -310,7 +305,6 @@ router.push('/account/orders')
                 <div className="flex items-center gap-x-3">
                   <div className="relative">
                     <div className="absolute bg-primary text-white -top-2 -right-1 rounded-full flex justify-center items-center size-5 text-sm">
-                     
                       {item.quantity}
                     </div>
 
@@ -323,12 +317,35 @@ router.push('/account/orders')
                     />
                   </div>
                   <div>
-                    <h4>{item.title}</h4>
+                    <h4 className="text-slate-500 text-sm">{item.title}</h4>
                     <p className="text-gray-600">Aed {item.price}</p>
+                    <div className="flex gap-x-3">
+                    {item?.selectedSize && (
+                      <p className="text-gray-600 text-[12px]">
+                        {item?.selectedSize}
+                      </p>
+                    )}
+                    {item?.selectedColor && (
+                      <>
+                        <div className="h-4 w-[1px] bg-black transition"></div>
+                        <p className="text-gray-600 text-[12px]">
+                          {item?.selectedColor}
+                        </p>
+                      </>
+                    )}
+                    {item?.selectedFeature && (
+                      <>
+                        <div className="h-4 w-[1px] bg-black transition"></div>
+                        <p className="text-gray-600 text-[12px]">
+                          {item?.selectedFeature}
+                        </p>
+                      </>
+                    )}
+                  </div>
                   </div>
                 </div>
 
-                <div>
+                <div className="basis-52 text-right">
                   <p>Subtotal: Aed {item.price * item.quantity}</p>
                 </div>
               </div>
@@ -348,12 +365,24 @@ router.push('/account/orders')
                 <div className="text-right">Aed {totalAmount}</div>
               </div>
               <div className="grid grid-cols-2">
-                <div>Standard Shipping</div>
-                <div className="text-right">Aed 30</div>
+                
+                {totalAmount > 100 ? (
+                  <>
+                    <div>Shipping: </div>
+                    <div className="text-right">Free</div>
+                  </>
+                ) : (
+                  <>
+                    <div>Standard Shipping: </div>
+                    <div className="text-right">
+                      Aed {process.env.NEXT_PUBLIC_SHIPPING_CHARGES}
+                    </div>
+                  </>
+                )}
               </div>
               <div className="grid grid-cols-2 text-2xl  my-6 font-extrabold">
                 <div className="">Total</div>
-                <div className="text-right">Aed {totalAmount + 30}</div>
+                <div className="text-right">Aed { totalAmount >100 ?totalAmount :totalAmount + parseInt(process.env.NEXT_PUBLIC_SHIPPING_CHARGES!)}</div>
               </div>
             </div>
           </div>

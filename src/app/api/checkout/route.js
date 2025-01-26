@@ -2,31 +2,32 @@
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const shippingCharges = process.env.SHIPPING_CHARGES;
+const shippingCharges = process.env.NEXT_PUBLIC_SHIPPING_CHARGES;
 
 export async function POST(req) {
-
+console.log(shippingCharges,"shippingCharges---------")
   const host = req.headers.get("host");
   const protocol = req.headers.get('x-forwarded-proto') || req.protocol;
   const baseUrl = `${protocol}://${host}`;
 
   try {
-    const { items,data } = await req.json(); // Retrieve the cart from the request body
-console.log(data)
+    const { items,data,totalAmount } = await req.json(); // Retrieve the cart from the request body
+console.log(items)
     const lineItems = [...items.map(item => ({
       price_data: {
         currency: 'aed',
         product_data: {
           name: item.title,
           description: item?.description,
-          images: item?.image
+          images: [item?.image]
         },
         unit_amount: Math.round(parseFloat(item.price) * 100),
       },
       quantity: parseInt(item.quantity),
      
     })),
-    {
+    ];
+     totalAmount <100 &&lineItems.push({
       price_data: {
         currency: 'aed',
         product_data: {
@@ -36,7 +37,9 @@ console.log(data)
         unit_amount: Math.round(parseFloat(shippingCharges) * 100),
       },
       quantity: 1,
-    }];
+    });
+
+
     const orderMetadata = {
       items: items.map(item => ({
         title: item.title,

@@ -18,6 +18,7 @@ const Cart = () => {
     increaseQuantity,
     totalAmount,
   } = useCart();
+  console.log(process.env.NEXT_PUBLIC_SHIPPING_CHARGES);
   const handleCheckout = async () => {
     router.push("/checkout");
     // try {
@@ -34,7 +35,6 @@ const Cart = () => {
     // }
   };
   return (
-    
     <div className="container page">
       <div className="font-extrabold text-3xl text-center mt-10">
         Your Shopping Cart
@@ -56,21 +56,44 @@ const Cart = () => {
                 <IoClose size={25} color="red" />
               </div>
 
-              <div className="flex basis-2/5 sm:items-center gap-x-3 flex-wrap">
+              <div className="flex basis-2/5 sm:items-center gap-x-3 ">
                 {item?.image && (
-                  <div>
+                  <div className="w-auto">
                     <Image
                       src={item?.image}
                       alt={item.title}
-                      width={100}
-                      height={80}
-                      className="rounded"
+                      width={120}
+                      height={100}
+                      className="rounded "
                     />
                   </div>
                 )}
                 <div>
-                  <h4 className="capitalize">{item.title}</h4>
-                  <p className="text-gray-600">Aed {item.price}</p>
+                  <h4 className="capitalize text-[14px]">{item.title}</h4>
+                  <p className="text-gray-600 text-[12px]">Aed {item.price}</p>
+                  <div className="flex gap-x-3">
+                    {item?.selectedSize && (
+                      <p className="text-gray-600 text-[12px]">
+                        {item?.selectedSize}
+                      </p>
+                    )}
+                    {item?.selectedColor && (
+                      <>
+                        <div className="h-4 w-[1px] bg-black transition"></div>
+                        <p className="text-gray-600 text-[12px]">
+                          {item?.selectedColor}
+                        </p>
+                      </>
+                    )}
+                    {item?.selectedFeature && (
+                      <>
+                        <div className="h-4 w-[1px] bg-black transition"></div>
+                        <p className="text-gray-600 text-[12px]">
+                          {item?.selectedFeature}
+                        </p>
+                      </>
+                    )}
+                  </div>
                   <div className="border my-2 border-black bg-white rounded-sm basis-full sm:hidden px-3 flex items-center justify-between">
                     <div>
                       <button onClick={() => decreaseQuantity(item.id)}>
@@ -130,15 +153,26 @@ const Cart = () => {
               <div>Total Amount:</div>
               <div>Aed {totalAmount}</div>
             </div>
-            <div className="flex my-4 justify-between">
-              <div>Standard Shipping: </div>
-              <div>Aed 30</div>
-            </div>
+            {totalAmount > 100 ? (
+              <div className="flex my-4 justify-between">
+                <div>Shipping: </div>
+                <div>Free</div>
+              </div>
+            ) : (
+              <div className="flex my-4 justify-between">
+                <div>Standard Shipping: </div>
+                <div>Aed {process.env.NEXT_PUBLIC_SHIPPING_CHARGES}</div>
+              </div>
+            )}
             <hr />
             <div className="flex mt-4 justify-between">
               <div>Total Price:</div>
               <div className="text-gray-500 font-bold">
-                Aed {totalAmount + 30}
+                Aed{" "}
+                {totalAmount > 100
+                  ? totalAmount
+                  : totalAmount +
+                    parseInt(process.env.NEXT_PUBLIC_SHIPPING_CHARGES!)}
               </div>
             </div>
           </div>

@@ -8,7 +8,7 @@ const Footer = () => {
     return null;
   }
   return (
-   <footer className="bg-primary text-gray-300 py-10 rounded-t-3xl">
+   <footer className="bg-primary text-gray-300 py-10 rounded-t-3xl mt-20">
   <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
     {/* Logo & About Section */}
     <div>

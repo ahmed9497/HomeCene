@@ -19,6 +19,7 @@
     "nodemailer": "^6.9.16",
     "raw-body": "^3.0.0",
     "react": "19.0.0-rc-66855b96-20241106",
+    "react-confetti": "^6.2.2",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.53.2",

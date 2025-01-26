@@ -1,5 +1,8 @@
 // types/cart.ts
 export interface CartItem {
+    selectedColor?: string;
+    selectedFeature?: string;
+    selectedSize?: string;
     id: string;
     title: string;
     price: number;

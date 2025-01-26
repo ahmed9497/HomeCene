@@ -49,7 +49,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
       title: product.title,
       quantity: quantity,
       price: calPrice,
-      image: product.image,
+      image: product?.images&& product?.images[0]||"",
       selectedSize,
       selectedColor,
       selectedFeature
@@ -84,7 +84,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                 </h2>
                 <div className="h-6 w-[2px] bg-gray-300"></div>
                 <h2 className="text-black  group-hover:font-semibold"> Aed {product?.variant[activeVariant]?.discountedPrice}.00</h2>
-                <div className="text-sm py-[1px] text-white rounded-full px-4 bg-red-600">{product?.variant[activeVariant]?.discountPercentage}</div>
+                <div className="text-sm py-[1px] text-white rounded-full px-4 bg-red-600">{product?.variant[activeVariant]?.discountPercentage} OFF</div>
               </>
             ) : (
               <h2 className="text-primary  group-hover:font-semibold">Aed {product?.variant&&product?.variant[activeVariant]?.price[0]}</h2>
@@ -104,9 +104,13 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                   onClick={() => handleSizeClick(variant?.size, index)}
                   className="transition-all duration-500 ease-in-out"
                   style={{
-                    padding: "10px 10px",
-                    borderRadius: "5px",
+                    // padding: "10px 10px",
+                    width:100,
+                    height:40,
+                    borderRadius: "2px",
                     border: "1px solid #ccc",
+                    borderColor:
+                      selectedSize === variant?.size ? "#0a5d5d" : "#ccc",
                     backgroundColor:
                       selectedSize === variant?.size ? "#0a5d5d" : "#fff",
                     color: selectedSize === variant?.size ? "#fff" : "#000",
@@ -155,7 +159,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                       {color && (
                         <div className="flex gap-x-2 items-center">
                           <span className="capitalize">{color}</span>
-                          <FaCircle color={`${color}`} size={30} />
+                          <FaCircle color={`${color}`} className="border rounded-full border-gray-500" size={20} />
                         </div>
                       )}
                     </div>
