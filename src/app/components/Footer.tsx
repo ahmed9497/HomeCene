@@ -8,8 +8,8 @@ const Footer = () => {
     return null;
   }
   return (
-   <footer className="bg-primary text-gray-300 py-10 rounded-t-3xl mt-20">
-  <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+   <footer className="bg-primary text-gray-300 py-10 rounded-t-3xl pt-20">
+  <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
     {/* Logo & About Section */}
     <div>
       <h3 className="text-xl font-bold text-white mb-4">HomeCene</h3>
@@ -18,6 +18,16 @@ const Footer = () => {
       </p>
     </div>
     {/* Navigation Links */}
+    <div>
+      <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
+      <ul className="space-y-2">
+        <li><a href="/" className="hover:text-gray-400">Home</a></li>
+        <li><a href="/shop" className="hover:text-gray-400">Shop</a></li>
+        <li><a href="/about" className="hover:text-gray-400">About Us</a></li>
+        <li><a href="/contact" className="hover:text-gray-400">Contact</a></li>
+        <li><a href="/faq" className="hover:text-gray-400">FAQ</a></li>
+      </ul>
+    </div>
     <div>
       <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
       <ul className="space-y-2">
