@@ -23,7 +23,7 @@ const ProductPageImage = ({product}:{product:any}) => {
           product?.images?.length ? product?.images[activeImg] : "/chair1.webp"
         }
         alt={product?.title}
-        className="object-cover h-[600px] rounded-md"
+        className="sm:object-cover object-contain h-auto sm:h-[600px] rounded-md"
       />
     </div>
 }

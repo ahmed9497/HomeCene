@@ -54,7 +54,7 @@ const Checkout = () => {
   useEffect(() => {
     if (user?.uid) {
       const fetchProfile = async () => {
-        console.log(user.uid);
+        
         const q = query(
           collection(db, "users"),
           where("userId", "==", user.uid)
@@ -63,7 +63,7 @@ const Checkout = () => {
 
         if (!querySnapshot.empty) {
           let profile = querySnapshot.docs[0].data();
-          console.log(profile);
+   
           setProfile(profile);
           setValue("name", profile?.name);
           setValue("email", profile?.email);
@@ -83,7 +83,7 @@ const Checkout = () => {
     }
   }, [user]);
   const handleFormSubmit = async (data: any) => {
-    console.log(selectedMethod, data, items);
+
     try {
       if (!user?.uid) {
         const password = generateStrongPassword(16);
@@ -146,7 +146,25 @@ const Checkout = () => {
   };
 
   return (
-    <div className="container page">
+    <div className="container page pb-20">
+      {items?.length === 0 ? 
+      <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br rounded-md from-green-100 to-blue-200 p-6">
+      <div className="bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center">
+        {/* Empty Checkout Illustration */}
+        <Image src={'/empty-cart.svg'} alt="Empty Cart" width={300} height={300} />
+        {/* Message */}
+        <h2 className="text-2xl font-bold text-gray-700 mt-4">Your Checkout is Empty</h2>
+        <p className="text-gray-500 mt-2 text-center max-w-md">
+          You haven’t added any items yet. Browse our amazing collection and add something to your cart!
+        </p>
+        {/* Continue Shopping Button */}
+        <Link href={'/shop/all-products'} className="mt-6 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition">
+          Continue Shopping
+        </Link>
+      </div>
+    </div>
+    : 
+     
       <div className="grid grid-cols-1 sm:grid-cols-2 py-6">
         <div className="order-2 sm:order-1 p-2 pb-0 sm:px-6">
           <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
@@ -388,6 +406,7 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+}
     </div>
   );
 };

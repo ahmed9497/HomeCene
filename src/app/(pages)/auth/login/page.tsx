@@ -30,7 +30,7 @@ const Login = () => {
         body: JSON.stringify({ email }),
       });
       const data = await res.json();
-      console.log(data)
+     
       if (res.ok) {
         toast.success(data?.message,{theme:'light'})
         setVerify(true);
@@ -68,7 +68,6 @@ const Login = () => {
       }
     }
     } catch (e) {
-      console.log(e);
       console.log("Err", e);
     }
   };

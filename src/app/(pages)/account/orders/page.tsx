@@ -28,11 +28,11 @@ const OrdersPage = () => {
             ...doc.data(),
             orderDetails: JSON.parse(doc.data().orderDetails)
           }));
-          console.log(fetchedOrders);
+    
           setExpandedOrderId(fetchedOrders[0].id);
           setOrders(fetchedOrders);
         } catch (error) {
-          console.error("Error fetching orders:", error);
+          console.log("Error fetching orders:", error);
         } finally {
           setLoading(false);
         }

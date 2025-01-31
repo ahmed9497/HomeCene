@@ -17,7 +17,7 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 
 
-// console.log("Admin Auth Initialized:", admin.auth());
+
 export async function POST(req,res) {
 
     const { email, code } =await req.json();
@@ -57,12 +57,11 @@ export async function POST(req,res) {
        
       const customToken = await admin.auth().createCustomToken(user.uid);
 
-      // Delete the code after successful login
+
       const delDoc = db.collection("loginCodes").doc(email);
-      console.log(delDoc,"-----dele");
+
       await delDoc.delete()
-      //  deleteDoc(delDoc.);
-      // await deleteDoc(doc(db, "loginCodes", email));
+      
 
 
       return new Response(JSON.stringify({ token: customToken }), { status: 200 });

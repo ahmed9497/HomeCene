@@ -8,7 +8,7 @@ export async function POST(req) {
   
   try {
     const { session_id } = await req.json(); // Retrieve the cart from the request body
-console.log(session_id)
+
    
 
 if (!session_id) {

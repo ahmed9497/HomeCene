@@ -3,11 +3,12 @@
 import { useCart } from "@/app/context/CartContext";
 import Image from "next/image";
 import React from "react";
-import { FaMinus, FaPlus } from "react-icons/fa";
+import { FaAngleRight, FaHome, FaMinus, FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
+import Link from "next/link";
 const Cart = () => {
   const router = useRouter();
   const {
@@ -18,30 +19,36 @@ const Cart = () => {
     increaseQuantity,
     totalAmount,
   } = useCart();
-  console.log(process.env.NEXT_PUBLIC_SHIPPING_CHARGES);
+
   const handleCheckout = async () => {
     router.push("/checkout");
-    // try {
-    //   const response = await fetch('/api/checkout', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ items }),
-    //   });
-
-    //   const { url } = await response.json();
-    //   window.location.href = url; // Redirect to Stripe Checkout
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
   };
   return (
-    <div className="container page">
+    <div className="container page pb-20">
       <div className="font-extrabold text-3xl text-center mt-10">
         Your Shopping Cart
       </div>
       <div className="font-extrabold text-sm text-center my-10">
-        Home. Your Shopping Cart
+      
+        <div className="my-10 bg-primary items-center capitalize bg-opacity-20 text-[12px] px-2 py-1 rounded-md gap-x-1 inline-flex">
+          <Link href={"/"} className="flex gap-x-1 items-center">
+            <FaHome /> Home
+          </Link>{" "}
+          <FaAngleRight />{" "}
+          
+          Your Shopping Cart
+        </div>
       </div>
+      {items&& items.length === 0 ?
+      <div className="flex flex-col items-center justify-center rounded h-[500px] bg-gradient-to-br from-green-100 to-purple-200">
+      <Image src={'/empty-cart.svg'} alt="Empty Cart" width={300} height={300} />
+      <h2 className="text-2xl font-bold text-gray-700 mt-4 font-Poppins">Your Cart is Empty</h2>
+      <p className="text-gray-500 mt-2">Looks like you haven’t added anything to your cart yet.</p>
+      <Link href={'/shop/all-products'} className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md">
+        Continue Shopping
+      </Link>
+    </div>
+    :
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 py-3">
         <div className="col-span-1 sm:col-span-2 space-y-3">
           {items.map((item) => (
@@ -184,6 +191,7 @@ const Cart = () => {
           </button>
         </div>
       </div>
+}
     </div>
   );
 };

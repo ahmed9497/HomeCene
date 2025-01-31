@@ -45,10 +45,10 @@ const Product: any = ({
             height={100}
             className="max-h-[260px] h-full w-full object-cover  transition-opacity duration-700 ease-in-out group-hover:opacity-0"
           />}
-          {product?.images?.length >= 2 && (
+           {product?.images?.length > 0 && (
             <Image
               src={
-                product?.images[1]
+                product?.images?.length >= 2 ?product?.images[1] : product?.images[0]
               }
               unoptimized
               alt={product?.title}

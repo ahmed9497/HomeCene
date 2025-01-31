@@ -33,7 +33,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
 
   const handleAddToCart = () => {
 
-    console.log(product?.variant[activeVariant]);
+
     let calPrice =  product.variant[activeVariant]?.discount ?parseInt(product.variant[activeVariant].discountedPrice[0]) :parseInt(product.variant[activeVariant].price[0]);
 
     fbEvent("AddToCart",{
@@ -156,28 +156,31 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                           <FaCircle color={`${color}`} size={30} />
                         </div>
                       )} */}
-                      {color && (
+                      {/* {color && (
                         <div className="flex gap-x-2 items-center">
                           <span className="capitalize">{color}</span>
                           <FaCircle color={`${color}`} className="border rounded-full border-gray-500" size={20} />
                         </div>
-                      )}
-                    </div>
-                    //   <button
-                    //     key={color}
-                    //     onClick={() => setSelectedColor(color)}
-                    //     className="transition-all duration-500 ease-in-out"
-                    //     style={{
-                    //       padding: "10px 10px",
-                    //       borderRadius: "5px",
-                    //       border: "1px solid #ccc",
-                    //       backgroundColor: selectedColor === color ? "#0a5d5d" : "#fff",
-                    //       color: selectedColor === color ? "#fff" : "#000",
-                    //       cursor: "pointer",
-                    //     }}
-                    //   >
-                    //     {color}
-                    //   </button>
+                      )} */}
+            
+                      <button
+                        key={color}
+                        onClick={() => setSelectedColor(color)}
+                        className="flex transition-all gap-x-3 duration-500 ease-in-out"
+                        style={{
+                          padding: "10px 10px",
+                          minWidth:80,
+                          borderRadius: "2px",
+                          border: "1px solid #ccc",
+                          backgroundColor: selectedColor === color ? "#0a5d5d" : "#fff",
+                          borderColor: selectedColor === color ? color : "#ccc",
+                          color: selectedColor === color ? "#fff" : "#000",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {color}  <FaCircle color={`${color}`} className="border rounded-full border-gray-500" size={20} />
+                      </button>
+                      </div>
                   )
                 )}
               </div>

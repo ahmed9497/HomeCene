@@ -13,6 +13,7 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
@@ -114,16 +115,11 @@ export default async function ShopPage({
   );
 
   const nextPageCursor = lastCursor;
-  // ? encodeURIComponent(lastCursor[0])
-  // : null;
+ 
   const prevPageCursor = firstCursor;
-  // ? encodeURIComponent(firstCursor[0])
-  // : null;
-  const onPageChange = (page: number) => {
-    console.log(page);
-  };
+
   return (
-    <div className="container page">
+    <div className="container pb-20 page">
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-x-16">
         <div className="col-span-1 sm:cols-span-2  pt-4 sm:p-4">
           <div className="sticky top-[80px]">
@@ -165,60 +161,26 @@ export default async function ShopPage({
                 Next <FaAngleRight color="white"/>
               </a>
             )}
+
+            {!prevPageCursor && !nextPageCursor &&
+               <div className="bg-white p-8 rounded-2xl  flex flex-col items-center">
+               {/* Empty Checkout Illustration */}
+               <Image src={'/no-data.svg'} alt="Empty Cart" width={300} height={300} />
+               {/* Message */}
+              
+               <p className="text-gray-500 mt-2 text-center max-w-md">
+                 No more products in this categories!
+               </p>
+               {/* Continue Shopping Button */}
+               <Link href={'/shop/all-products'} className="mt-6 px-6 py-3 bg-primary text-white rounded shadow-md hover:bg-green-700 transition">
+                 Explore More Products
+               </Link>
+             </div>
+            
+            }
           </div>
         </div>
       </div>
     </div>
   );
 }
-// 'use Client'
-// const Pagination: React.FC<any> = ({ currentPage=1, totalPages=10, onPageChange }) => {
-
-//   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-
-//   return (
-//     <div className="flex items-center justify-center space-x-2 mt-4">
-//       {/* Previous Button */}
-//       <button
-//         // onClick={() => onPageChange(currentPage - 1)}
-//         disabled={currentPage === 1}
-//         className={`px-4 py-2 rounded-md ${
-//           currentPage === 1
-//             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-//             : "bg-gray-800 text-white hover:bg-gray-700"
-//         }`}
-//       >
-//         Previous
-//       </button>
-
-//       {/* Page Numbers */}
-//       {pageNumbers.map((page) => (
-//         <button
-//           key={page}
-//           // onClick={() => onPageChange(page)}
-//           className={`px-4 py-2 rounded-md ${
-//             currentPage === page
-//               ? "bg-blue-500 text-white font-bold"
-//               : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-//           }`}
-//         >
-//           {page}
-//         </button>
-//       ))}
-
-//       {/* Next Button */}
-//       <button
-//         // onClick={() => onPageChange(currentPage + 1)}
-//         disabled={currentPage === totalPages}
-//         className={`px-4 py-2 rounded-md ${
-//           currentPage === totalPages
-//             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-//             : "bg-gray-800 text-white hover:bg-gray-700"
-//         }`}
-//       >
-//         Next
-//       </button>
-
-//     </div>
-//   );
-// };

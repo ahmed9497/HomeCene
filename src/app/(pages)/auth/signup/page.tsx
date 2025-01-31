@@ -31,7 +31,7 @@ const router = useRouter();
         // router.push('/account/profile');
 
     } catch(e){
-        console.error(e)
+        console.log(e)
     }
   };
 

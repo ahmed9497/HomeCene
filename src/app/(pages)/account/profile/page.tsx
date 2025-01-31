@@ -42,7 +42,7 @@ const Profile = () => {
             console.log("No such document!");
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.log("Error fetching user data:", error);
         }
       };
       fetchUserData();
@@ -60,8 +60,8 @@ const Profile = () => {
         });
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("An error occurred while updating the profile.");
+      console.log("Error updating profile:", error);
+      
     }
   };
 

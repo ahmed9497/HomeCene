@@ -82,14 +82,33 @@ const Product = async ({ params }: any) => {
       </div>
     );
   }
+  const getDescription = (description: any) => {
+    const isHTML = /<\/?[a-z][\s\S]*>/i.test(description); // Check if it contains HTML tags
 
+    return isHTML ? (
+      <div className="my-4 text-gray-400"  dangerouslySetInnerHTML={{ __html: description }} />
+    ) : (
+      <p className="my-4 text-gray-400">{description}</p>
+    );
+  };
 
   return (
     <>
-      <main className="container page min-h-[900px]">
+      <main className="container page min-h-[900px] pb-20">
         <div className="my-10 bg-primary items-center capitalize bg-opacity-20 text-[12px] px-2 py-1 rounded-md gap-x-1 inline-flex">
-         <Link href={'/'} className="flex gap-x-1 items-center"><FaHome/> Home</Link> <FaAngleRight/>  <Link href={`/shop/${product.category}`} className="flex items-center">{product.category}</Link> <FaAngleRight/>{product.title}
-          </div>
+          <Link href={"/"} className="flex gap-x-1 items-center">
+            <FaHome /> Home
+          </Link>{" "}
+          <FaAngleRight />{" "}
+          <Link
+            href={`/shop/${product.category}`}
+            className="flex items-center"
+          >
+            {product.category}
+          </Link>{" "}
+          <FaAngleRight />
+          {product.title}
+        </div>
         {/* Track FB ViewContent */}
         <ViewContentEvent
           contentId={product.id}
@@ -118,7 +137,9 @@ const Product = async ({ params }: any) => {
             <div className="font-extrabold text-2xl font-Poppins mt-4">
               {/* ${product?.variant?.price[]} */}
             </div>
-            <p className="mt-4 text-gray-400">{product?.description}</p>
+          
+              {getDescription(product?.description)}
+        
 
             {/* <div className="flex gap-x-10 mt-4 text-sm">
             <div className="text-black basis-1/4 font-extrabold uppercase">
@@ -146,15 +167,15 @@ const Product = async ({ params }: any) => {
                 />
               </div>
               <div className="mt-12">
-              <div className="flex mb-4 gap-x-4 text-sm items-center">
-                <GoClock size={20}/>
-                Orders ship within 5 to 10 business days
-              </div>
+                <div className="flex mb-4 gap-x-4 text-sm items-center">
+                  <GoClock size={20} />
+                  Orders ship within 1 to 3 business days
+                </div>
 
-              <div className="flex gap-x-4 text-sm items-center">
-                <TbTruckDelivery size={20}/>
-                Hoorey ! This item ships free all over UAE
-              </div>
+                <div className="flex gap-x-4 text-sm items-center">
+                  <TbTruckDelivery size={20} />
+                  Hoorey ! This item ships free all over UAE
+                </div>
               </div>
             </div>
           </div>

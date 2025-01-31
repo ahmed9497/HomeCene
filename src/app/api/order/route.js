@@ -23,7 +23,7 @@ export async function POST(req) {
 
   try {
     const { items,data,totalAmount } = await req.json(); // Retrieve the cart from the request body
-console.log(data,items,totalAmount)
+
     // const lineItems = [...items.map(item => ({
     //   price_data: {
     //     currency: 'aed',

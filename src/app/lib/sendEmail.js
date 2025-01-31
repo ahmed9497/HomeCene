@@ -41,7 +41,7 @@ export async function sendConfirmationEmail(orderDetails) {
     await transporter.sendMail(msg);
     console.log('Confirmation email sent successfully.');
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.log('Error sending email:', error);
   }
 }
 export async function sendOrderEmailToAdmins(orderDetails) {
@@ -64,6 +64,6 @@ export async function sendOrderEmailToAdmins(orderDetails) {
     await transporter.sendMail(msg);
     console.log('Confirmation email sent successfully.');
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.log('Error sending email:', error);
   }
 }

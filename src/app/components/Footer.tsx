@@ -1,66 +1,163 @@
-'use client'
-import { usePathname } from 'next/navigation';
-import React from 'react'
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
+import { FaPhone } from "react-icons/fa";
+import { FaMessage } from "react-icons/fa6";
+import SocialIcons from "./SocialIcons";
 
 const Footer = () => {
   const pathname = usePathname();
-  if(pathname.includes("auth")){
+  if (pathname.includes("auth")) {
     return null;
   }
+  
   return (
-   <footer className="bg-primary text-gray-300 py-10 rounded-t-3xl pt-20">
-  <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-    {/* Logo & About Section */}
-    <div>
-      <h3 className="text-xl font-bold text-white mb-4">HomeCene</h3>
-      <p className="text-sm">
-        HomeCene is your go-to destination for premium products. We are dedicated to providing the best service and top-quality items.
-      </p>
-    </div>
-    {/* Navigation Links */}
-    <div>
-      <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
-      <ul className="space-y-2">
-        <li><a href="/" className="hover:text-gray-400">Home</a></li>
-        <li><a href="/shop" className="hover:text-gray-400">Shop</a></li>
-        <li><a href="/about" className="hover:text-gray-400">About Us</a></li>
-        <li><a href="/contact" className="hover:text-gray-400">Contact</a></li>
-        <li><a href="/faq" className="hover:text-gray-400">FAQ</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
-      <ul className="space-y-2">
-        <li><a href="/" className="hover:text-gray-400">Home</a></li>
-        <li><a href="/shop" className="hover:text-gray-400">Shop</a></li>
-        <li><a href="/about" className="hover:text-gray-400">About Us</a></li>
-        <li><a href="/contact" className="hover:text-gray-400">Contact</a></li>
-        <li><a href="/faq" className="hover:text-gray-400">FAQ</a></li>
-      </ul>
-    </div>
-    {/* Newsletter Subscription */}
-    <div>
-      <h4 className="text-lg font-semibold text-white mb-4">Subscribe to Our Newsletter</h4>
-      <form className="flex flex-col space-y-4">
-        <input type="email" placeholder="Enter your email" className="p-2 rounded-md bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition">
-          Subscribe
-        </button>
-      </form>
-    </div>
-  </div>
-  {/* Footer Bottom */}
-  <div className="mt-8 border-t border-gray-700 pt-6 text-center text-sm">
-    <p>© {new Date().getFullYear()} HomeCene. All rights reserved.</p>
-    <div className="flex justify-center space-x-4 mt-4">
-      <a href="#" className="hover:text-gray-400">Privacy Policy</a>
-      <a href="#" className="hover:text-gray-400">Terms of Service</a>
-    </div>
-  </div>
-</footer>
+    <footer className={` text-gray-300 ${["/contact","/privacy-policy","/terms-and-conditions","/refund-return-policy"].includes(pathname) ? 'bg-primary bg-opacity-5' : ''}`}>
+      <div className="bg-primary py-10 rounded-t-3xl">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+       
+        <div>
+          <h3 className="text-xl font-bold text-white mb-4">HomeCene</h3>
+          <p className="text-sm">
+            HomeCene is your go-to destination for premium products. We are
+            dedicated to providing the best service and top-quality items.
+          </p>
+          <Image
+            unoptimized
+            src="/pymth.webp"
+            className="bg-primary h-auto w-auto"
+            alt="payments-methods"
+            width={400}
+            height={100}
+          />
+        </div>
+        
+        <div>
+          <h4 className="text-lg font-semibold text-white mb-4">Categories</h4>
+          <ul className="space-y-2">
+            <li>
+              <Link
+                href="/shop/mirrors"
+                className="hover:text-gray-400 hover:underline"
+              >
+                Mirrors
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/shop/lamps"
+                className="hover:text-gray-400 hover:underline"
+              >
+                Lamps
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/shop/vases-and-decor"
+                className="hover:text-gray-400 hover:underline"
+              >
+                Vase & Decor
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/shop/artificial-plants"
+                className="hover:text-gray-400 hover:underline"
+              >
+                Artificial Plants
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/shop/wooden-decor"
+                className="hover:text-gray-400 hover:underline"
+              >
+                Wooden Decor
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="text-lg font-semibold text-white mb-4">Policies</h4>
+          <ul className="space-y-2">
+            <li>
+              <Link
+                href="/privacy-policy"
+                className="hover:text-gray-400 hover:underline"
+              >
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/terms-and-conditions"
+                className="hover:text-gray-400 hover:underline"
+              >
+                Terms And Conditions
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/refund-return-policy"
+                className="hover:text-gray-400 hover:underline"
+              >
+                Refund & Return Policy
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="text-lg font-semibold text-white mb-4">Information</h4>
+          <ul className="space-y-2">
+            <li>
+              <Link
+                href="/contact"
+                className="hover:text-gray-400 hover:underline"
+              >
+                Contact
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="tel:+971 55 908 6152"
+                className="flex items-center gap-x-2 hover:text-gray-400 hover:underline"
+              >
+                <FaPhone /> +971 55 908 6152
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="mailto:info@homecene.com"
+                className="flex items-center gap-x-2 hover:text-gray-400 hover:underline"
+              >
+                <FaMessage />
+                info@homecene.com{" "}
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="flex justify-center flex-col gap-y-4 items-center my-8">
+        <h4 className="text-lg font-semibold text-white mb-4">Follow Us</h4>
+        <SocialIcons />
+      </div>
+      
+      <div className="mt-8 border-t border-gray-700 pt-6 text-center text-sm">
+        <p>© {new Date().getFullYear()} HomeCene. All rights reserved.</p>
+        <div className="flex justify-center space-x-4 mt-4">
+          <Link href="/privacy-policy" className="hover:text-gray-400">
+            Privacy Policy
+          </Link>
+          <Link href="/terms-and-conditions" className="hover:text-gray-400">
+            Terms of Service
+          </Link>
+        </div>
+      </div>
+      </div>
+    </footer>
+  );
+};
 
-
-  )
-}
-
-export default Footer
+export default Footer;

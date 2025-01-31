@@ -36,8 +36,8 @@ const PaymentMethod:any = ({selectedMethod, setSelectedMethod}:{selectedMethod:s
             />
             <div>
             <Image src={method.src} width={100} height={100} alt="payment-logos"/>
-            <div className="text-gray-700 font-semibold absolute bottom-1 text-lg">{method.label}</div>
             </div>
+            <div className="text-gray-700 font-semibold absolute bottom-1 text-sm font-Poppins sm:text-lg">{method.label}</div>
           </label>
         ))}
       </div>
