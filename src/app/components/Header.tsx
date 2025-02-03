@@ -39,7 +39,7 @@ const headerMenu = [
     href: "/shop/lamps",
   },
   {
-    title: "Vase & Decore",
+    title: "Vase & Decor",
     href: "/shop/vase-&-decore",
   },
   // {

@@ -18,15 +18,15 @@ const categories=[
     href:'/shop/lamps'
   },
   {
-    title:'Vase & Decore',
+    title:'Vase & Decor',
     href:'/shop/vase-&-decore'
   },
+  // {
+  //   title:'Artificial Plants',
+  //   href:'/shop/artificial-plants'
+  // },
   {
-    title:'Artificial Plants',
-    href:'/shop/artificial-plants'
-  },
-  {
-    title:'Wooden Decore',
+    title:'Wooden Decor',
     href:'/shop/wooden-decore'
   },
 ]

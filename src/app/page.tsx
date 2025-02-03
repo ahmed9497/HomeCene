@@ -35,8 +35,8 @@ export default async function  Home() {
     <div className="page">
       <Slider />
       <main className="container">
-        <div className="grid sm:grid-cols-3 grid-cols-1 gap-3 pt-20">
-          <div className="grid-cols-1 relative rounded overflow-hidden">
+        <div className="grid sm:grid-cols-2 grid-cols-1 gap-3 pt-20">
+          {/* <div className="grid-cols-1 relative rounded overflow-hidden">
             <Image
               src="/category1.webp"
               alt="cat"
@@ -52,7 +52,7 @@ export default async function  Home() {
                 SHOP NOW
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="grid-cols-1 relative rounded overflow-hidden">
             {" "}
             <Image
@@ -66,9 +66,9 @@ export default async function  Home() {
             <div className="absolute top-1/4 left-3 flex flex-col">
               <h1 className="text-4xl font-extrabold text-white">CHAIN LAMP</h1>
               <p className="text-xl my-3 text-gray-500">Get up to 40% off</p>
-              <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
+              <Link href={'/shop/lamps'} className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
                 SHOP NOW
-              </button>
+              </Link>
             </div>
           </div>
           <div className="grid-cols-1 relative rounded overflow-hidden">
@@ -84,9 +84,9 @@ export default async function  Home() {
             <div className="absolute top-1/4 left-3 flex flex-col">
               <h1 className="text-4xl font-extrabold">Wooden Decor</h1>
               <p className="text-xl my-3">Get up to 40% off</p>
-              <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
+              <Link href={'/shop/wooden-decore'} className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
                 SHOP NOW
-              </button>
+              </Link>
             </div>
           </div>
         </div>
