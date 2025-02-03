@@ -73,7 +73,7 @@ async function fetchProduct(slug: string): Promise<any> {
 const Product = async ({ params }: any) => {
   const { slug } = await params;
   const product = await fetchProduct(slug);
-
+  console.log(product)
   if (!product) {
     return (
       <div>

@@ -61,14 +61,14 @@ const Footer = () => {
                 Vase & Decor
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href="/shop/artificial-plants"
                 className="hover:text-gray-400 hover:underline"
               >
                 Artificial Plants
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href="/shop/wooden-decor"

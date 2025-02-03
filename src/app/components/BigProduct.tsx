@@ -18,7 +18,7 @@ const BigProduct = () => {
       </div>
 
       <Image
-        src="/lady.jpeg"
+        src="/test.webp"
         alt="cat"
         layout="responsive"
         width={100}
@@ -26,7 +26,8 @@ const BigProduct = () => {
         className="w-full bg-gray-100 h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
       />
       <Image
-        src="/decor.png"
+         src="/test1.webp"
+
         alt="cat"
         layout="responsive"
         width={100}
