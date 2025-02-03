@@ -3,18 +3,13 @@
 import Image from "next/image";
 import Slider from "./components/Slider";
 import { GoRocket } from "react-icons/go";
-import { PiShoppingCartLight } from "react-icons/pi";
-import { useCart } from "./context/CartContext";
-import { CartItem, ProductProps } from "./types/types";
-import AddToCartButton from "./components/AddToCartButton";
-
 import Link from "next/link";
 import Product from "./components/Product";
 import BigProduct from "./components/BigProduct";
 import { GiReturnArrow, GiTakeMyMoney } from "react-icons/gi";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import VerticalSlider from "./components/VerticalSlider";
-import { collection, getDocs, getDocsFromServer, query, where } from "firebase/firestore";
+import { collection, getDocs, getDocsFromServer, or, query, where } from "firebase/firestore";
 import { db } from "./firebase/config";
 
 
@@ -23,14 +18,17 @@ import { db } from "./firebase/config";
 export const dynamic = "force-dynamic";// Disables caching for the page
 export default async function  Home() {
   const productCollection = collection(db, "products");
-  const featuredQuery = query(productCollection, where("featuredProduct", "==", true));
+  const featuredQuery = query(productCollection,or( where("featuredProduct", "==", true),where("newArrival", "==", true),where("bigProduct", "==", true)));
   const productSnapshot = await getDocsFromServer(featuredQuery);
 
   const products = productSnapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-
+console.log(products);
+const bigProducts = products?.filter((i:any)=>i.bigProduct);
+// const newArrival = products?.filter((i:any)=>i.newArrival);
+// console.log(newArrival);
   return (
     <div className="page">
       <Slider />
@@ -91,31 +89,31 @@ export default async function  Home() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 py-16">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-16">
         
             <div  className={`text-center grid-cols-1 p-3 border `}>
               <div className="flex justify-center">
                 <GoRocket size={40} color="red" />
               </div>
-              <h2>Extra Shipping</h2>
+              <h2 className="text-sm sm:text-[16px] mt-1">Extra Shipping</h2>
             </div>
             <div  className={`text-center grid-cols-1 p-3 border `}>
               <div className="flex justify-center">
                 <GiReturnArrow size={40} color="green" />
               </div>
-              <h2>Return Policy</h2>
+              <h2 className="text-sm sm:text-[16px] mt-1">Return Policy</h2>
             </div>
             <div  className={`text-center grid-cols-1 p-3 border `}>
               <div className="flex justify-center">
                 <RiSecurePaymentLine size={40} color="light-blue" />
               </div>
-              <h2>Secure Payments</h2>
+              <h2 className="text-sm sm:text-[16px] mt-1">Secure Payments</h2>
             </div>
             <div  className={`text-center grid-cols-1 p-3 border `}>
               <div className="flex justify-center">
                 <GiTakeMyMoney size={40} color="purple" />
               </div>
-              <h2>Money Back Guarantee</h2>
+              <h2 className="text-sm sm:text-[16px] mt-1">Money Back Guarantee</h2>
             </div>
           
         </div>
@@ -130,14 +128,28 @@ export default async function  Home() {
 
         <div className="grid grid-cols-5 gap-5">
           <div className="col-span-12 sm:col-span-2">
-            <VerticalSlider/>
+            <VerticalSlider products={bigProducts.slice(0,2)}/>
+            
           </div>
-          <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-5">
-            {products.map((product:any, index:number) => (
+          <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-x-3 gap-y-5">
+            {products&& products?.filter((i:any)=>i.newArrival).slice(0,6).map((product:any, index:number) => (
               <div key={product.id}>
                 <Product product={product} quickAddBtn={true} />
               </div>
             ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-5 gap-5 mt-10">
+          <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-x-3 gap-y-5">
+            {products&& products?.filter((i:any)=>i.newArrival).slice(6,12).map((product:any, index:number) => (
+              <div key={product.id}>
+                <Product product={product} quickAddBtn={true} />
+              </div>
+            ))}
+          </div>
+          <div className="col-span-12 sm:col-span-2">
+          <VerticalSlider products={bigProducts.slice(2,4)}/>
+            
           </div>
         </div>
 
@@ -189,9 +201,9 @@ export default async function  Home() {
 
         {/* Products */}
 
-        <div className="grid grid-cols-6 gap-5">
-          <div className="order-2 sm:order-1 grid grid-cols-2 col-span-12 sm:col-span-2 gap-5">
-            {products.slice(0, 4).map((product:any, index:number) => (
+        <div className="grid grid-cols-6 gap-3">
+          <div className="order-2 sm:order-1 grid grid-cols-2 col-span-12 sm:col-span-2 gap-x-3 gap-y-5">
+            {products&& products?.filter((i:any)=>i.featuredProduct).slice(0, 4).map((product:any, index:number) => (
               <div key={product.id}>
                 <Product product={product} quickAddBtn={false} />
               </div>
@@ -199,13 +211,13 @@ export default async function  Home() {
           </div>
 
 
-          <div className="order-1 sm:order-2 col-span-12 sm:col-span-2">
+          <div className="order-1  flex items-center sm:order-2 col-span-12 sm:col-span-2">
             <BigProduct/>
           </div>
 
 
-          <div className="order-3 sm:order-3 grid grid-cols-2 col-span-12 sm:col-span-2 gap-5">
-            {products.slice(2, 6).map((product:any, index:number) => (
+          <div className="order-3 sm:order-3 grid grid-cols-2 col-span-12 sm:col-span-2 gap-x-3 gap-y-5">
+          {products&& products?.filter((i:any)=>i.featuredProduct).slice(4,8).map((product:any, index:number) => (
               <div key={product.id}>
                 <Product product={product} quickAddBtn={false} />
               </div>

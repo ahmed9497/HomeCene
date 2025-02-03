@@ -31,36 +31,48 @@ const slides = [
   // },
 ];
 
-const VerticalSlider = () => {
+const VerticalSlider = ({products}:{products:any}) => {
   const [current, setCurrent] = useState(0);
+  const [itemWidth, setItemWidth] = useState(400);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      setItemWidth(window.innerWidth >= 768 ? 500 : 400); // 500 for desktop, 400 for mobile
+    };
 
+    handleResize(); // Set initial width
+    window.addEventListener("resize", handleResize); // Listen for window resize
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div className="h-[710px] overflow-hidden rounded-md relative">
       <div
         className="w-max h-full flex transition-all ease-in-out rounded-md duration-1000"
-        style={{ transform: `translateX(-${current * 500}px)` }}
+        style={{ transform: `translateX(-${current * itemWidth}px)` }}
       >
-        {slides.map((slide) => (
+        {products.map((slide:any) => (
         
           
               <Image
-                src={slide.img}
+                src={slide.images[0]}
                 key={slide.id}
-                alt=""
+                alt={slide?.title}
                 width={100}
                 height={100}
+                quality={100}
                 // layout="responsive"
                 // fill
+                unoptimized
                 sizes="100%"
-                className="object-cover w-[500px] h-full rounded-md"
+                className="object-cover w-[400px] sm:w-[500px] h-full rounded-md"
               />
   
 
