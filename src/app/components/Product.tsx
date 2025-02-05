@@ -73,17 +73,17 @@ const Product: any = ({
           <div className="flex justify-center font-Poppins">
             {product?.variant && product?.variant[0]?.discount ? (
               <>
-                <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">
+                <h2 className="text-primary group-hover:text-[12px] font-semibold">
                   {" "}
                   Aed {product?.variant[0]?.discountedPrice}
                 </h2>
 
-                <h2 className="text-gray-300 line-through ml-3 group-hover:text-[12px] group-hover:text-slate-500 group-hover:font-semibold">
+                <h2 className="text-red-500 line-through ml-3 group-hover:text-[12px] group-hover:text-red-500 group-hover:font-semibold">
                   Aed {product?.variant[0]?.price[0]}
                 </h2>
               </>
             ) : (
-              <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">
+              <h2 className="text-primary group-hover:text-[12px] font-semibold">
                 Aed {product?.variant && product?.variant[0]?.price[0]}
               </h2>
             )}

@@ -47,7 +47,7 @@ const headerMenu = [
   //   href: "/shop/artificial-plants",
   // },
   {
-    title: "Wooden Decore",
+    title: "Wooden Decor",
     href: "/shop/wooden-decore",
   },
 ];
@@ -58,8 +58,6 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { items } = useCart();
   const [user] = useAuthState(auth);
-  const [isScrollingDown, setIsScrollingDown] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [profile, setProfile] = useState<any>();
 
   useEffect(() => {
@@ -82,25 +80,7 @@ const Header = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY) {
-        setIsScrollingDown(true); // Hide the header when scrolling down
-      } else {
-        setIsScrollingDown(false); // Show the header when scrolling up
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll); // Clean up the listener
-    };
-  }, [lastScrollY]);
   const logOut = () => {
     signOut(auth);
     sessionStorage.removeItem("user");
@@ -166,6 +146,7 @@ const Header = () => {
           <div className="flex-shrink-0">
             <a href="/" className="text-2xl font-bold">
               <Image
+                unoptimized
                 src="/logo.png"
                 width={80}
                 height={90}

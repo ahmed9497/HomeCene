@@ -22,7 +22,7 @@ export default function AccountLayout({
     return <div>Loading...</div>;
   }
   return (
-    <div className="page bg-gray-100 min-h-96 py-10">
+    <div className="page bg-primary bg-opacity-5 min-h-96 py-10">
       <div className="container">{children}</div>
     </div>
   );

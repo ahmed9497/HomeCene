@@ -72,13 +72,11 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
   return (
     <>
       <div>
-        {/* <div className="font-bold text-primary text-2xl font-Poppins mt-4">
-          Aed {product?.variant[activeVariant]?.price[selectedFeatureIndex]}.00
-        </div> */}
-        <div className="font-bold flex items-center text-primary gap-x-4 text-2xl font-Poppins">
+        
+        <div className="font-bold flex items-center text-primary gap-x-4 my-4 text-2xl font-Poppins">
           {product?.variant && product?.variant[activeVariant]?.discount ? (
             <>
-              <h2 className="text-gray-300 line-through font-normal text-[18px] group-hover:font-semibold">
+              <h2 className="text-red-500 line-through font-normal text-sm sm:text-[18px] group-hover:font-semibold">
                 Aed {product?.variant[activeVariant]?.price[0]}.00
               </h2>
               <div className="h-6 w-[2px] bg-gray-300"></div>
@@ -111,8 +109,8 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                     onClick={() => handleSizeClick(variant?.size, index)}
                     className="transition-all duration-500 ease-in-out"
                     style={{
-                      // padding: "10px 10px",
-                      width: 100,
+                      padding: "5px 10px",
+                      minWidth: 100,
                       height: 40,
                       borderRadius: "2px",
                       border: "1px solid #ccc",
@@ -184,6 +182,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                           borderColor: selectedColor === color ? color : "#ccc",
                           color: selectedColor === color ? "#fff" : "#000",
                           cursor: "pointer",
+                          textTransform:'capitalize'
                         }}
                       >
                         {color}{" "}

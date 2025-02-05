@@ -14,7 +14,7 @@ const Footer = () => {
   }
   
   return (
-    <footer className={` text-gray-300 ${["/contact","/privacy-policy","/terms-and-conditions","/refund-return-policy"].includes(pathname) ? 'bg-primary bg-opacity-5' : ''}`}>
+    <footer className={` text-gray-300 ${["/account/orders","/account/profile","/success","/contact","/privacy-policy","/terms-and-conditions","/refund-return-policy"].includes(pathname) ? 'bg-primary bg-opacity-5' : ''}`}>
       <div className="bg-primary py-10 rounded-t-3xl">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
        

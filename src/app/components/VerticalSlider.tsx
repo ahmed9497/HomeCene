@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import AddToCartButton from "./AddToCartButton";
 
 const slides = [
   {
@@ -31,7 +32,7 @@ const slides = [
   // },
 ];
 
-const VerticalSlider = ({products}:{products:any}) => {
+const VerticalSlider = ({ products }: { products: any }) => {
   const [current, setCurrent] = useState(0);
   const [itemWidth, setItemWidth] = useState(400);
 
@@ -53,18 +54,26 @@ const VerticalSlider = ({products}:{products:any}) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
-    <div className="h-[710px] overflow-hidden rounded-md relative">
+    <div className="h-[710px] overflow-x-hidden rounded-md relative">
       <div
         className="w-max h-full flex transition-all ease-in-out rounded-md duration-1000"
         style={{ transform: `translateX(-${current * itemWidth}px)` }}
       >
-        {products.map((slide:any) => (
-        
-          
+        {products.map((product: any) => (
+          <Link
+            href={"/product/" + product?.title?.replaceAll(" ", "-")}
+            className="w-full h-full relative group"
+            key={product.id}
+          >
+            <div className="">
+              <AddToCartButton
+                product={product}
+                btnType="cartBtn"
+                classes="right-12 scale-100"
+              />
               <Image
-                src={slide.images[0]}
-                key={slide.id}
-                alt={slide?.title}
+                src={product.images[0]}
+                alt={product?.title}
                 width={100}
                 height={100}
                 quality={100}
@@ -72,16 +81,47 @@ const VerticalSlider = ({products}:{products:any}) => {
                 // fill
                 unoptimized
                 sizes="100%"
-                className="object-cover w-[400px] sm:w-[500px] h-full rounded-md"
+                className="object-cover w-[400px] sm:w-[500px] h-[630px] rounded-md"
               />
-  
 
+              <div className="text-center mt-2 group-hover:bg-[#0a5d5d3b] group-hover:p-[2px] group-hover:rounded">
+                <h1 className="font-Poppins group-hover:text-[12px] text-[14px] hover:text-primary capitalize">
+                  {product?.title}
+                  <span className="text-[12px] text-slate-500">
+                    &nbsp;{" "}
+                    {product?.variant?.length > 1
+                      ? `(${product?.variant?.length} Sizes)`
+                      : ""}
+                  </span>
+                </h1>
+
+                <div className="flex justify-center font-Poppins">
+                  {product?.variant && product?.variant[0]?.discount ? (
+                    <>
+                      <h2 className="text-primary group-hover:text-[12px] font-semibold">
+                        {" "}
+                        Aed {product?.variant[0]?.discountedPrice}
+                      </h2>
+
+                      <h2 className="text-red-500 line-through ml-3 group-hover:text-[12px] group-hover:text-red-500 group-hover:font-semibold">
+                        Aed {product?.variant[0]?.price[0]}
+                      </h2>
+                    </>
+                  ) : (
+                    <h2 className="text-primary group-hover:text-[12px] group-hover:font-semibold">
+                      Aed {product?.variant && product?.variant[0]?.price[0]}
+                    </h2>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Link>
         ))}
       </div>
-      <div className="absolute m-auto left-1/2 bottom-8 flex gap-4">
+      <div className="absolute m-auto left-1/2 bottom-28 flex gap-4">
         {slides.map((slide, index) => (
           <div
-            className={`w-3 h-3  rounded-full ring-1 ring-gray-600 cursor-pointer flex items-center justify-center ${
+            className={`w-3 h-3  rounded-full ring-1 ring-white cursor-pointer flex items-center justify-center ${
               current === index ? "scale-150" : ""
             }`}
             key={slide.id}

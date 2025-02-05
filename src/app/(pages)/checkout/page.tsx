@@ -117,6 +117,43 @@ const Checkout = () => {
         return;
       }
 
+      if(selectedMethod === "tabby"){
+
+        const payload ={
+          amount: 200,
+          currency: "AED",
+          buyer: {
+            email: "customer@example.com",
+            phone: "+971501234567",
+            name: "John Doe",
+          },
+          products: [
+            {
+              title: "Leather Jacket",
+              description: "Black premium leather jacket",
+              quantity: 1,
+              unit_price: 200,
+            },
+          ],
+        }
+        const response = await fetch("/api/tabby", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...payload }),
+        });
+  
+        const data = await response.json();
+        debugger
+      if (data.configuration && data.configuration?.available_products?.installments) {
+        const checkoutUrl = data.configuration.available_products?.installments[0].web_url;
+        window.location.href = checkoutUrl;
+      } else {
+        alert("Tabby checkout is not available for this order.");
+      }
+        return;
+      }
+
+
       // Handle Stripe payment
       const response = await fetch("/api/checkout", {
         method: "POST",
@@ -313,7 +350,7 @@ const Checkout = () => {
           </form>
         </div>
 
-        <div className="order-1 sm:order-2 bg-slate-200 rounded-md p-10 ">
+        <div className="order-1 sm:order-2 bg-slate-200 rounded-md p-3 sm:p-10 ">
           <div className="sticky top-[70px]">
             {items.map((item) => (
               <div

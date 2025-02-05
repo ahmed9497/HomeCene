@@ -134,7 +134,7 @@ const OrdersPage = () => {
     //     ))}
     //   </div>
     // </div>
-    <div className="max-w-4xl mx-auto p-4 space-y-4">
+    <div className="max-w-4xl min-h-[700px] mt-20 mx-auto p-4 space-y-4">
        <h1 className="text-2xl font-bold mb-4">Your Orders</h1>
 
     {orders.map((order) => (
@@ -150,7 +150,7 @@ const OrdersPage = () => {
           <div>
             <h3 className="text-lg font-bold">Order ID: HC_{order.id}</h3>
             <p className="text-sm text-gray-600">
-              Status: <span className="font-medium">{order.status}</span>
+              Payment Status: <span className="capitalize bg-primary bg-opacity-20 px-4 rounded-sm text-primary font-medium">{order.status}</span>
             </p>
             <p className="text-sm text-gray-600">
               Order Date: <span className="font-medium">{formattedDate(order.createdAt)}</span>
@@ -171,7 +171,17 @@ const OrdersPage = () => {
                   key={index}
                   className="flex justify-between text-sm text-gray-700"
                 >
-                  <span>{item.title} (x{item.quantity})</span>
+                  <div>
+                    {item.title} (x{item.quantity})
+                    <div className="flex gap-x-4">
+                      <span>{item?.size}</span>
+                      <div className="h-4 w-px bg-black"></div>
+                      <span>{item?.feature}</span>
+                      <div className="h-4 w-px bg-black"></div>
+                      <span>{item.color}</span>
+
+                    </div>
+                  </div>
                   <span>{(item.unit_amount / 100).toFixed(2)} AED</span>
                 </li>
               ))}

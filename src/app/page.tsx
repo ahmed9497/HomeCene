@@ -25,15 +25,15 @@ export default async function  Home() {
     id: doc.id,
     ...doc.data(),
   }));
-console.log(products);
-const bigProducts = products?.filter((i:any)=>i.bigProduct);
+// console.log(products);
+const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
 // const newArrival = products?.filter((i:any)=>i.newArrival);
-// console.log(newArrival);
+// console.log(bigProducts);
   return (
     <div className="page">
       <Slider />
       <main className="container">
-        <div className="grid sm:grid-cols-2 grid-cols-1 gap-3 pt-20">
+        <div className="grid sm:grid-cols-2 grid-cols-1 gap-3 pt-10 sm:pt-20">
           {/* <div className="grid-cols-1 relative rounded overflow-hidden">
             <Image
               src="/category1.webp"
@@ -55,41 +55,42 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct);
             {" "}
             <Image
               src="/category2.webp"
-              alt="cat"
-              layout="responsive"
+              alt="lamps"
+              unoptimized
               width={100}
               height={100}
-              className="hover:scale-105 transition-all"
+              className="hover:scale-105 object-cover h-full w-full transition-all"
             />
             <div className="absolute top-1/4 left-3 flex flex-col">
               <h1 className="text-4xl font-extrabold text-white">CHAIN LAMP</h1>
               <p className="text-xl my-3 text-gray-500">Get up to 40% off</p>
-              <Link href={'/shop/lamps'} className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
+              <Link href={'/shop/lamps'} className="hover:bg-[#0a5d5d] text-center w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
                 SHOP NOW
               </Link>
             </div>
           </div>
           <div className="grid-cols-1 relative rounded overflow-hidden">
-            {" "}
+           
             <Image
               src="/category3.webp"
-              alt="cat"
-              layout="responsive"
+              alt="wooden decor"
+              unoptimized
               width={100}
               height={100}
-              className="hover:scale-105 transition-all"
+              className="hover:scale-105 object-cover h-full w-full transition-all"
             />
             <div className="absolute top-1/4 left-3 flex flex-col">
               <h1 className="text-4xl font-extrabold">Wooden Decor</h1>
               <p className="text-xl my-3">Get up to 40% off</p>
-              <Link href={'/shop/wooden-decore'} className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
+              <Link href={'/shop/wooden-decore'} className="hover:bg-[#0a5d5d] text-center w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
                 SHOP NOW
               </Link>
             </div>
+            
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-16">
+        {/* <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-16">
         
             <div  className={`text-center grid-cols-1 p-3 border `}>
               <div className="flex justify-center">
@@ -116,9 +117,9 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct);
               <h2 className="text-sm sm:text-[16px] mt-1">Money Back Guarantee</h2>
             </div>
           
-        </div>
+        </div> */}
 
-        <div className=" py-16">
+        <div className="mt-28 mb-20">
           <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
             New Arrival
           </h1>
@@ -149,19 +150,21 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct);
           </div>
           <div className="col-span-12 sm:col-span-2">
           <VerticalSlider products={bigProducts.slice(2,4)}/>
-            
+          {/* <BigProduct product={bigProducts[3]}/> */}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-40">
-          <div className=" grid-cols-1 relative rounded overflow-hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-20">
+          <div className="grid-cols-1 relative rounded overflow-hidden">
+            <Link href={'/shop/mirrors'}>
             <Image
               src="/Mirrors.jpeg"
-              alt="cat"
-              layout="responsive"
+              alt="mirrors"
+              // layout="responsive"
               width={100}
               height={100}
-              className="hover:scale-110 duration-500  transition-all "
+              unoptimized
+              className="hover:scale-110 duration-500 object-cover h-full w-full transition-all "
             />
             <div className="absolute top-1/4 left-3 flex flex-col text-white">
               <h1 className="text-4xl font-extrabold">Mirrors</h1>
@@ -170,16 +173,17 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct);
                 SHOP NOW
               </button> */}
             </div>
+            </Link>
           </div>
           <div className="grid-cols-1 relative rounded overflow-hidden">
-            {" "}
+          <Link href={'/shop/vase-&-decore'}>
             <Image
               src="/sidetable.webp"
-              alt="cat"
-              layout="responsive"
+              alt="vase&decor"
+              unoptimized
               width={100}
               height={100}
-              className="hover:scale-110 transition-all duration-500"
+              className="hover:scale-110 object-cover h-full w-full transition-all duration-500"
             />
             <div className="absolute top-1/4 left-3 flex flex-col">
               <h1 className="text-4xl font-extrabold ">Vase & Decor</h1>
@@ -190,10 +194,11 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct);
                 SHOP NOW
               </button> */}
             </div>
+            </Link>
           </div>
         </div>
 
-        <div className=" py-16">
+        <div className="mt-4 mb-20">
           <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
             Our Products
           </h1>
@@ -212,7 +217,7 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct);
 
 
           <div className="order-1  flex items-center sm:order-2 col-span-12 sm:col-span-2">
-            <BigProduct/>
+            <BigProduct product={bigProducts[4]}/>
           </div>
 
 
@@ -228,9 +233,9 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct);
         {/* View All */}
 
         <div className="flex justify-center my-16">
-          <button className="hover:bg-[#0a5d5d] hover:text-white w-[170px] transition-all duration-200 border-2 rounded-[2px] text-lg bg-white text-[#0a5d5d] border-[#0a5d5d] px-5 py-2">
+          <Link href={'shop/all-products'} className="hover:bg-[#0a5d5d] text-center hover:text-white w-[170px] transition-all duration-200 border-2 rounded-[2px] text-lg bg-white text-[#0a5d5d] border-[#0a5d5d] px-5 py-2">
             View All
-          </button>
+          </Link>
         </div>
       </main>
     </div>

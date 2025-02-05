@@ -73,7 +73,7 @@ async function fetchProduct(slug: string): Promise<any> {
 const Product = async ({ params }: any) => {
   const { slug } = await params;
   const product = await fetchProduct(slug);
-  console.log(product)
+  // console.log(product)
   if (!product) {
     return (
       <div>
@@ -95,7 +95,7 @@ const Product = async ({ params }: any) => {
   return (
     <>
       <main className="container page min-h-[900px] pb-20">
-        <div className="my-10 bg-primary items-center capitalize bg-opacity-20 text-[12px] px-2 py-1 rounded-md gap-x-1 inline-flex">
+        <div className="my-10 bg-primary items-center capitalize bg-opacity-20  text-[10px] sm:text-[12px] px-2 py-1 rounded-md gap-x-1 inline-flex">
           <Link href={"/"} className="flex gap-x-1 items-center">
             <FaHome /> Home
           </Link>{" "}
@@ -134,11 +134,9 @@ const Product = async ({ params }: any) => {
               </h1>
             </div>
             {/* <SelectSize product={product}/> */}
-            <div className="font-extrabold text-2xl font-Poppins mt-4">
-              {/* ${product?.variant?.price[]} */}
-            </div>
           
-              {getDescription(product?.description)}
+          
+              
         
 
             {/* <div className="flex gap-x-10 mt-4 text-sm">
@@ -151,6 +149,11 @@ const Product = async ({ params }: any) => {
             <div className="mt-1">
               <Add product={product} />
             </div>
+            <div className="text-black basis-1/4 mt-10 text-sm font-extrabold uppercase">
+                About Product:
+              </div>
+
+            {getDescription(product?.description)}
             <div className="mt-10">
               <div className="text-black basis-1/4 text-sm font-extrabold uppercase">
                 Guaranteed safe checkout:

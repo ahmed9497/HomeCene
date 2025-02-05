@@ -10,9 +10,10 @@ import { toast } from "react-toastify";
 interface AddToCartButtonProps {
   product: ProductProps;
   btnType?: string;
+  classes?: string;
 }
 
-const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
+const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType,classes }) => {
   const { addItemToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -23,7 +24,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
       title: product.title,
       quantity: 1,
       price: product.variant[0]?.discount ?parseInt(product.variant[0].discountedPrice[0]) :parseInt(product.variant[0].price[0]),
-      image: product.image,
+      image: product?.images[0] ||"",
       selectedSize:product.variant[0]?.size||"",
       selectedColor:product.variant[0]?.colors&&product.variant[0]?.colors[0] ||"",
       selectedFeature:product.variant[0]?.feature&&product.variant[0]?.feature[0]||""
@@ -39,8 +40,8 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType }) => {
   if (btnType === "cartBtn") {
     return (
       <div
-        className="absolute border shadow-lg group-hover:block border-primary transition-all delay-100 duration-300 ease-linear
-    rounded-full p-2 right-2 top-2 z-10 bg-primary scale-0 group-hover:scale-100 text-white hover:text-primary hover:bg-white"
+        className={`${classes?classes:''} absolute border shadow-lg group-hover:block border-white transition-all delay-100 duration-300 ease-linear
+    rounded-full p-2 right-2 top-2 z-10 bg-primary scale-0 hover:border-primary group-hover:scale-100 text-white hover:text-primary hover:bg-white`}
         onClick={handleAddToCart}
       >
         {/* <div className="fixed z-10 bottom-full mb-2  left-1/2 -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

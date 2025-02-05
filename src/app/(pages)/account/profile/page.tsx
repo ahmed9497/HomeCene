@@ -66,7 +66,8 @@ const Profile = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md mb-10 mt-10">
+    <div className="min-h-[600px]">
+    <div className="p-6 bg-white rounded-lg shadow-md mb-10 mt-20">
       <h1 className="text-2xl font-bold mb-4"> Profile</h1>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="flex gap-x-4">
@@ -224,6 +225,7 @@ const Profile = () => {
           )}
         </div>
       </form>
+    </div>
     </div>
   );
 };

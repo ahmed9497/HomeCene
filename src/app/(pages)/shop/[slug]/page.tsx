@@ -105,7 +105,7 @@ export default async function ShopPage({
 
   const { cursor, page, id, direction = "next" } = await searchParams;
   const currentPage = parseInt(page || "1", 10);
-  const pageSize = 12;
+  const pageSize = 16;
   const { products, firstCursor, lastCursor } = await fetchProducts(
     slug,
     cursor,
