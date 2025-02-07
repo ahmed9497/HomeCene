@@ -1,18 +1,8 @@
 import Add from "@/app/components/Add";
-import ProductMagnifier from "@/app/components/ProductMagnifier";
 import Image from "next/image";
 
-import { FaAngleRight, FaHome, FaMinus, FaPlus } from "react-icons/fa";
-import { FaCcDiscover } from "react-icons/fa6";
-import {
-  RiDiscordLine,
-  RiMastercardFill,
-  RiMastercardLine,
-  RiPaypalFill,
-  RiPaypalLine,
-  RiVisaLine,
-} from "react-icons/ri";
-import { SiAmericanexpress } from "react-icons/si";
+import { FaAngleRight, FaHome } from "react-icons/fa";
+
 import {
   doc,
   getDoc,
@@ -22,7 +12,6 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "../../../firebase/config";
-import SelectSize from "@/app/components/SelectSize";
 import Head from "next/head";
 import { Metadata } from "next";
 import ProductPageImage from "@/app/components/ProductpageImage";
@@ -30,6 +19,7 @@ import ViewContentEvent from "@/app/components/ViewContentEvent";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GoClock } from "react-icons/go";
 import Link from "next/link";
+
 
 interface PageProps {
   params: { slug: string };
