@@ -77,7 +77,7 @@ const Login = () => {
       <div className="basis-full sm:basis-1/2">
         <div className="h-full w-full bg-[url('/login-bg.jpeg')] bg-cover bg-end"></div>
       </div>
-      <div className="absolute top-1/2 -translate-y-1/2 sm:basis-1/2 sm:bg-gradient-to-t from-[#757F9A] to-[#D7DDE8] p-10 flex justify-center items-center  sm:shadow-xl sm:w-96">
+      <div className="absolute top-1/2 -translate-y-1/2 sm:top-0 sm:translate-y-0 sm:relative sm:basis-1/2 sm:bg-gradient-to-t from-[#757F9A] to-[#D7DDE8] p-10 flex justify-center items-center  sm:shadow-xl sm:w-96">
         <div className="pb-10 pt-10 px-4 bg-white rounded-xl border border-white">
           <Link href={'/'} className="h-[80px] mb-5 flex justify-center">
             <img src={"/logo.png"} className=" h-full" />
