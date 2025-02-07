@@ -105,7 +105,7 @@ export default async function ShopPage({
 
   const { cursor, page, id, direction = "next" } = await searchParams;
   const currentPage = parseInt(page || "1", 10);
-  const pageSize = 28;
+  const pageSize = 30;
   const { products, firstCursor, lastCursor } = await fetchProducts(
     slug,
     cursor,
@@ -131,7 +131,7 @@ export default async function ShopPage({
           </div>
         </div>
         <div className="cols-span-1 sm:col-span-3  sm:p-4">
-          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-5">
+          <div className="mt-16 grid grid-cols-2 sm:grid-cols-3 gap-5">
             {products &&
               products.map((product, index) => (
                 <div key={product.id + index}>

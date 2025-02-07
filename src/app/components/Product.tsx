@@ -30,7 +30,7 @@ const Product: any = ({
             {product?.variant && product?.variant[0]?.discountPercentage[0]}
           </div>
         ) : null}
-        <div className="relative overflow-hidden max-h-[260px] h-[260px] rounded-sm bg-imgBg flex items-center">
+        <div className="relative overflow-hidden max-h-[320px] h-[320px] rounded-sm bg-imgBg flex items-center">
          {product?.images?.length > 0 &&
           <Image
             // src={`${product?.image}`}
@@ -43,7 +43,7 @@ const Product: any = ({
             quality={100}
             width={100}
             height={100}
-            className="max-h-[260px] h-full w-full object-cover  transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+            className="max-h-[320px] h-full w-full object-cover  transition-opacity duration-700 ease-in-out group-hover:opacity-0"
           />}
            {product?.images?.length > 0 && (
             <Image
@@ -56,7 +56,7 @@ const Product: any = ({
               quality={100}
               width={100}
               height={100}
-              className="absolute max-h-[260px] h-full w-full  object-cover opacity-0 duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-125 transition-all "
+              className="absolute max-h-[320px] h-full w-full  object-cover opacity-0 duration-700 ease-in-out group-hover:opacity-100 group-hover:scale-125 transition-all "
             />
           )}
         </div>
