@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // console.log("Stripe Event:", event);
+  console.log("Stripe Event:", event);
 
 
   // Handle the event (example: payment_intent.succeeded)
@@ -91,27 +91,40 @@ export async function POST(req: NextRequest) {
         const charge = await stripe.charges.retrieve(latestChargeId);
         // console.log(charge)
 
+        const orderId:any =paymentIntent.metadata?.orderId ;
+       
+        console.log( paymentIntent.metadata)
+        console.log(paymentIntent.metadata?.paymentMethod,"***********")
 
-
+        // userId: paymentIntent.metadata?.userId || "unknown", // Extract from metadata
+        // items: JSON.parse(paymentIntent.metadata?.orderDetails || "[]"), // Parse items from metadata
+        // items: JSON.parse(existingData?.orderDetails) ,
         let orderObj:any = {
-          userId: paymentIntent.metadata?.userId || "unknown", // Extract from metadata
-          items: JSON.parse(paymentIntent.metadata?.orderDetails || "[]"), // Parse items from metadata
           total: paymentIntent.amount_total! / 100, // Convert cents to currency
-          status: paymentIntent.payment_status,
+          status: (paymentIntent.payment_status === "paid" && paymentIntent.metadata?.paymentMethod ==='cod') ? "partial" : paymentIntent.payment_status,
           createdAt: admin.firestore.FieldValue.serverTimestamp(),
-          ...paymentIntent.metadata,
+          // ...paymentIntent.metadata,
           paymentIntentId:paymentIntent.payment_intent,
           sessionId:paymentIntent.id,
           receiptUrl: charge.receipt_url,
           last4:charge.payment_method_details?.card?.last4,
           brand:charge.payment_method_details?.card?.brand
         };
+       
+        console.log(orderId,"orderID")
+        console.log(orderObj,"orderObj")
 
-      const orderRef = db.collection("orders").doc();
-      orderObj.id = orderRef.id;
-      await orderRef.set(orderObj);
-      await sendConfirmationEmail(orderObj);
-      await sendOrderEmailToAdmins(orderObj);
+        await db.collection("orders").doc(orderId).set(orderObj,{merge:true})
+        const order =await db.collection("orders").doc(orderId);
+        const existingOrder = await order.get();
+        
+        const orderData =  existingOrder.data();
+        console.log(orderData,"orderData----")
+        if(orderData){
+
+          await sendConfirmationEmail(orderData);
+          await sendOrderEmailToAdmins(orderData);
+        }
         // await db.collection("orders").doc(paymentIntent.payment_intent).set(orderObj);
       }
 
@@ -121,7 +134,7 @@ export async function POST(req: NextRequest) {
       // await orderRef.set(orderObj);
 
       // console.log("Order Details:", orderDetails);
-      // console.log("Order saved successfully to Firestore.");
+      console.log("Order saved successfully to Firestore.");
 
      
     } catch (err: any) {
@@ -133,61 +146,15 @@ export async function POST(req: NextRequest) {
     }
 
   }
-  if (event.type === "charge.succeeded") {
-    
-    // console.log(event,"****************");
-    // const paymentIntent = event.data.object;
-    // const snapshot=await db.collection('orders').where("paymentIntentId","==",paymentIntent.payment_intent).get();
+  if (event.type === 'checkout.session.async_payment_failed') {
+    const session = event.data.object;
+    console.log(session,"------------")
+    // const orderId = session.metadata.orderId;
   
-    // if (!snapshot.empty) {
-    //   snapshot.forEach(async (doc) => {
-    //     await doc.ref.update({
-    //       receiptUrl: paymentIntent.receipt_url,
-    //        last4: paymentIntent.payment_method_details?.card?.last4 || "N/A",
-    //        ...paymentIntent.payment_method_details
-    //     });
-    //   });
-    // } else {
-    //   console.log("No matching order found for paymentIntentId:", paymentIntent.id);
-    // }
-
-  //   const paymentIntent = event.data.object;
-  //   // console.log("PaymentIntent was successful:", event);
-
-  //   let orderObj:any = {
-  //     userId: paymentIntent.metadata?.userId || "unknown", // Extract from metadata
-  //     items: JSON.parse(paymentIntent.metadata?.orderDetails || "[]"), // Parse items from metadata
-  //     total: paymentIntent.amount_captured / 100, // Convert cents to currency
-  //     status: paymentIntent.paid,
-  //     refunded:paymentIntent.refunded,
-  //     createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  //     ...paymentIntent.metadata,
-  //     paymentIntentId:paymentIntent.payment_intent,
-  //     receiptUrl: paymentIntent.receipt_url,
-  //     last4: paymentIntent.payment_method_details?.card?.last4 || "N/A",
-  //     // sessionId:paymentIntent.id
-  //   };
-    
-  //   try {
-    
-  //     const orderRef = db.collection("orders").doc();
-  //     orderObj.id = orderRef.id;
-  //     await orderRef.set(orderObj);
-
-      
-
-  //     console.log("Order Details:", orderObj);
-  //     console.log("Order saved successfully to Firestore.");
-
-  //     await sendConfirmationEmail(orderObj);
-  //     await sendOrderEmailToAdmins(orderObj);
-  //   } catch (err: any) {
-  //     console.error("Error saving order to Firestore:", err.message);
-  //     return NextResponse.json(
-  //       { error: "Error saving order to Firestore" },
-  //       { status: 500 }
-  //     );
-  //   }
+    // // Delete the order if payment failed
+    // await db.collection("orders").doc(orderId).delete();
+  
+    // res.status(200).send({ received: true });
   }
 
 

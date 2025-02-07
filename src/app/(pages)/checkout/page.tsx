@@ -105,17 +105,17 @@ const Checkout = () => {
         data.userId = profile?.userId;
       }
 
-      if (selectedMethod === "cod") {
-        const response = await fetch("/api/order", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items, data, totalAmount }),
-        });
+      // if (selectedMethod === "cod") {
+      //   const response = await fetch("/api/order", {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ items, data, totalAmount }),
+      //   });
 
-        const { message } = await response.json();
-        router.push("/account/orders");
-        return;
-      }
+      //   const { message } = await response.json();
+      //   router.push("/account/orders");
+      //   return;
+      // }
 
       if(selectedMethod === "tabby"){
 
@@ -143,7 +143,7 @@ const Checkout = () => {
         });
   
         const data = await response.json();
-        debugger
+        
       if (data.configuration && data.configuration?.available_products?.installments) {
         const checkoutUrl = data.configuration.available_products?.installments[0].web_url;
         window.location.href = checkoutUrl;
@@ -158,7 +158,7 @@ const Checkout = () => {
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items, data,totalAmount }),
+        body: JSON.stringify({ items, data,totalAmount,selectedMethod }),
       });
 
       const { url } = await response.json();
@@ -340,8 +340,8 @@ const Checkout = () => {
               type="submit"
               className="bg-primary text-white  text-xl !mt-8 py-3  rounded w-full hover:bg-white hover:text-primary border-primary border-2 transition"
             >
-              {selectedMethod === "credit_card" && `Pay ${totalAmount} Aed`}
-              {selectedMethod === "cod" && "Complete Order"}
+              {selectedMethod === "card" && `Pay ${totalAmount} Aed`}
+              {selectedMethod === "cod" && `Pay ${totalAmount/2} Aed`}
               {selectedMethod === "tabby" && "Proceed to Checkout"}
               {selectedMethod === "tamara" && "Proceed to Checkout"}
               {selectedMethod === "gpay" && `Pay ${totalAmount} Aed`}

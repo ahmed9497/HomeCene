@@ -40,8 +40,8 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType,classes })
   if (btnType === "cartBtn") {
     return (
       <div
-        className={`${classes?classes:''} absolute border shadow-lg group-hover:block border-white transition-all delay-100 duration-300 ease-linear
-    rounded-full p-2 right-2 top-2 z-10 bg-primary scale-0 hover:border-primary group-hover:scale-100 text-white hover:text-primary hover:bg-white`}
+        className={`${classes?classes:'right-2 scale-0'} absolute border shadow-lg group-hover:block border-white transition-all delay-100 duration-300 ease-linear
+    rounded-full p-2  top-2 z-10 bg-primary  hover:border-primary group-hover:scale-100 text-white hover:text-primary hover:bg-white`}
         onClick={handleAddToCart}
       >
         {/* <div className="fixed z-10 bottom-full mb-2  left-1/2 -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

@@ -80,7 +80,7 @@ const Cart = () => {
                         alt={item.title}
                         width={120}
                         height={100}
-                        className="rounded "
+                        className="rounded w-auto h-[100px] object-cover"
                       />
                     </div>
                   )}

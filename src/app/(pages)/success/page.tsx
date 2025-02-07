@@ -55,8 +55,6 @@ const SuccessPage = () => {
           } finally {
             setLoading(false);
           }
-
-       
         } catch (error) {
           console.log("Error fetching session details:", error);
           setLoading(false);
@@ -77,7 +75,6 @@ const SuccessPage = () => {
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
-     
       <Confetti width={2000} height={1000} />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div className="bg-white shadow-lg rounded-lg p-6 md:p-8  max-w-md">
@@ -101,21 +98,46 @@ const SuccessPage = () => {
               Order Summary
             </h2>
             <p className="text-sm flex  text-gray-600">
-              <span className="basis-1/2 font-bold">Order ID:</span> 
-              
-              <span className="basis-1/2 text-right" >HC_{session.id}</span>
+              <span className="basis-1/2 font-bold">Order ID:</span>
+
+              <span className="basis-1/2 text-right">HC_{session.id}</span>
             </p>
+            <p className="text-sm flex  text-gray-600">
+              <span className="basis-1/2 font-bold">Payment Status: </span>
+
+              <span className="basis-1/2 text-right capitalize">
+                {session.status}
+              </span>
+            </p>
+            {session?.remainingAmount ? (
+              <p className="text-sm flex  text-gray-600">
+                <span className="basis-1/2 font-bold">
+                  Remaining Payment Via Cod:{" "}
+                </span>
+
+                <span className="basis-1/2 text-right capitalize">
+                  {session.remainingAmount / 100} Aed
+                </span>
+              </p>
+            ) : null}
             <p className=" text-sm flex text-gray-600">
               <span className="basis-2/3 font-bold">Order Detail:</span>
-              <span className="basis-1/3 font-bold text-right" ></span>
-
+              <span className="basis-1/3 font-bold text-right"></span>
             </p>
             <ul className="text-sm text-gray-600">
-              {session?.items?.items?.map((item: any, index: number) => (
+              {session?.orderDetails?.map((item: any, index: number) => (
                 <li key={index} className="flex">
-                  <span className="basis-2/3"> {item.title} </span>
-                  
-                   <span className="basis-1/3 text-right">{item.quantity} x {item.unit_amount / 100} Aed</span>
+                  <span className="basis-2/3">
+                    {item.quantity} x {item.title}{" "}
+                  </span>
+
+                  <span className="basis-1/3 text-right">
+                    {" "}
+                    {session.paymentMethod === "cod"
+                      ? item.half_amount / 100
+                      : item.unit_amount / 100}{" "}
+                    Aed
+                  </span>
                 </li>
               ))}
             </ul>
