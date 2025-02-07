@@ -105,7 +105,7 @@ export default async function ShopPage({
 
   const { cursor, page, id, direction = "next" } = await searchParams;
   const currentPage = parseInt(page || "1", 10);
-  const pageSize = 16;
+  const pageSize = 28;
   const { products, firstCursor, lastCursor } = await fetchProducts(
     slug,
     cursor,
@@ -151,7 +151,7 @@ export default async function ShopPage({
                 <FaAngleLeft color="black"/> Previous 
               </a>
             )}
-            {nextPageCursor && (
+            {nextPageCursor && !(products.length < 28) &&(
               <a 
                 href={`?page=${+currentPage + 1}&cursor=${
                   nextPageCursor[0]

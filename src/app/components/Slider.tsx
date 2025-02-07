@@ -173,7 +173,7 @@ const Slider = () => {
           </div>
         ))}
       </div>
-      {/* <div className="absolute mx-auto left-1/2 -translate-x-1/2 bottom-2 sm:bottom-4 flex gap-4">
+      <div className="absolute mx-auto left-1/2 -translate-x-1/2 bottom-2 sm:bottom-4 flex gap-4">
         {slides.map((slide, index) => (
           <div
             className={`w-3 h-3  rounded-full ring-1 ring-white cursor-pointer flex items-center justify-center ${
@@ -190,7 +190,7 @@ const Slider = () => {
             )}
           </div>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 };

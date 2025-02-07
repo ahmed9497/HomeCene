@@ -69,7 +69,7 @@ const VerticalSlider = ({ products }: { products: any }) => {
               <AddToCartButton
                 product={product}
                 btnType="cartBtn"
-                classes="right-12 scale-100"
+                classes="right-8 scale-100"
               />
               <Image
                 src={product.images[0]}
