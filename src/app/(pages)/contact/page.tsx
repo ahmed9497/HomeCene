@@ -1,21 +1,46 @@
 "use client";
 import TopHeaderImg from "@/app/components/TopHeaderImg";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FieldError, useForm } from "react-hook-form";
 import { FaPhone, FaPhoneAlt, FaPhoneSlash } from "react-icons/fa";
 import { FaMessage, FaRegMessage } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 const Contact = () => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
     setValue,
   } = useForm();
+
   const handleFormSubmit = async (data: any) => {
     console.log(data);
+    try {
+      setLoading(true);
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({...data}),
+      });
+
+      const response = await res.json();
+      // setResponseMsg(data.message);
+      
+      if (res.ok) {
+        reset()
+        toast.success(response.message,{autoClose:4000})
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // setResponseMsg("Something went wrong. Please try again.");
+    }
+    finally{
+      setLoading(false)
+    }
   };
   return (
     <div className="page bg-primary bg-opacity-5 font-Poppins">
@@ -88,7 +113,7 @@ const Contact = () => {
                   type="submit"
                   className="bg-primary text-white  text-xl !mt-8 py-3  rounded w-full hover:bg-white hover:text-primary border-primary border-2 transition"
                 >
-                  Send Message
+                  {loading ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>

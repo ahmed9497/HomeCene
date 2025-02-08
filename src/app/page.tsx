@@ -28,7 +28,7 @@ export default async function  Home() {
 // console.log(products);
 const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
 // const newArrival = products?.filter((i:any)=>i.newArrival);
-// console.log(bigProducts);
+console.log(bigProducts);
   return (
     <div className="page">
       <Slider />

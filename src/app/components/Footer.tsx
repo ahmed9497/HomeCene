@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { FaPhone } from "react-icons/fa";
-import { FaMessage } from "react-icons/fa6";
+import { FaMessage, FaWhatsapp } from "react-icons/fa6";
 import SocialIcons from "./SocialIcons";
 
 const Footer = () => {
@@ -121,10 +121,10 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="tel:+971 55 908 6152"
+                href="https://wa.me/971559086152" target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-x-2 hover:text-gray-400 hover:underline"
               >
-                <FaPhone /> +971 55 908 6152
+                <FaWhatsapp size={20}/> +971 55 908 6152
               </Link>
             </li>
             <li>

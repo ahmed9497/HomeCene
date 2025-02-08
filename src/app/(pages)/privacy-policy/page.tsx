@@ -87,7 +87,7 @@ const TermsAndConditions = () => {
 </p>
 <ul className="list-none mb-4">
   <li>Email: info@homecene.com</li>
-  <li>Phone: +971 55 908 6152</li>
+  <li>Whatsapp: +971 55 908 6152</li>
   <li>Address: Homecene, UAE</li>
 </ul>
 </div>
