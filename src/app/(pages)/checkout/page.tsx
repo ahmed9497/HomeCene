@@ -31,8 +31,10 @@ const Checkout = () => {
   const [user] = useAuthState(auth);
   const [profile, setProfile] = useState<any>();
   const [isDisable, setIsDisable] = useState(false);
-  const [selectedMethod, setSelectedMethod] = useState("credit_card");
+  const [selectedMethod, setSelectedMethod] = useState("card");
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -54,7 +56,7 @@ const Checkout = () => {
   useEffect(() => {
     if (user?.uid) {
       const fetchProfile = async () => {
-        
+        setLoading(true)
         const q = query(
           collection(db, "users"),
           where("userId", "==", user.uid)
@@ -72,8 +74,12 @@ const Checkout = () => {
           setValue("country", profile?.country);
           setValue("state", profile?.state);
           setIsDisable(true);
+          setLoading(false)
+
         } else {
           console.log("No user found with the given email.");
+          setLoading(false)
+
           return null;
         }
         // setLoading(false);
@@ -85,6 +91,7 @@ const Checkout = () => {
   const handleFormSubmit = async (data: any) => {
 
     try {
+      setLoading(true);
       if (!user?.uid) {
         const password = generateStrongPassword(16);
         const userCredential: any = await createUserWithEmailAndPassword(
@@ -179,6 +186,9 @@ const Checkout = () => {
           { hideProgressBar: true }
         );
       }
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -338,14 +348,45 @@ const Checkout = () => {
             <button
               name="submit-btn"
               type="submit"
-              className="bg-primary text-white  text-xl !mt-8 py-3  rounded w-full hover:bg-white hover:text-primary border-primary border-2 transition"
+              className="bg-primary text-white flex justify-center gap-x-2 items-center text-xl !mt-8 py-3  rounded w-full hover:bg-white hover:text-primary border-primary border-2 transition"
             >
+
+{loading ? (
+              <>
+                <svg
+                  className="animate-spin h-5 w-5 mr-2 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+                Processing...
+              </>
+            ) :
+            ( 
+              <>
               {selectedMethod === "card" && `Pay ${totalAmount} Aed`}
               {selectedMethod === "cod" && `Pay ${totalAmount/2} Aed`}
               {selectedMethod === "tabby" && "Proceed to Checkout"}
               {selectedMethod === "tamara" && "Proceed to Checkout"}
               {selectedMethod === "gpay" && `Pay ${totalAmount} Aed`}
               {selectedMethod === "apple_pay" && `Pay ${totalAmount} Aed`}
+              </>
+            )
+}
             </button>
           </form>
         </div>

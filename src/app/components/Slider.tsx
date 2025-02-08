@@ -86,7 +86,7 @@ const Slider = () => {
   };
 
   const handleTransitionEnd = () => {
-    console.log("transition");
+
     if (current === extendedSlides.length - 1) {
       // Jump back to the first actual slide
       setIsTransitioning(false);

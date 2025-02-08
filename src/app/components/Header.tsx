@@ -138,7 +138,7 @@ const Header = () => {
   };
   return (
     <header
-      className={`bg-white text-primary font-Poppins z-50 fixed top-0 w-full shadow-md min-h-[80px] flex items-center`}
+      className={`bg-white text-primary font-Poppins z-50 fixed top-0 w-full shadow-md min-h-[56px] sm:min-h-[80px] flex items-center`}
     >
       <div className="max-w-7xl mx-auto w-full py-3 sm:py-0 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
@@ -151,13 +151,13 @@ const Header = () => {
                 width={80}
                 height={90}
                 alt="homecene-logo"
-                className="w-[120px] h-[60px]"
+                className="w-[80px] h-[auto] sm:w-[120px] sm:h-[60px]"
               />
             </a>
           </div>
 
           {/* Menu - Desktop */}
-          <nav className="hidden md:flex gap-x-6 text-md ">
+          <nav className="hidden md:flex gap-x-6 text-sm sm:text-md ">
             {headerMenu.map((menu, index) => (
               <a
                 href={menu.href}
@@ -198,7 +198,7 @@ const Header = () => {
                 <IoCartOutline size={25} className="z-10" />
               </button>
             </div>
-          </div>
+         
 
           {/* Mobile Menu Button (Hamburger Icon) */}
           <div className="md:hidden flex">
@@ -238,6 +238,7 @@ const Header = () => {
                 </svg>
               )}
             </button>
+          </div>
           </div>
         </div>
 
