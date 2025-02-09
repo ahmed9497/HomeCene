@@ -66,7 +66,49 @@ const SuccessPage = () => {
   }, [session_id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="">
+
+<div className="page  pb-20 flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <div className="bg-white shadow-lg rounded-lg p-6 md:p-8 w-1/2 max-w-md">
+          {/* Success Icon */}
+          <div className="w-full h-4 bg-gray-300 animate-pulse my-2 rounded"></div>
+          {/* Success Message */}
+          <div className="w-full h-4 bg-gray-300 animate-pulse my-2 rounded"></div>
+          <div className="w-full h-6 bg-gray-300 animate-pulse my-2 rounded"></div>
+
+          {/* Order Details */}
+          <div className="bg-gray-50 border rounded-lg p-4 mb-6">
+          <div className="w-full h-4 bg-gray-300 animate-pulse my-2 rounded"></div>
+            <div className="w-full h-10 bg-gray-300 animate-pulse my-2 rounded"></div>
+            <div className="w-full h-4 bg-gray-300 animate-pulse my-2 rounded"></div>
+           
+            <div className="w-full h-4 bg-gray-300 animate-pulse my-2 rounded"></div>
+            <div className="w-full h-8 bg-gray-300 animate-pulse my-2 rounded"></div>
+          
+            
+          
+           
+            <ul className="text-sm text-gray-600">
+              {[1,2,3].map((item: any, index: number) => (
+                <li key={index} className="flex gap-x-4">
+                   <div className="w-full h-10 bg-gray-300 animate-pulse my-2 rounded"></div>
+
+                   <div className="w-full h-10 bg-gray-300 animate-pulse my-2 rounded"></div>
+                </li>
+              ))}
+            </ul>
+            <hr className="my-3" />
+            <div className="w-full h-4 bg-gray-300 animate-pulse my-2 rounded"></div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex space-x-4">
+          <div className="w-full h-5 bg-gray-300 animate-pulse my-2 rounded"></div>
+            <div className="w-full h-5 bg-gray-300 animate-pulse my-2 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>;
   }
 
   if (!session) {
