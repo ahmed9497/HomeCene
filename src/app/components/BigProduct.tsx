@@ -7,7 +7,7 @@ import Link from "next/link";
 const BigProduct = ({ product }: { product: any }) => {
   return (
     <div className="group">
-      <Link href={`/product/${product.title.replaceAll(" ", "-")}`}>
+      <Link href={`/product/${product?.title?.replaceAll(" ", "-")}`}>
         <div className="rounded-sm relative overflow-hidden cursor-pointer">
           <AddToCartButton product={product} btnType="cartBtn" />
           <div className="z-10 absolute text-sm top-2 left-2 py-[1px] text-white rounded-sm px-2 bg-red-600">

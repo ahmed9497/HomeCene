@@ -28,9 +28,9 @@ export default async function  Home() {
 // console.log(products);
 const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
 // const newArrival = products?.filter((i:any)=>i.newArrival);
-console.log(bigProducts);
+// console.log(bigProducts);
   return (
-    <div className="page">
+    <div className="pt-[60px] sm:pt-[80px]">
       <Slider />
       <main className="container">
         <div className="grid sm:grid-cols-2 grid-cols-1 gap-3 pt-10 sm:pt-20">
