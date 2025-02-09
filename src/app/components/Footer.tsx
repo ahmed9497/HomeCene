@@ -116,7 +116,7 @@ const Footer = () => {
                 href="/contact"
                 className="hover:text-gray-400 hover:underline"
               >
-                Contact
+                Contact Us
               </Link>
             </li>
             <li>

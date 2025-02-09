@@ -19,6 +19,7 @@ import ViewContentEvent from "@/app/components/ViewContentEvent";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GoClock } from "react-icons/go";
 import Link from "next/link";
+import ProductSlider from "@/app/components/ProductSlider";
 
 
 interface PageProps {
@@ -172,6 +173,10 @@ const Product = async ({ params }: any) => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-20">
+          <ProductSlider category={product.category}/>
         </div>
       </main>
     </>

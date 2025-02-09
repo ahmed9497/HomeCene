@@ -7,11 +7,14 @@ import {
   useEffect,
 } from "react";
 import { CartItem, CartContextType } from "../types/types";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase/config";
 
 // Initial state
 const initialCartState: CartContextType = {
   items: [],
   totalAmount: 0,
+  recomendedProducts:[],
   addItemToCart: () => {},
   removeItemFromCart: () => {},
   updateQuantity: (productId: any, amount: any) => {},
@@ -31,7 +34,7 @@ interface CartProviderProps {
 export function CartProvider({ children }: CartProviderProps) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-
+  const [recomendedProducts,setRecomendedProducts] = useState<any>([])
 
   // Load cart from localStorage on initial render
   useEffect(() => {
@@ -43,6 +46,7 @@ export function CartProvider({ children }: CartProviderProps) {
     if (savedTotal) {
       setTotalAmount(parseFloat(savedTotal));
     }
+    getRecomendedProducts();
   }, []);
 
   // Save cart to localStorage whenever items change
@@ -145,12 +149,24 @@ export function CartProvider({ children }: CartProviderProps) {
     setItems([]);
     setTotalAmount(0);
   };
-
+  const getRecomendedProducts = async()=>{
+    const productCollection = collection(db, "products");
+    const recomendedQuery = query(productCollection,where("recomended", "==", true));
+    const productSnapshot = await getDocs(recomendedQuery);
+  
+    const products = productSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    console.log(products)
+    setRecomendedProducts(products)
+  }
   return (
     <CartContext.Provider
       value={{
         items,
         totalAmount,
+        recomendedProducts,
         addItemToCart,
         updateQuantity,
         increaseQuantity,

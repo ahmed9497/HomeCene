@@ -76,7 +76,7 @@ const SuccessPage = () => {
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <Confetti width={2000} height={1000} />
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="page pb-20 flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div className="bg-white shadow-lg rounded-lg p-6 md:p-8  max-w-md">
           {/* Success Icon */}
           <div className="flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mx-auto mb-4">

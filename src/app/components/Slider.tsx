@@ -74,25 +74,27 @@ const Slider = () => {
   }, []);
 
   const nextSlide = () => {
-    setCurrent((prev) => prev + 1);
-    setIsTransitioning(true);
-    // setShowText(false);
+    if (current < extendedSlides.length - 1) {
+      setCurrent((prev) => prev + 1);
+      setIsTransitioning(true);
+    }
   };
 
   const prevSlide = () => {
-    setCurrent((prev) => prev - 1);
-    setIsTransitioning(true);
-    // setShowText(false);
+    if (current > 0) {
+      setCurrent((prev) => prev - 1);
+      setIsTransitioning(true);
+    }
   };
 
   const handleTransitionEnd = () => {
 
-    if (current === extendedSlides.length - 1) {
+    if (current >= extendedSlides.length - 1) {
       // Jump back to the first actual slide
       setIsTransitioning(false);
       setCurrent(1);
       setActiveTextIndex(1);
-    } else if (current === 0) {
+    } else if (current <= 0) {
       // Jump to the last actual slide
       setIsTransitioning(false);
       setCurrent(slides.length);
@@ -116,10 +118,10 @@ const Slider = () => {
     <div className="h-[230px] relative sm:h-[600px] overflow-hidden">
       <div
         ref={carouselRef}
-        className={`w-max h-full flex ${
-          isTransitioning ? "transition-transform ease-in duration-2000" : ""
-        }  `}
-        style={{ transform: `translateX(-${current * 100}vw)` }}
+        className={`w-max h-full flex 
+         ${isTransitioning ? "transition-transform ease-in duration-2000" : ""}
+          `}
+        style={{ transform: `translateX(-${current * 100}vw)`,}}
         onTransitionEnd={handleTransitionEnd}
       >
         <div className="fixed inset-0 bg-black bg-opacity-30 z-10"></div>

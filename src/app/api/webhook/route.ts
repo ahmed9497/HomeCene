@@ -77,9 +77,6 @@ export async function POST(req: NextRequest) {
 
     const paymentIntent = event.data.object;
     // console.log("PaymentIntent was successful:", event);
-
-    
-    
     
     try {
       if (typeof paymentIntent.payment_intent === "string") {

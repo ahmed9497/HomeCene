@@ -405,7 +405,7 @@ const Checkout = () => {
           </div>
 
           <div className="order-1 sm:order-2 bg-slate-200 rounded-md p-3 sm:p-10 ">
-            <div className="sticky top-[70px]">
+            <div className="sticky top-[100px]">
               {items.map((item) => (
                 <div
                   key={item.id}
@@ -453,10 +453,15 @@ const Checkout = () => {
                       </div>
                     </div>
                   </div>
-
-                  <div className="basis-52 text-right">
-                    <p>Subtotal: Aed {item.price * item.quantity}</p>
-                  </div>
+                  {selectedMethod === "cod" ? (
+                    <div className="basis-52 text-right">
+                      <p>Subtotal: Aed {(item.price / 2) * item.quantity}</p>
+                    </div>
+                  ) : (
+                    <div className="basis-52 text-right">
+                      <p>Subtotal: Aed {item.price * item.quantity}</p>
+                    </div>
+                  )}
                 </div>
               ))}
               <div className="h-[1px] mb-2 bg-gray-400" />
@@ -471,7 +476,11 @@ const Checkout = () => {
                       }, 0)}{" "}
                     Items
                   </div>
-                  <div className="text-right">Aed {totalAmount}</div>
+                  {selectedMethod === "cod" ? (
+                    <div className="text-right">Aed {totalAmount / 2}</div>
+                  ) : (
+                    <div className="text-right">Aed {totalAmount}</div>
+                  )}
                 </div>
                 <div className="grid grid-cols-2">
                   {totalAmount > 100 ? (
@@ -488,6 +497,18 @@ const Checkout = () => {
                     </>
                   )}
                 </div>
+                {selectedMethod === "cod" ? (
+                  <>
+                    <div className="grid grid-cols-2 text-xl text-red-500  my-6 font-extrabold">
+                      <div className="">Remaining via COD</div>
+                      <div className="text-right">Aed {totalAmount / 2}</div>
+                    </div>
+                    <div className="grid grid-cols-2 text-xl text-green-500  my-6 font-extrabold">
+                      <div className="">Pay Now</div>
+                      <div className="text-right">Aed {totalAmount / 2}</div>
+                    </div>
+                  </>
+                ) : null}
                 <div className="grid grid-cols-2 text-2xl  my-6 font-extrabold">
                   <div className="">Total</div>
                   <div className="text-right">
