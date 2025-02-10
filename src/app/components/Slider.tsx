@@ -5,14 +5,14 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const slides = [
-  {
-    id: 6,
-    title: "Vases That Speak Elegance",
-    description: "Artful designs to complement every corner.",
-    img: "/vase3.jpeg",
-    url: "/shop/vase-&-decore",
+  // {
+  //   id: 6,
+  //   title: "Vases That Speak Elegance",
+  //   description: "Artful designs to complement every corner.",
+  //   img: "/vase3.jpeg",
+  //   url: "/shop/vase-&-decore",
     
-  },
+  // },
   {
     id: 1,
     title: "Modern Mirrors, Classic Charm",
@@ -45,14 +45,14 @@ const slides = [
     url: "/shop/vase-&-decore",
     
   },
-  {
-    id: 5,
-    title: "Elegant vases to brighten your interiors!",
-    description: "Bloom with Sophistication",
-    img: "/vase2.jpeg",
-    url: "/shop/vase-&-decore",
+  // {
+  //   id: 5,
+  //   title: "Elegant vases to brighten your interiors!",
+  //   description: "Bloom with Sophistication",
+  //   img: "/vase2.jpeg",
+  //   url: "/shop/vase-&-decore",
    
-  },
+  // },
 ];
 
 const Slider = () => {

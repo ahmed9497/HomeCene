@@ -196,14 +196,14 @@ const Checkout = () => {
       {items?.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br rounded-md from-green-100 to-blue-200 p-6">
           <div className="bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center">
-            {/* Empty Checkout Illustration */}
+           
             <Image
               src={"/empty-cart.svg"}
               alt="Empty Cart"
               width={300}
               height={300}
             />
-            {/* Message */}
+           
             <h2 className="text-2xl font-bold text-gray-700 mt-4">
               Your Checkout is Empty
             </h2>
@@ -211,7 +211,7 @@ const Checkout = () => {
               You haven’t added any items yet. Browse our amazing collection and
               add something to your cart!
             </p>
-            {/* Continue Shopping Button */}
+            
             <Link
               href={"/shop/all-products"}
               className="mt-6 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition"
@@ -228,7 +228,7 @@ const Checkout = () => {
               className="space-y-4"
             >
               <h1 className="text-2xl font-bold">Contact</h1>
-              {/* Email */}
+            
               <div>
                 <div className="flex justify-between">
                   <label htmlFor="email">Email</label>
@@ -260,7 +260,7 @@ const Checkout = () => {
 
               <h1 className="text-2xl font-bold">Delivery</h1>
 
-              {/* Full Name */}
+              
               <div>
                 <label htmlFor="name">Full Name</label>
                 <input
@@ -276,7 +276,7 @@ const Checkout = () => {
                 )}
               </div>
 
-              {/* Phone Number */}
+      
               <div>
                 <label htmlFor="phone">Phone Number</label>
                 <input
@@ -294,7 +294,7 @@ const Checkout = () => {
                 )}
               </div>
 
-              {/* Address */}
+             
               <div>
                 <label htmlFor="address">Address</label>
                 <input
@@ -321,7 +321,7 @@ const Checkout = () => {
                     className="border p-2 rounded w-full"
                     disabled
                   >
-                    {/* <option value="">Select a country</option> */}
+                  
                     <option value="UAE">United Arab Emirates</option>
                   </select>
                   {errors.country && (
@@ -356,10 +356,12 @@ const Checkout = () => {
               </div>
 
               <h1 className="text-2xl font-bold">Payment Methods:</h1>
-              <PaymentMethod
+              <div>
+               <PaymentMethod
                 selectedMethod={selectedMethod}
                 setSelectedMethod={setSelectedMethod}
-              />
+              /> 
+              </div>
 
               <button
                 name="submit-btn"
@@ -523,7 +525,7 @@ const Checkout = () => {
             </div>
           </div>
         </div>
-      )}
+       )} 
     </div>
   );
 };

@@ -53,7 +53,7 @@ const PaymentMethod: any = ({
             {method.id == "cod" && (
               <div className="group absolute top-1  right-3 border p-1 flex place-content-center place-items-center rounded-full border-gray-400">
                 <FaInfo size={15} className="text-gray-500 hover:text-black" />
-                <div className="w-[200px] capitalize opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute -top-10 -right-20 bg-black text-white text-sm p-2 rounded-lg shadow-lg">
+                <div className="w-[200px] capitalize opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute -top-10 right-0 sm:-right-20 bg-black text-white text-sm p-2 rounded-lg shadow-lg">
                   50% downpayment required
                 </div>
               </div>

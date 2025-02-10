@@ -25,10 +25,10 @@ const Cart = () => {
   };
   return (
     <div className="container page pb-20">
-      <div className="font-extrabold text-3xl text-center mt-10">
+      <div className="font-extrabold text-3xl text-center mt-5 sm:mt-10">
         Your Shopping Cart
       </div>
-      <div className="font-extrabold text-sm text-center my-10">
+      <div className="font-extrabold text-sm text-center my-5 sm:my-10">
         <div className="my-10 bg-primary items-center capitalize bg-opacity-20 text-[12px] px-2 py-1 rounded-md gap-x-1 inline-flex">
           <Link href={"/"} className="flex gap-x-1 items-center">
             <FaHome /> Home
@@ -72,7 +72,7 @@ const Cart = () => {
                   <IoClose size={25} color="red" />
                 </div>
 
-                <div className="flex basis-2/5 sm:items-center gap-x-3 ">
+                <div className="flex basis-full sm:basis-2/5 sm:items-center gap-x-3 ">
                   {item?.image && (
                     <div className="w-auto">
                       <Image
