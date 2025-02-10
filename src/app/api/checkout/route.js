@@ -75,7 +75,8 @@ export async function POST(req) {
       orderDetails: productItems,
       totalAmount,// Full Amount
       upfrontAmount,// 100% for other methods
-      remainingAmount
+      remainingAmount,
+      shippingFee: totalOrderAmount < 100 ? shippingCharges : 0
     };
     const orderRef = db.collection("orders").doc();
     orderMetadata.id = orderRef.id;

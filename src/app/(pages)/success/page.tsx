@@ -119,14 +119,14 @@ const SuccessPage = () => {
   }
 
   if (!session) {
-    return <div>Session not found or payment failed.</div>;
+    return <div className="page">Session not found or payment failed.</div>;
   }
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <Confetti width={2000} height={1000} />
       <div className="page pb-20 flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <div className="bg-white shadow-lg rounded-lg p-6 md:p-8  max-w-md">
+        <div className="bg-white shadow-lg rounded-lg p-6 md:px-4  max-w-md">
           {/* Success Icon */}
           <div className="flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mx-auto mb-4">
             <IoIosCheckmarkCircle color="green" size={40} />
@@ -151,15 +151,24 @@ const SuccessPage = () => {
 
               <span className="basis-1/2 text-right">HC_{session.id}</span>
             </p>
-            <p className="text-sm flex  text-gray-600">
+            <p className="text-sm flex mb-2  text-gray-600">
               <span className="basis-1/2 font-bold">Payment Status: </span>
 
               <span className="basis-1/2 text-right capitalize">
                 {session.status}
               </span>
             </p>
+            {session?.shippingFee &&
+            <p className="text-sm flex mb-2  text-gray-600">
+              <span className="basis-1/2 font-bold">Shipping Fee: </span>
+
+              <span className="basis-1/2 text-right capitalize">
+                {session.shippingFee} Aed
+              </span>
+            </p>
+}
             {session?.remainingAmount ? (
-              <p className="text-sm flex  text-gray-600">
+              <p className="text-sm flex mb-2  text-gray-600">
                 <span className="basis-1/2 font-bold">
                   Remaining Payment Via Cod:{" "}
                 </span>
@@ -169,7 +178,7 @@ const SuccessPage = () => {
                 </span>
               </p>
             ) : null}
-            <p className=" text-sm flex text-gray-600">
+            <p className=" text-sm flex mb-2 text-gray-600">
               <span className="basis-2/3 font-bold">Order Detail:</span>
               <span className="basis-1/3 font-bold text-right"></span>
             </p>

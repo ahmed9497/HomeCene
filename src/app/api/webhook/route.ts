@@ -62,9 +62,80 @@ export async function POST(req: NextRequest) {
 
 
   // Handle the event (example: payment_intent.succeeded)
-  // if (event.type === "payment_intent.succeeded") {
-  //  console.log('Payment--Intent' ,event.data.object)
-  // }
+  if (event.type === "payment_intent.succeeded") {
+   console.log('Payment--Intent' ,event.data.object)
+
+   const paymentIntent = event.data.object;
+   // console.log("PaymentIntent was successful:", event);
+   
+   try {
+     if (typeof paymentIntent.id === "string") {
+       let sessionId:any = '';
+       // console.log(retrieve,"Reterive------")
+       const latestChargeId:any = paymentIntent.latest_charge ; 
+       const charge = await stripe.charges.retrieve(latestChargeId);
+       const sessions = await stripe.checkout.sessions.list({
+        payment_intent: paymentIntent.id,
+        limit: 1,
+      });
+      if (sessions.data.length > 0) {
+        sessionId = sessions.data[0].id;
+      }
+       const orderId:any =paymentIntent.metadata?.orderId ;
+      
+       console.log( charge)
+       console.log( sessionId,"-----sessionId-------")
+       console.log( paymentIntent.metadata)
+       console.log(paymentIntent.metadata?.paymentMethod,"***********")
+
+       
+       let orderObj:any = {
+         total: paymentIntent.amount_received! / 100, // Convert cents to currency
+         status: (paymentIntent.status === "succeeded" && paymentIntent.metadata?.paymentMethod ==='cod') ? "partial" : "paid",
+         createdAt: admin.firestore.FieldValue.serverTimestamp(),
+         // ...paymentIntent.metadata,
+         paymentIntentId:paymentIntent.id,
+         sessionId,
+         receiptUrl: charge.receipt_url,
+         last4:charge.payment_method_details?.card?.last4,
+         brand:charge.payment_method_details?.card?.brand
+       };
+      
+       console.log(orderId,"orderID")
+       console.log(orderObj,"orderObj")
+
+       await db.collection("orders").doc(orderId).set(orderObj,{merge:true})
+       const order =await db.collection("orders").doc(orderId);
+       const existingOrder = await order.get();
+       
+       const orderData =  existingOrder.data();
+       console.log(orderData,"orderData----")
+       if(orderData){
+
+         await sendConfirmationEmail(orderData);
+         await sendOrderEmailToAdmins(orderData);
+       }
+      
+     }
+
+     
+     // const orderRef = db.collection("orders").doc();
+     // orderObj.id = orderRef.id;
+     // await orderRef.set(orderObj);
+
+     // console.log("Order Details:", orderDetails);
+     console.log("Order saved successfully to Firestore.");
+
+    
+   } catch (err: any) {
+     console.error("Error saving order to Firestore:", err.message);
+     return NextResponse.json(
+       { error: "Error saving order to Firestore" },
+       { status: 500 }
+     );
+   }
+
+  }
   if (event.type === "checkout.session.completed") {
     
     
@@ -75,72 +146,7 @@ export async function POST(req: NextRequest) {
     //   status: 'paid',
     // });
 
-    const paymentIntent = event.data.object;
-    // console.log("PaymentIntent was successful:", event);
-    
-    try {
-      if (typeof paymentIntent.payment_intent === "string") {
-        const retrieve = await stripe.paymentIntents.retrieve(paymentIntent.payment_intent, {
-          expand: ["charges"],
-        });
-        // console.log(retrieve,"Reterive------")
-        const latestChargeId:any = retrieve.latest_charge ; 
-        const charge = await stripe.charges.retrieve(latestChargeId);
-        // console.log(charge)
-
-        const orderId:any =paymentIntent.metadata?.orderId ;
-       
-        console.log( paymentIntent.metadata)
-        console.log(paymentIntent.metadata?.paymentMethod,"***********")
-
-        // userId: paymentIntent.metadata?.userId || "unknown", // Extract from metadata
-        // items: JSON.parse(paymentIntent.metadata?.orderDetails || "[]"), // Parse items from metadata
-        // items: JSON.parse(existingData?.orderDetails) ,
-        let orderObj:any = {
-          total: paymentIntent.amount_total! / 100, // Convert cents to currency
-          status: (paymentIntent.payment_status === "paid" && paymentIntent.metadata?.paymentMethod ==='cod') ? "partial" : paymentIntent.payment_status,
-          createdAt: admin.firestore.FieldValue.serverTimestamp(),
-          // ...paymentIntent.metadata,
-          paymentIntentId:paymentIntent.payment_intent,
-          sessionId:paymentIntent.id,
-          receiptUrl: charge.receipt_url,
-          last4:charge.payment_method_details?.card?.last4,
-          brand:charge.payment_method_details?.card?.brand
-        };
-       
-        console.log(orderId,"orderID")
-        console.log(orderObj,"orderObj")
-
-        await db.collection("orders").doc(orderId).set(orderObj,{merge:true})
-        const order =await db.collection("orders").doc(orderId);
-        const existingOrder = await order.get();
-        
-        const orderData =  existingOrder.data();
-        console.log(orderData,"orderData----")
-        if(orderData){
-
-          await sendConfirmationEmail(orderData);
-          await sendOrderEmailToAdmins(orderData);
-        }
-        // await db.collection("orders").doc(paymentIntent.payment_intent).set(orderObj);
-      }
-
-      
-      // const orderRef = db.collection("orders").doc();
-      // orderObj.id = orderRef.id;
-      // await orderRef.set(orderObj);
-
-      // console.log("Order Details:", orderDetails);
-      console.log("Order saved successfully to Firestore.");
-
-     
-    } catch (err: any) {
-      console.error("Error saving order to Firestore:", err.message);
-      return NextResponse.json(
-        { error: "Error saving order to Firestore" },
-        { status: 500 }
-      );
-    }
+   
 
   }
   if (event.type === 'checkout.session.async_payment_failed') {
