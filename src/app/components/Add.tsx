@@ -263,7 +263,10 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                 //   color="gray"
                 size={10}
                 className="cursor-pointer h-full text-gray-500 hover:text-red-500 hover:scale-125"
-                onClick={(e) => setQuantity(quantity - 1)}
+                onClick={(e) =>{
+                  if(quantity===1) return;
+                  setQuantity(quantity - 1)}
+                }
               />
               <input
                 className=" w-12 text-center focus:outline-none"

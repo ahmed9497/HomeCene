@@ -26,11 +26,11 @@ const Footer = () => {
           </p>
           <Image
             unoptimized
-            src="/pymth.webp"
-            className="bg-primary h-auto w-auto"
+            src="/paymethods.png"
+            className="bg-primary h-[30px] mt-3 w-auto"
             alt="payments-methods"
             width={400}
-            height={100}
+            height={60}
           />
         </div>
         
