@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
           url: product.images[0], // Use product image
           width: 1200,
           height: 630,
-          alt: product.name,
+          alt: product.title,
         },
       ],
       // type: "product",

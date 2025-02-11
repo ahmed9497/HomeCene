@@ -121,6 +121,14 @@ const Footer = () => {
             </li>
             <li>
               <Link
+                href="/faqs"
+                className="hover:text-gray-400 hover:underline"
+              >
+                FAQ
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="https://wa.me/971559086152" target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-x-2 hover:text-gray-400 hover:underline"
               >
