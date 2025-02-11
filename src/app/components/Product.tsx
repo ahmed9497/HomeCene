@@ -5,6 +5,33 @@ import { PiShoppingCartLight } from "react-icons/pi";
 import AddToCartButton from "./AddToCartButton";
 import { ProductProps } from "../types/types";
 
+
+const getProductSchema = (product:any) => ({
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": product?.title,
+  "image": product?.images[0], // Ensure this is a valid URL
+  "description": product?.description?.replace(/<\/?p>/g, ""), // Remove HTML tags
+  "sku": product?.id,
+  "brand": {
+    "@type": "Brand",
+    "name": "HomeCene"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": `https://homecene.com/product/${product.slug}`,
+    "priceCurrency": "AED",
+    "price": product?.variant[0]?.discount
+    ? parseInt(product?.variant[0]?.discountedPrice[0])
+    : parseInt(product?.variant[0]?.price[0]),
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition",
+    "seller": {
+      "@type": "Organization",
+      "name": "HomeCene"
+    }
+  }
+});
 const Product: any = ({
   product,
   quickAddBtn,
@@ -18,6 +45,11 @@ const Product: any = ({
       key={product.id}
       className="group  rounded-sm col-span-1 hover:border-primary hover:shadow-lg hover:border hover:rounded hover:p-1 hover:transition-all overflow-hidden cursor-pointer relative"
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getProductSchema(product)) }}
+      />
+      
       <AddToCartButton product={product} btnType="cartBtn" />
       <div className=" min-h-64 w-full">
       <Link

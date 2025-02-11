@@ -66,6 +66,32 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
     },
   };
 }
+const getProductSchema = (product:any) => ({
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": product?.title,
+  "image": product?.images[0], // Ensure this is a valid URL
+  "description": product?.description?.replace(/<\/?p>/g, ""), // Remove HTML tags
+  "sku": product?.id,
+  "brand": {
+    "@type": "Brand",
+    "name": "HomeCene"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": `https://homecene.com/product/${product.slug}`,
+    "priceCurrency": "AED",
+    "price": product?.variant[0]?.discount
+    ? parseInt(product?.variant[0]?.discountedPrice[0])
+    : parseInt(product?.variant[0]?.price[0]),
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition",
+    "seller": {
+      "@type": "Organization",
+      "name": "HomeCene"
+    }
+  }
+});
 
 // Function to fetch product details
 async function fetchProduct(slug: string): Promise<any> {
@@ -117,12 +143,16 @@ const Product = async ({ params }: any) => {
           </Link>{" "}
           <FaAngleRight />
           {product.title}
+          <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getProductSchema(product)) }}
+      />
         </div>
         {/* Track FB ViewContent */}
         <ViewContentEvent
-          contentId={product.id}
-          contentName={product.name}
-          contentCategory={product.category}
+          contentId={product?.id}
+          contentName={product?.title}
+          contentCategory={product?.category}
           value={
             product.variant[0]?.discount
               ? parseInt(product.variant[0].discountedPrice[0])
