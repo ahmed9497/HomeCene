@@ -13,6 +13,7 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -20,6 +21,43 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 
 type tParams = Promise<{ slug: string }>;
+
+
+
+const categoryMeta:any = {
+
+  "all-products": {
+    title: "Buy Mirrors, Vaeses,Lamps and Decor Online in UAE | Luxury Wall & Floor Mirrors | Dubai",
+    description:
+      "Discover premium wall & floor mirrors in UAE. Shop modern, LED, and decorative mirrors for home & office. Fast delivery & best prices at Homecene!",
+    image: "https://www.homecene.com/mirror-slide.webp",
+  },
+  mirrors: {
+    title: "Buy Mirrors Online in UAE | Luxury Wall & Floor Mirrors | Dubai",
+    description:
+      "Discover premium wall & floor mirrors in UAE. Shop modern, LED, and decorative mirrors for home & office. Fast delivery & best prices at Homecene!",
+    image: "https://www.homecene.com/mirror-slide.webp",
+  },
+  lamps: {
+    title: "Shop Designer Lamps in UAE | Modern & Decorative Lighting | Dubai",
+    description:
+      "Brighten your space with stylish lamps. Shop modern table, floor, and ceiling lamps at unbeatable prices in UAE. Fast delivery available!",
+    image: "https://www.homecene.com/lamp.jpeg",
+  },
+  "vase-&-decore": {
+    title: "Elegant Vases for Home & Office | Buy in UAE Online | Dubai",
+    description:
+      "Shop high-quality decorative vases in UAE. Find modern, ceramic, and glass vases perfect for any space. Exclusive designs & fast shipping!",
+    image: "https://www.homecene.com/vase.webp",
+  },
+  'wooden-decore': {
+    title: "Wooden Decor Accessories UAE | Buy Stylish Interior Pieces | Dubai",
+    description:
+      "Upgrade your home with elegant decor pieces. Shop wall art, sculptures, candles & more for a modern interior. Fast delivery in UAE!",
+    image: "https://www.homecene.com/vase.webp",
+  },
+};
+
 
 async function fetchProducts(
   slug = "all-product",
@@ -93,7 +131,36 @@ async function fetchProducts(
 
   return { products, firstCursor, lastCursor };
 }
+export async function generateMetadata({ params }: { params: tParams }): Promise<Metadata> {
+  const { slug } = await params;
+  const meta = categoryMeta[slug] || {
+    title: "Shop Home Accessories in UAE | Best Prices & Quality",
+    description:
+      "Explore a wide range of home accessories including mirrors, lamps, vases, and more. Find the best quality decor items at Homecene with fast delivery!",
+    image: "https://www.homecene.com/mirror-slide.webp",
+  };
 
+  return {
+    title: meta.title,
+    description: meta.description,
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      url: `https://www.homecene.com/shop/${slug}`,
+      type: "website",
+      images: [{ url: meta.image, width: 1200, height: 630, alt: meta.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+      images: [meta.image],
+    },
+    alternates: {
+      canonical: `https://www.homecene.com/shop/${slug}`,
+    },
+  };
+}
 export default async function ShopPage({
   params,
   searchParams,

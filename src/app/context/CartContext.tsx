@@ -158,7 +158,7 @@ export function CartProvider({ children }: CartProviderProps) {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log(products)
+    // console.log(products)
     setRecomendedProducts(products)
   }
   return (

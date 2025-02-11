@@ -18,7 +18,7 @@ const Contact = () => {
   } = useForm();
 
   const handleFormSubmit = async (data: any) => {
-    console.log(data);
+    // console.log(data);
     try {
       setLoading(true);
       const res = await fetch("/api/contact", {
