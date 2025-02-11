@@ -25,29 +25,47 @@ import ProductSlider from "@/app/components/ProductSlider";
 interface PageProps {
   params: { slug: string };
 }
-
+function stripHtml(html:any) {
+  return html.replace(/<\/?[^>]+(>|$)/g, ""); // Removes all HTML tags
+}
 // // Generate Metadata Dynamically
-// export async function generateMetadata({ params }: any): Promise<Metadata> {
-//   const { slug } = await params;
-//   const product = await fetchProduct(slug);
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await fetchProduct(slug);
+  const cleanDescription = product.description ? stripHtml(product.description) : "Discover premium home decor at HomeCene.";
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      description: "The product you are looking for does not exist.",
+    };
+  }
 
-//   if (!product) {
-//     return {
-//       title: "Product Not Found",
-//       description: "The product you are looking for does not exist.",
-//     };
-//   }
-
-//   return {
-//     title: `${product.title} - HomeCene`,
-//     description: product.description,
-//     openGraph: {
-//       title: `${product.title} - HomeCene`,
-//       description: product.description,
-//       images: [{ url: product.image }],
-//     },
-//   };
-// }
+  return {
+    title: `${product.title} - HomeCene`,
+    description: cleanDescription,
+    openGraph: {
+      title: `${product.title} | HomeCene`,
+      description: cleanDescription || "Discover premium home decor and furniture at HomeCene.",
+      url: `https://www.homecene.com/product/${product.title.replaceAll(" ","-")}`,
+      siteName: "HomeCene",
+      images: [
+        {
+          url: product.images[0], // Use product image
+          width: 1200,
+          height: 630,
+          alt: product.name,
+        },
+      ],
+      // type: "product",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.title} | HomeCene`,
+      description: cleanDescription || "Discover premium home decor and furniture at HomeCene.",
+      images: [product.images[0]],
+    },
+  };
+}
 
 // Function to fetch product details
 async function fetchProduct(slug: string): Promise<any> {

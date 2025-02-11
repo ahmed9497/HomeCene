@@ -30,6 +30,9 @@ import { Analytics } from "@vercel/analytics/react"
 export const metadata:Metadata = {
   title: "HomeCene | Premium Home Decor, Mirrors, Vases & Lamps in Dubai – Elevate Your Space",
   description: "Discover Homecene, Dubai’s premier destination for luxury home decor, mirror vases, lamps, and stylish furniture. Transform your space with elegant designs and smart home essentials. Fast delivery across the UAE!",
+  keywords: "home decor, mirrors, vases, lamps,furniture Dubai, modern furniture, home essentials, interior design, luxury home decor, online furniture store",
+  // viewport: "width=device-width, initial-scale=1",
+  robots: "index, follow",
   icons: [
     { rel: "icon", type: "image/x-icon", url: "/favicon.ico" }, // Favicon
     { rel: "apple-touch-icon", url: "/apple-touch-icon.png" },  // iOS icon
@@ -37,6 +40,27 @@ export const metadata:Metadata = {
     { rel: "icon", type: "image/png", sizes: "512x512", url: "/android-chrome-512x512.png" }, // Android 512x512
   ],
   manifest: "/site.webmanifest", // Link to the Web App Manifest for Android
+  openGraph: {
+    title: "HomeCene | Premium Home Decor, Mirrors, Vases & Lamps in Dubai – Elevate Your Space",
+    description: "Shop luxury home decor & furniture in Dubai. Explore our stylish and modern collections to upgrade your space.",
+    url: "https://www.homecene.com",
+    siteName: "HomeCene",
+    images: [
+      {
+        url: "https://www.homecene.com/images/mirror-slide.webp",
+        width: 1200,
+        height: 630,
+        alt: "HomeCene Banner",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HomeCene | Premium Home Decor, Mirrors, Vases & Lamps in Dubai – Elevate Your Space",
+    description: "Discover premium home decor and furniture at HomeCene. Elevate your living space with stylish, high-quality essentials. Shop now!",
+    images: ["https://www.homecene.com/mirror-slide.webp"],
+  },
 };
 
 export default function RootLayout({
