@@ -13,11 +13,19 @@ const slides = [
   //   url: "/shop/vase-&-decore",
     
   // },
+  // {
+  //   id: 1,
+  //   title: "Modern Mirrors, Classic Charm",
+  //   description: "Bold reflections for contemporary living",
+  //   img: "/mirror-slide.webp",
+  //   url: "/shop/mirrors",
+    
+  // },
   {
     id: 1,
-    title: "Modern Mirrors, Classic Charm",
-    description: "Bold reflections for contemporary living",
-    img: "/mirror-slide.webp",
+    title: "Get up to 50% OFF on our exclusive Mirrors & Vase Collection!",
+    description: `Pre-Ramadan Sale!`,
+    img: "/pre-ramadan-banner.webp",
     url: "/shop/mirrors",
     
   },

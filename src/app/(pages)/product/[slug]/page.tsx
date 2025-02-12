@@ -26,13 +26,14 @@ interface PageProps {
   params: { slug: string };
 }
 function stripHtml(html:any) {
+  if(!html) return;
   return html.replace(/<\/?[^>]+(>|$)/g, ""); // Removes all HTML tags
 }
 // // Generate Metadata Dynamically
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const { slug } = await params;
   const product = await fetchProduct(slug);
-  const cleanDescription = product.description ? stripHtml(product.description) : "Discover premium home decor at HomeCene.";
+  const cleanDescription = product?.description ? stripHtml(product?.description) : "Discover premium home decor at HomeCene.";
   if (!product) {
     return {
       title: "Product Not Found",
@@ -118,6 +119,7 @@ const Product = async ({ params }: any) => {
     );
   }
   const getDescription = (description: any) => {
+    if(!description) return;
     const isHTML = /<\/?[a-z][\s\S]*>/i.test(description); // Check if it contains HTML tags
 
     return isHTML ? (
