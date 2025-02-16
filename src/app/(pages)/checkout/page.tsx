@@ -123,22 +123,25 @@ const Checkout = () => {
       // }
 
       if (selectedMethod === "tabby") {
-        const payload = {
-          amount: 200,
+        const payload: any = {
+          amount: totalAmount,
           currency: "AED",
           buyer: {
-            email: "customer@example.com",
-            phone: "+971501234567",
-            name: "John Doe",
+            email: "otp.success@tabby.ai", //||data.email,
+            phone: "+971500000001", //data?.phone,
+            name: data?.name,
           },
-          products: [
-            {
-              title: "Leather Jacket",
-              description: "Black premium leather jacket",
-              quantity: 1,
-              unit_price: 200,
-            },
-          ],
+          products: items?.map((i) => ({
+            title: i.title,
+            // description: "Black premium leather jacket",
+            quantity: i.quantity,
+            unit_price: i.price,
+          })),
+          ...data,
+          items,
+           data,
+           totalAmount,
+           selectedMethod
         };
         const response = await fetch("/api/tabby", {
           method: "POST",
@@ -146,17 +149,24 @@ const Checkout = () => {
           body: JSON.stringify({ ...payload }),
         });
 
-        const data = await response.json();
-
+        const tabbyResponse = await response.json();
+        console.log(tabbyResponse)
         if (
-          data.configuration &&
-          data.configuration?.available_products?.installments
+          tabbyResponse.configuration &&
+          tabbyResponse.configuration?.available_products?.installments
         ) {
           const checkoutUrl =
-            data.configuration.available_products?.installments[0].web_url;
+            tabbyResponse.configuration.available_products?.installments[0]
+              .web_url;
           window.location.href = checkoutUrl;
         } else {
-          alert("Tabby checkout is not available for this order.");
+          if(tabbyResponse.rejection_reason_code === "not_available"){
+            toast.error("Sorry, Tabby is unable to approve this purchase, please use an alternative payment method for your order.",{autoClose:4000})
+          }
+          else{
+
+            toast.error("Tabby checkout is not available for this order.");
+          }
         }
         return;
       }
@@ -196,14 +206,13 @@ const Checkout = () => {
       {items?.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br rounded-md from-green-100 to-blue-200 p-6">
           <div className="bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center">
-           
             <Image
               src={"/empty-cart.svg"}
               alt="Empty Cart"
               width={300}
               height={300}
             />
-           
+
             <h2 className="text-2xl font-bold text-gray-700 mt-4">
               Your Checkout is Empty
             </h2>
@@ -211,7 +220,7 @@ const Checkout = () => {
               You haven’t added any items yet. Browse our amazing collection and
               add something to your cart!
             </p>
-            
+
             <Link
               href={"/shop/all-products"}
               className="mt-6 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition"
@@ -228,7 +237,7 @@ const Checkout = () => {
               className="space-y-4"
             >
               <h1 className="text-2xl font-bold">Contact</h1>
-            
+
               <div>
                 <div className="flex justify-between">
                   <label htmlFor="email">Email</label>
@@ -260,7 +269,6 @@ const Checkout = () => {
 
               <h1 className="text-2xl font-bold">Delivery</h1>
 
-              
               <div>
                 <label htmlFor="name">Full Name</label>
                 <input
@@ -276,7 +284,6 @@ const Checkout = () => {
                 )}
               </div>
 
-      
               <div>
                 <label htmlFor="phone">Phone Number</label>
                 <input
@@ -294,7 +301,6 @@ const Checkout = () => {
                 )}
               </div>
 
-             
               <div>
                 <label htmlFor="address">Address</label>
                 <input
@@ -321,7 +327,6 @@ const Checkout = () => {
                     className="border p-2 rounded w-full"
                     disabled
                   >
-                  
                     <option value="UAE">United Arab Emirates</option>
                   </select>
                   {errors.country && (
@@ -357,10 +362,10 @@ const Checkout = () => {
 
               <h1 className="text-2xl font-bold">Payment Methods:</h1>
               <div>
-               <PaymentMethod
-                selectedMethod={selectedMethod}
-                setSelectedMethod={setSelectedMethod}
-              /> 
+                <PaymentMethod
+                  selectedMethod={selectedMethod}
+                  setSelectedMethod={setSelectedMethod}
+                />
               </div>
 
               <button
@@ -525,7 +530,7 @@ const Checkout = () => {
             </div>
           </div>
         </div>
-       )} 
+      )}
     </div>
   );
 };
