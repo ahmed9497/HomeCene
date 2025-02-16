@@ -19,9 +19,9 @@ const db = admin.firestore();
 
 export async function POST(req: NextRequest) {
   
-
+const data = await req.json();
 console.log("__________Tabby____________")
-console.log(req.body)
+console.log(data)
 console.log("__________Tabby____________")
   // return NextResponse.json({ received: true }, { status: 200 });
 }
