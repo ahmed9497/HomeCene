@@ -16,7 +16,7 @@ const PaymentMethod: any = ({
       src: "/payment-logos.png",
     },
     { id: "cod", label: "Cash on Delivery", src: "/cash-on-delivery.png" },
-    { id: "tabby", label: "Tabby",src:"/tabby.png" },
+    // { id: "tabby", label: "Tabby",src:"/tabby.png" },
     // { id: "tamara", label: "Tamara",src:"/tamara.png" },
     // { id: "gpay", label: "Gpay",src:"/GPAY.png" },
     // { id: "apple_pay", label: "Apple Pay",src:"/applepay.webp" },
