@@ -26,6 +26,7 @@ export async function POST(req: Request) {
   } = await req.json();
 
   try {
+    console.log( "amount" ,amount + (totalOrderAmount < 100 ? shippingCharges : 0 ),)
     const response = await fetch("https://api.tabby.ai/api/v2/checkout", {
       method: "POST",
       headers: {
@@ -34,7 +35,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         payment: {
-          amount:amount + (totalOrderAmount < 100 ? shippingCharges : 0 ),
+          amount:amount + (totalOrderAmount < 100 ? parseInt(shippingCharges!) : 0 ),
           currency,
           description: "Your order description",
           buyer,
