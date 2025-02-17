@@ -48,8 +48,8 @@ export async function POST(req: Request) {
         lang: "en",
         merchant_urls: {
           success: "http://localhost:3000/success",
-          cancel: "https://your-store/cancel",
-          failure: "https://your-store/failure",
+          cancel: "https://www.homecene.com/checkout",
+          failure: "https://www.homecene.com/checkout",
         },
       }),
     });

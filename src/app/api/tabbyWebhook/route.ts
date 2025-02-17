@@ -48,10 +48,10 @@ export async function POST(req: Request) {
 
   
     
-    const orderData =  firstDoc.data();
+    let orderData =  firstDoc.data();
     console.log(orderData,"orderData----")
     if(orderData){
-
+      orderData.total = amount;
       await sendConfirmationEmail(orderData);
       await sendOrderEmailToAdmins(orderData);
     }
