@@ -23,7 +23,11 @@ const OrdersPage = () => {
       if (user) {
         try {
           const ordersRef = collection(db, "orders");
-          const q = query(ordersRef, where("userId", "==", user.uid),orderBy('createdAt',"desc"));
+          const q = query(
+            ordersRef,
+            where("userId", "==", user.uid),
+            orderBy("createdAt", "desc")
+          );
           const querySnapshot = await getDocs(q);
 
           const fetchedOrders = querySnapshot.docs.map((doc) => ({
@@ -138,15 +142,19 @@ const OrdersPage = () => {
     <div className="max-w-4xl min-h-[700px] mt-20 mx-auto p-4 space-y-4">
       <h1 className="text-2xl font-bold mb-4">Your Orders</h1>
 
-      {orders.map((order,index) => (
+      {orders.map((order, index) => (
         <div key={order.id} className="border rounded-lg shadow-sm bg-white">
           {/* Accordion Header */}
           <div
-            className={`flex flex-wrap transition-all items-center justify-between px-4 py-3 cursor-pointer ${index===0 && 'bg-primary bg-opacity-20'}`}
+            className={`flex flex-wrap transition-all items-center justify-between px-4 py-3 cursor-pointer ${
+              index === 0 && "bg-primary bg-opacity-20"
+            }`}
             onClick={() => toggleAccordion(order.id)}
           >
             <div>
-              <h3 className="text-lg font-bold mb-4">Order ID: HC_{order.id}</h3>
+              <h3 className="text-lg font-bold mb-4">
+                Order ID: HC_{order.id}
+              </h3>
               <p className="text-sm flex gap-x-4  text-gray-600 mb-3">
                 <span className="basis-40">Order Status:</span>
                 <span className="capitalize  bg-primary bg-opacity-20 px-4 rounded-sm text-primary font-medium">
@@ -159,18 +167,20 @@ const OrdersPage = () => {
                   {order.status}
                 </span>
               </p>
-              {order.remainingAmount ?
-              <p className="text-sm flex gap-x-4  text-gray-600 mb-3">
-                <span className="basis-40">Remaining Payment: </span>
-                <span className="capitalize  bg-primary bg-opacity-20 px-4 rounded-sm text-primary font-medium">
-                  {order.remainingAmount /100} Aed
-                </span>
-              </p>
-              :null}
+              {order.remainingAmount ? (
+                <p className="text-sm flex gap-x-4  text-gray-600 mb-3">
+                  <span className="basis-40">Remaining Payment: </span>
+                  <span className="capitalize  bg-primary bg-opacity-20 px-4 rounded-sm text-primary font-medium">
+                    {order.remainingAmount / 100} Aed
+                  </span>
+                </p>
+              ) : null}
               <p className="text-sm flex gap-x-4  text-gray-600 mb-3">
                 <span className="basis-40">Payment Method:</span>
                 <span className="capitalize  bg-primary bg-opacity-20 px-4 rounded-sm text-primary font-medium">
-                  {order.paymentMethod ==='cod' ? '50%--50% COD--Card' :'Card'}
+                  {order.paymentMethod === "cod"
+                    ? "50%--50% COD--Card"
+                    : order.paymentMethod}
                 </span>
               </p>
               <p className="text-sm flex gap-x-4  text-gray-600 mb-3">
@@ -181,8 +191,12 @@ const OrdersPage = () => {
               </p>
             </div>
             <button className="text-sm flex item-center font-medium text-blue-600">
-              {expandedOrderId === order.id ? "Hide Details"  : "View Details"} 
-              {expandedOrderId === order.id ?  <FaAngleUp size={20}/>  :  <FaAngleDown size={20}/>}
+              {expandedOrderId === order.id ? "Hide Details" : "View Details"}
+              {expandedOrderId === order.id ? (
+                <FaAngleUp size={20} />
+              ) : (
+                <FaAngleDown size={20} />
+              )}
             </button>
           </div>
 
@@ -197,49 +211,74 @@ const OrdersPage = () => {
                     className="flex justify-between text-sm text-gray-700"
                   >
                     <div className="flex items-center gap-x-3">
-                      <img src={item.images} className="size-20 object-cover rounded-sm"/>
+                      <img
+                        src={item.images}
+                        className="size-20 object-cover rounded-sm"
+                      />
                       <div>
-                      <Link href={`/product/${item.title.replaceAll(" ","-")}`} className="cursor-pointer underline">{item.title}</Link> (x{item.quantity})
-                      <div className="flex gap-x-4">
-                        <span>{item?.size}</span>
-                        {item?.feature && (
-                          <>
-                            <div className="h-4 w-px bg-black"></div>
-                            <span>{item?.feature}</span>
-                          </>
-                        )}
-                        {item?.color && (
-                          <>
-                            <div className="h-4 w-px bg-black"></div>
-                            <span>{item.color}</span>
-                          </>
-                        )}
-                      </div>
+                        <Link
+                          href={`/product/${item.title.replaceAll(" ", "-")}`}
+                          className="cursor-pointer underline"
+                        >
+                          {item.title}
+                        </Link>{" "}
+                        (x{item.quantity})
+                        <div className="flex gap-x-4">
+                          <span>{item?.size}</span>
+                          {item?.feature && (
+                            <>
+                              <div className="h-4 w-px bg-black"></div>
+                              <span>{item?.feature}</span>
+                            </>
+                          )}
+                          {item?.color && (
+                            <>
+                              <div className="h-4 w-px bg-black"></div>
+                              <span>{item.color}</span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    {order.paymentMethod ==='cod' ?
-                    <span>{(item.unit_amount / 100) } - {(item.half_amount / 100) } AED</span>
-                    :
-                    <span>{(item.unit_amount / 100) }  AED</span>
-}
+                    {order.paymentMethod === "cod" ? (
+                      <span>
+                        {item.unit_amount / 100} - {item.half_amount / 100} AED
+                      </span>
+                    ) : (
+                      <span>{item.unit_amount / 100} AED</span>
+                    )}
                   </li>
                 ))}
               </ul>
-              {order.paymentMethod === 'cod' && 
-              <>
-              <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
-                <span>Paid Amount:</span>
-                <span className="text-green-500 font-bold">{order.upfrontAmount/100} AED</span>
-              </div>
-              <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
-                <span>Remaining Amount Via COD:</span>
-                <span className="text-red-500 font-bold">{order.remainingAmount/100} AED</span>
-              </div>
-              </>
-}
+              {order.paymentMethod === "cod" && (
+                <>
+                  <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
+                    <span>Paid Amount:</span>
+                    <span className="text-green-500 font-bold">
+                      {order.upfrontAmount / 100} AED
+                    </span>
+                  </div>
+                  <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
+                    <span>Remaining Amount Via COD:</span>
+                    <span className="text-red-500 font-bold">
+                      {order.remainingAmount / 100} AED
+                    </span>
+                  </div>
+                </>
+              )}
+              {order?.shippingFee && (
+                <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
+                  <span>Shipping:</span>
+                  <span className="text-primary font-bold">
+                    {order.shippingFee} AED
+                  </span>
+                </div>
+              )}
               <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
                 <span>Order Total Amount:</span>
-                <span className="text-primary font-bold">{order.totalAmount/100} AED</span>
+                <span className="text-primary font-bold">
+                  {order.totalAmount / 100} AED
+                </span>
               </div>
             </div>
           )}
