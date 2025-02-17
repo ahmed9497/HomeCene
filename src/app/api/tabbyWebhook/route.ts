@@ -58,8 +58,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ received: true }, { status: 200 });
   }
-
+ 
   try {
+    if(status === 'authorized'){
     const response = await fetch(
       `https://api.tabby.ai/api/v2/payments/${id}/captures`,
       {
@@ -69,13 +70,13 @@ export async function POST(req: NextRequest) {
           Authorization: `Bearer sk_test_0194abd1-a09c-daac-b768-110e5afd7624`, // Replace with your Tabby Secret Key
         },
         body: JSON.stringify({
-          amount,
+          amount:amount,
         }),
       }
     );
     const res = await response.json();
     console.log(res, "-----capture-------");
-
+  }
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (error) {
     console.log("Error capturing payment:", error);
