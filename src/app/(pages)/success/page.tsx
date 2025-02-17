@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import Confetti from "react-confetti";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "@/app/firebase/config";
 
 const SuccessPage = () => {
@@ -19,71 +19,51 @@ const SuccessPage = () => {
       let retries = 0;
       const maxRetries = 5; // Number of retry attempts
       const retryDelay = 2000;
-      const fetchSessionDetails = async () => {
+      const fetchSessionDetails = () => {
         if (!session_id && !payment_id) return;
-        try {
-          try {
-            const ordersRef = collection(db, "orders");
-            const conditions = [];
-
-            // Add condition dynamically if session_id exists
-            if (session_id) {
-              conditions.push(where("sessionId", "==", session_id));
+      
+        const ordersRef = collection(db, "orders");
+        const conditions = [];
+      
+        // Dynamically add filters
+        if (session_id) conditions.push(where("sessionId", "==", session_id));
+        if (payment_id) conditions.push(where("paymentId", "==", payment_id));
+      
+        // Construct query
+        const q = query(ordersRef, ...conditions);
+      
+        // Real-time listener
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          
+          
+          if (!querySnapshot.empty) {
+            const orderData = querySnapshot.docs[0].data();
+            setSession(orderData);
+      
+            if (typeof window !== "undefined" && window.fbq) {
+              window.fbq("track", "Purchase", {
+                content_ids: orderData?.items?.items?.map((item:any) => item.productId),
+                content_name: "Order Purchase",
+                value: orderData?.total,
+                currency: "AED",
+                num_items: orderData?.items?.items?.reduce(
+                  (acc:any, item:any) => acc + item.quantity,
+                  0
+                ),
+                contents: orderData?.items?.items?.map((item:any) => ({
+                  id: item.productId,
+                  quantity: item.quantity,
+                })),
+              });
             }
-
-            // Add condition dynamically if payment_id exists
-            if (payment_id) {
-              conditions.push(where("paymentId", "==", payment_id));
-            }
-
-            // Construct query with dynamic conditions
-            const q = query(ordersRef, ...conditions);
-            const querySnapshot = await getDocs(q);
-
-            if (!querySnapshot.empty) {
-              const orderData = querySnapshot.docs[0].data();
-              // console.log(orderData);
-              setSession(orderData);
-
-              if (typeof window !== "undefined" && window.fbq) {
-                // Track the Purchase event
-                window.fbq("track", "Purchase", {
-                  content_ids: orderData?.items?.items?.map(
-                    (item: any) => item.productId
-                  ), // Array of product IDs
-                  content_name: "Order Purchase", // Description of the purchase
-                  value: orderData?.total, // Total amount of the order
-                  currency: "AED", // Currency of the transaction
-                  num_items: orderData?.items?.items?.reduce(
-                    (acc: number, item: any) => acc + item.quantity,
-                    0
-                  ), // Total number of items purchased
-                  contents: orderData?.items?.items?.map((item: any) => ({
-                    id: item.productId,
-                    quantity: item.quantity,
-                  })), // Details of items purchased
-                });
-              }
-            } else {
-              if (retries < maxRetries) {
-                retries++;
-                console.log(
-                  `🔄 Order not found, retrying... (${retries}/${maxRetries})`
-                );
-                setTimeout(fetchSessionDetails, retryDelay);
-              } else {
-                console.log("❌ Order not found after multiple attempts.");
-              }
-            }
-          } catch (error) {
-            console.error("🔥 Error fetching order:", error);
-          } finally {
-            setLoading(false);
+          } else {
+            console.log("❌ Order not found.");
           }
-        } catch (error) {
-          console.log("Error fetching session details:", error);
           setLoading(false);
-        }
+        });
+      
+        
+        return () => unsubscribe(); // Cleanup listener when unmounted
       };
 
       fetchSessionDetails();
