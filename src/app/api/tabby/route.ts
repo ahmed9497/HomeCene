@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         payment: {
-          amount,
+          amount:amount + (totalOrderAmount < 100 ? shippingCharges : 0 ),
           currency,
           description: "Your order description",
           buyer,
