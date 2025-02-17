@@ -17,7 +17,7 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   const data = await req.json();
   console.log("__________Tabby____________");
   console.log(data);
