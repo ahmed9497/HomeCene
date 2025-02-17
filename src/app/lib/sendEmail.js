@@ -123,6 +123,7 @@ export async function sendConfirmationEmail(orderDetails) {
         <h3>Order Details:</h3>
         <ul>
           <li><strong>Total:</strong> ${orderDetails.total} Aed </li>
+          <li><strong>Shipping:</strong> ${orderDetails?.shippingFee||"0"} Aed </li>
           <li><strong>Items:</strong></li>
           ${orderDetails.orderDetails.map(item => `
             <li>
@@ -269,6 +270,7 @@ export async function sendOrderEmailToAdmins(orderDetails) {
               <h3>Order Details:</h3>
               <ul>
                 <li><strong>Total:</strong> ${orderDetails.total} Aed </li>
+                 <li><strong>Shipping:</strong> ${orderDetails?.shippingFee||"0"} Aed </li>
                 <li><strong>Items:</strong></li>
                 ${orderDetails.orderDetails.map(item => `
                   <li>
