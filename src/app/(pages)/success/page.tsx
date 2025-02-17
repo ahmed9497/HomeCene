@@ -12,18 +12,32 @@ const SuccessPage = () => {
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const session_id = params.get("session_id");
+  const payment_id = params.get("payment_id");
 
   useEffect(() => {
-    if (session_id) {
+    if (session_id || payment_id) {
       let retries = 0;
-    const maxRetries = 5; // Number of retry attempts
-    const retryDelay = 2000;
+      const maxRetries = 5; // Number of retry attempts
+      const retryDelay = 2000;
       const fetchSessionDetails = async () => {
-        if (!session_id) return;
+        if (!session_id && !payment_id) return;
         try {
           try {
             const ordersRef = collection(db, "orders");
-            const q = query(ordersRef, where("sessionId", "==", session_id));
+            const conditions = [];
+
+            // Add condition dynamically if session_id exists
+            if (session_id) {
+              conditions.push(where("sessionId", "==", session_id));
+            }
+
+            // Add condition dynamically if payment_id exists
+            if (payment_id) {
+              conditions.push(where("paymentId", "==", payment_id));
+            }
+
+            // Construct query with dynamic conditions
+            const q = query(ordersRef, ...conditions);
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
@@ -53,7 +67,9 @@ const SuccessPage = () => {
             } else {
               if (retries < maxRetries) {
                 retries++;
-                console.log(`🔄 Order not found, retrying... (${retries}/${maxRetries})`);
+                console.log(
+                  `🔄 Order not found, retrying... (${retries}/${maxRetries})`
+                );
                 setTimeout(fetchSessionDetails, retryDelay);
               } else {
                 console.log("❌ Order not found after multiple attempts.");
@@ -149,24 +165,24 @@ const SuccessPage = () => {
             <p className="text-sm flex  text-gray-600">
               <span className="basis-1/2 font-bold">Order ID:</span>
 
-              <span className="basis-1/2 text-right">HC_{session.id}</span>
+              <span className="basis-1/2 text-right">HC_{session?.id}</span>
             </p>
             <p className="text-sm flex mb-2  text-gray-600">
               <span className="basis-1/2 font-bold">Payment Status: </span>
 
               <span className="basis-1/2 text-right capitalize">
-                {session.status}
+                {session?.status}
               </span>
             </p>
-            {session?.shippingFee &&
-            <p className="text-sm flex mb-2  text-gray-600">
-              <span className="basis-1/2 font-bold">Shipping Fee: </span>
+            {session?.shippingFee && (
+              <p className="text-sm flex mb-2  text-gray-600">
+                <span className="basis-1/2 font-bold">Shipping Fee: </span>
 
-              <span className="basis-1/2 text-right capitalize">
-                {session.shippingFee} Aed
-              </span>
-            </p>
-}
+                <span className="basis-1/2 text-right capitalize">
+                  {session?.shippingFee} Aed
+                </span>
+              </p>
+            )}
             {session?.remainingAmount ? (
               <p className="text-sm flex mb-2  text-gray-600">
                 <span className="basis-1/2 font-bold">
@@ -174,7 +190,7 @@ const SuccessPage = () => {
                 </span>
 
                 <span className="basis-1/2 text-right capitalize">
-                  {session.remainingAmount / 100} Aed
+                  {session?.remainingAmount / 100} Aed
                 </span>
               </p>
             ) : null}

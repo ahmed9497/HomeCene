@@ -39,15 +39,17 @@ export async function POST(req: Request) {
           description: "Your order description",
           buyer,
           order: {
+            shipping_amount: totalOrderAmount < 100 ? shippingCharges : 0,
             reference_id: `order-${Date.now()}`,
             items: products,
           },
           capture: true,
         },
+        
         merchant_code: "HomeCene Home Decor and Accessories Tradingare",
         lang: "en",
         merchant_urls: {
-          success: "http://localhost:3000/success",
+          success: "https://www.homecene.com/success",
           cancel: "https://www.homecene.com/checkout",
           failure: "https://www.homecene.com/checkout",
         },

@@ -264,7 +264,7 @@ export async function sendOrderEmailToAdmins(orderDetails) {
           <div class="content">
             <p>Dear Admins</p>
             <p>We have received order with ID <strong>#HC_${orderDetails.id}</strong> </p>
-             <p>From:<strong>#HC_${orderDetails.name}</strong> </p>
+             <p>From:<strong>${orderDetails.name}</strong> </p>
             <div class="order-details">
               <h3>Order Details:</h3>
               <ul>
