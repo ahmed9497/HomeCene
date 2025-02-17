@@ -23,12 +23,12 @@ export async function POST(req: NextRequest) {
   console.log(data);
   console.log("__________Tabby____________");
 
-  const { id, amount, status } = data; // Get payment details from request
+  const { id, amount, status,captures } = data; // Get payment details from request
 
   if (!id || !amount) {
     return NextResponse.json({ error: "Missing parameters" }, { status: 400 });
   }
-  if (status === "closed") {
+  if (status.toLowerCase() === "closed") {
     const paymentRef = db.collection("orders"); // Collection name
     const querySnapshot = await paymentRef.where("paymentId", "==", id).get();
     if (querySnapshot.empty) {
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
   }
  
   try {
-    if(status === 'authorized'){
+    if(status === 'authorized' && captures === null){
     const response = await fetch(
       `https://api.tabby.ai/api/v2/payments/${id}/captures`,
       {
