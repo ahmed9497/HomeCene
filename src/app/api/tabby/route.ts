@@ -50,9 +50,9 @@ export async function POST(req: Request) {
         merchant_code: "HomeCene Home Decor and Accessories Tradingare",
         lang: "en",
         merchant_urls: {
-          success: "https://www.homecene.com/success",
-          cancel: "https://www.homecene.com/checkout",
-          failure: "https://www.homecene.com/checkout",
+          success: "https://staging.homecene.com/success",
+          cancel: "https://staging.homecene.com/checkout",
+          failure: "https://staging.homecene.com/checkout",
         },
       }),
     });
