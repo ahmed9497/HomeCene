@@ -6,6 +6,8 @@ import {
   sendOrderEmailToAdmins,
 } from "../../lib/sendEmail";
 
+
+const TABBY = process.env.TABBY_SECRET_KEY;
 // Initialize Firebase Admin SDK
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -67,7 +69,7 @@ export async function POST(req: Request) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer sk_test_0194abd1-a09c-daac-b768-110e5afd7624`, // Replace with your Tabby Secret Key
+          Authorization: `Bearer ${TABBY}`, // Replace with your Tabby Secret Key
         },
         body: JSON.stringify({
           amount:amount,

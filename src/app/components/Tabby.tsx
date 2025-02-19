@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
+
+const TABBY_PUBLIC_KEY = process.env.NEXT_PUBLIC_TABBY_PUBLIC_KEY;
+
 const TabbyPromo = ({
   price,
   currency,
@@ -70,13 +73,13 @@ const TabbyPromo = ({
       }
 
       // 🔄 Reinitialize TabbyPromo
-      new (window as any).TabbyPromo({
+      window && new (window as any).TabbyPromo({
         selector: "#TabbyPromo",
         currency: currency,
         price: price,
         lang,
         installmentsCount: 4,
-        publicKey: "pk_test_0194abd1-a09c-daac-b768-110dd38519c1", // Replace with actual API Key
+        publicKey: `${TABBY_PUBLIC_KEY}`, // Replace with actual API Key
         merchantCode: "HCHARE", // Change for different currencies
       });
 

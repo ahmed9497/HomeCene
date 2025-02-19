@@ -154,7 +154,7 @@ const SuccessPage = () => {
                 {session?.status}
               </span>
             </p>
-            {session?.shippingFee && (
+            {session?.shippingFee?.length >0 ? (
               <p className="text-sm flex mb-2  text-gray-600">
                 <span className="basis-1/2 font-bold">Shipping Fee: </span>
 
@@ -162,7 +162,7 @@ const SuccessPage = () => {
                   {session?.shippingFee} Aed
                 </span>
               </p>
-            )}
+            ):null}
             {session?.remainingAmount ? (
               <p className="text-sm flex mb-2  text-gray-600">
                 <span className="basis-1/2 font-bold">

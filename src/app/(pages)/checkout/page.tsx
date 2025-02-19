@@ -127,8 +127,8 @@ const Checkout = () => {
           amount: totalAmount,
           currency: "AED",
           buyer: {
-            email: "otp.success@tabby.ai", //||data.email,
-            phone: "+971500000001", //data?.phone,
+            email: data.email,//"otp.success@tabby.ai", //||
+            phone: data?.phone,//"+971500000001", //
             name: data?.name,
           },
           products: items?.map((i) => ({

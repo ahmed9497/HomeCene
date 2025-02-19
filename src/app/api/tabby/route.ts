@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import * as admin from "firebase-admin";
 
 const shippingCharges = process.env.NEXT_PUBLIC_SHIPPING_CHARGES;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const TABBY = process.env.TABBY_SECRET_KEY;
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -26,16 +28,17 @@ export async function POST(req: Request) {
   } = await req.json();
 
   try {
-    console.log( "amount" ,amount + (totalOrderAmount < 100 ? shippingCharges : 0 ),)
+
     const response = await fetch("https://api.tabby.ai/api/v2/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer sk_test_0194abd1-a09c-daac-b768-110e5afd7624`, // Replace with your Tabby Secret Key
+        Authorization: `Bearer ${TABBY}`, // Replace with your Tabby Secret Key
       },
       body: JSON.stringify({
         payment: {
-          amount:amount + (totalOrderAmount < 100 ? parseInt(shippingCharges!) : 0 ),
+          amount:
+            amount + (totalOrderAmount < 100 ? parseInt(shippingCharges!) : 0),
           currency,
           description: "Your order description",
           buyer,
@@ -46,13 +49,13 @@ export async function POST(req: Request) {
           },
           capture: true,
         },
-        
-        merchant_code: "HomeCene Home Decor and Accessories Tradingare",
+
+        merchant_code: "HCHARE",
         lang: "en",
         merchant_urls: {
-          success: "https://staging.homecene.com/success",
-          cancel: "https://staging.homecene.com/checkout",
-          failure: "https://staging.homecene.com/checkout",
+          success: `${BASE_URL}/success`,
+          cancel: `${BASE_URL}/checkout`,
+          failure: `${BASE_URL}/checkout`,
         },
       }),
     });
@@ -100,8 +103,8 @@ export async function POST(req: Request) {
         upfrontAmount, // 100% for other methods
         remainingAmount,
         shippingFee: totalOrderAmount < 100 ? shippingCharges : 0,
-        paymentId:res.payment.id,
-        orderReference:res.payment.order.reference_id
+        paymentId: res.payment.id,
+        orderReference: res.payment.order.reference_id,
       };
       const orderRef = db.collection("orders").doc();
       orderMetadata.id = orderRef.id;

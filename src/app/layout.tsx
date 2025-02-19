@@ -59,7 +59,7 @@ export default function RootLayout({
       <body>
   
       <Suspense fallback={<p>Loading...</p>}>
-        <Script strategy="beforeInteractive"
+        {/* <Script strategy="beforeInteractive"
           id="facebook-pixel"
           // Ensures script is loaded after the page is interactive
           dangerouslySetInnerHTML={{
@@ -84,7 +84,7 @@ export default function RootLayout({
             style={{ display: "none" }}
             src="https://www.facebook.com/tr?id=575276985320409&ev=PageView&noscript=1"
           />
-        </noscript>
+        </noscript> */}
 
         <CartProvider>
           <ToastContainer
