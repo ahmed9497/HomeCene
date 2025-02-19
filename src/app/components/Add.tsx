@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { FaCircle } from "react-icons/fa6";
 import { HiLightBulb } from "react-icons/hi";
 import { fbEvent } from "@/app/lib/fpixel";
+import TabbyPromo from "./Tabby";
 interface AddToCartButtonProps {
   product: ProductProps;
   // btnType?:string
@@ -72,7 +73,6 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
   return (
     <>
       <div>
-        
         <div className="font-bold flex items-center text-primary gap-x-4 my-4 text-2xl font-Poppins">
           {product?.variant && product?.variant[activeVariant]?.discount ? (
             <>
@@ -94,6 +94,18 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
               {product?.variant && product?.variant[activeVariant]?.price[0]}
             </h2>
           )}
+        </div>
+       
+        <div>
+          <TabbyPromo
+            price={product?.variant && product?.variant[activeVariant]?.discount ?
+              +product?.variant[activeVariant]?.discountedPrice[0]
+              :
+              +product?.variant[activeVariant]?.price[0]
+            }
+            currency={"AED"}
+            lang="en"
+          />
         </div>
 
         {product?.variant[activeVariant]?.size && (
@@ -182,7 +194,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                           borderColor: selectedColor === color ? color : "#ccc",
                           color: selectedColor === color ? "#fff" : "#000",
                           cursor: "pointer",
-                          textTransform:'capitalize'
+                          textTransform: "capitalize",
                         }}
                       >
                         {color}{" "}
@@ -263,10 +275,10 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                 //   color="gray"
                 size={10}
                 className="cursor-pointer h-full text-gray-500 hover:text-red-500 hover:scale-125"
-                onClick={(e) =>{
-                  if(quantity===1) return;
-                  setQuantity(quantity - 1)}
-                }
+                onClick={(e) => {
+                  if (quantity === 1) return;
+                  setQuantity(quantity - 1);
+                }}
               />
               <input
                 className=" w-12 text-center focus:outline-none"
@@ -302,9 +314,8 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
           </div>
 
           <div>
-          {!product?.variant[activeVariant]?.soldOut && (
-            
-                <button
+            {!product?.variant[activeVariant]?.soldOut && (
+              <button
                 onClick={() => {
                   handleAddToCart();
                   fbEvent("InitiateCheckout", {
@@ -326,8 +337,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
               >
                 Buy It Now
               </button>
-              )}
-           
+            )}
           </div>
         </>
       )}
