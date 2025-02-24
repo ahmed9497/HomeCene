@@ -20,6 +20,7 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
+import CartDrawer from "./CartDrawer";
 
 const headerMenu = [
   {
@@ -191,12 +192,14 @@ const Header = () => {
               <div className="absolute bg-primary text-white -top-1 left-6 rounded-full flex justify-center items-center size-4 text-[12px]">
                 {items.length}
               </div>
-              <button
+              {/* <button
                 className="text-lg relative group size-10 rounded-full flex justify-center items-center hover:bg-[#0a5d5d1f]"
                 onClick={() => router.push("/cart")}
               >
                 <IoCartOutline size={25} className="z-10" />
-              </button>
+              </button> */}
+
+              <CartDrawer />
             </div>
          
 
