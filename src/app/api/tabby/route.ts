@@ -57,7 +57,7 @@ export async function POST(req: Request) {
         lang: "en",
         merchant_urls: {
           success: `${BASE_URL}/success`,
-          cancel: `${BASE_URL}/checkout`,
+          cancel: `${BASE_URL}/checkout?cancel=true`,
           failure: `${BASE_URL}/checkout`,
         },
       }),

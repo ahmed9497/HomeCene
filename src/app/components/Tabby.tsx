@@ -71,9 +71,12 @@ const TabbyPromo = ({
         tabbyRef.current!.style.display = "none";
         return;
       }
+      if (typeof window !== "undefined" && window.TabbyPromo){
+
+        try {
 
       // 🔄 Reinitialize TabbyPromo
-      window && new (window as any).TabbyPromo({
+      window &&  (window as any).TabbyPromo&&  new (window as any).TabbyPromo({
         selector: "#TabbyPromo",
         currency: currency,
         price: price,
@@ -82,11 +85,15 @@ const TabbyPromo = ({
         publicKey: `${TABBY_PUBLIC_KEY}`, // Replace with actual API Key
         merchantCode: "HCHARE", // Change for different currencies
       });
-
+    }
+    catch (error) {
+      console.error("Error initializing TabbyPromo:", error);
+    }
       console.log("✅ TabbyPromo updated!");
       // setIsLoading(false)
       // setTimeout(() => setIsLoading(false), 500);
-    }
+  }
+}
   }, [price, currency, lang]); // 🔄 Runs every time price or currency changes
 
   return (

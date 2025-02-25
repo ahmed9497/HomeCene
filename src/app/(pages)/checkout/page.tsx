@@ -35,7 +35,7 @@ const Checkout = () => {
   const [selectedMethod, setSelectedMethod] = useState("card");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error,setError] = useState("");
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -54,7 +54,7 @@ const Checkout = () => {
   });
 
   const { items, totalAmount } = useCart();
-  const params = useSearchParams()
+  const params = useSearchParams();
   useEffect(() => {
     if (user?.uid) {
       const fetchProfile = async () => {
@@ -88,11 +88,19 @@ const Checkout = () => {
 
       fetchProfile();
     }
-console.log(params.get('payment_id'));
-const id = params.get('payment_id');
-if(id){
-  setError('Sorry, Tabby is unable to approve this purchase. Please use an alternative payment method for your order')
-}
+    console.log(params.get("payment_id"));
+    const id = params.get("payment_id");
+    const cancel = params.get("cancel");
+    if (id) {
+      setError(
+        "Sorry, Tabby is unable to approve this purchase. Please use an alternative payment method for your order"
+      );
+    }
+    if (cancel) {
+      setError(
+        "You aborted the payment. Please retry or choose another payment method."
+      );
+    }
   }, [user]);
   const handleFormSubmit = async (data: any) => {
     try {
@@ -134,20 +142,53 @@ if(id){
           amount: totalAmount,
           currency: "AED",
           buyer: {
-            email: data.email,//"otp.success@tabby.ai", //||//
-            phone: data?.phone,//"+971500000002", //,
+            email: data.email, //"otp.success@tabby.ai",////"otp.success@tabby.ai", //||//
+            phone: data?.phone, //"+971500000002",////"+971500000002", //,
             name: data?.name,
           },
-          shipping_address:{
+          shipping_address: {
             city: data.state,
-            address:data.address,
-            zip:""
+            address: data.address,
+            zip: "",
           },
-          order_history:[],
-          buyer_history:{},
+          order_history: [
+            {
+              purchased_at: new Date().toISOString(),
+              amount: `${totalAmount}.00`,
+              payment_method: "card",
+              status: "new",
+              buyer: {
+                email: data.email,
+                phone: data?.phone,
+                name: data?.name,
+              },
+              shipping_address: {
+                city: data.state,
+                address: data.address,
+                zip: "",
+              },
+              items: items?.map((i) => ({
+                title: i.title,
+                category: i.category,
+                // description: "Black premium leather jacket",
+                quantity: i.quantity,
+                unit_price: i.price,
+                // category:i.category
+              })),
+            },
+          ],
+
+          buyer_history: {
+            registered_since: new Date().toISOString(),
+            loyalty_level: 0,
+            wishlist_count: 0,
+            is_social_networks_connected: false,
+            is_phone_number_verified: true,
+            is_email_verified: true,
+          },
           products: items?.map((i) => ({
             title: i.title,
-            category:i.category,
+            category: i.category,
             // description: "Black premium leather jacket",
             quantity: i.quantity,
             unit_price: i.price,
@@ -155,9 +196,9 @@ if(id){
           })),
           ...data,
           items,
-           data,
-           totalAmount,
-           selectedMethod
+          data,
+          totalAmount,
+          selectedMethod,
         };
         const response = await fetch("/api/tabby", {
           method: "POST",
@@ -166,7 +207,7 @@ if(id){
         });
 
         const tabbyResponse = await response.json();
-        console.log(tabbyResponse)
+        console.log(tabbyResponse);
         if (
           tabbyResponse.configuration &&
           tabbyResponse.configuration?.available_products?.installments
@@ -176,13 +217,18 @@ if(id){
               .web_url;
           window.location.href = checkoutUrl;
         } else {
-          if(tabbyResponse.rejection_reason_code === "not_available"){
-            setError("Sorry, Tabby is unable to approve this purchase, please use an alternative payment method for your order.")
-            toast.error("Sorry, Tabby is unable to approve this purchase, please use an alternative payment method for your order.",{autoClose:4000})
-          }
-          else{
-
-            toast.error("Tabby checkout is not available for this order.");
+          if (tabbyResponse.rejection_reason_code === "not_available") {
+            setError(
+              "Sorry, Tabby is unable to approve this purchase, please use an alternative payment method for your order."
+            );
+            toast.error(
+              "Sorry, Tabby is unable to approve this purchase, please use an alternative payment method for your order.",
+              { autoClose: 8000 }
+            );
+          } else {
+            toast.error("Tabby checkout is not available for this order.", {
+              autoClose: 8000,
+            });
           }
         }
         return;
@@ -386,7 +432,6 @@ if(id){
                   error={error}
                 />
               </div>
-             
 
               <button
                 name="submit-btn"
