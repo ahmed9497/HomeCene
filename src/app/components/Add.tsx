@@ -47,6 +47,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
     const p = {
       id: product.id,
       title: product.title,
+      category:product.category,
       quantity: quantity,
       price: calPrice,
       image: (product?.images && product?.images[0]) || "",

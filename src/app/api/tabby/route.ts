@@ -25,10 +25,11 @@ export async function POST(req: Request) {
     data,
     totalAmount: totalOrderAmount,
     selectedMethod,
+    buyer_history,order_history,shipping_address
   } = await req.json();
 
   try {
-
+    console.log( "amount" ,amount + (totalOrderAmount < 100 ? shippingCharges : 0 ),)
     const response = await fetch("https://api.tabby.ai/api/v2/checkout", {
       method: "POST",
       headers: {
@@ -37,19 +38,21 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         payment: {
-          amount:
-            amount + (totalOrderAmount < 100 ? parseInt(shippingCharges!) : 0),
+          amount:amount + (totalOrderAmount < 100 ? parseInt(shippingCharges!) : 0 ),
           currency,
           description: "Your order description",
           buyer,
+          buyer_history,
+          order_history,
+          shipping_address,
           order: {
             shipping_amount: totalOrderAmount < 100 ? shippingCharges : 0,
             reference_id: `order-${Date.now()}`,
             items: products,
           },
-          capture: true,
+          // capture: true,
         },
-
+        
         merchant_code: "HCHARE",
         lang: "en",
         merchant_urls: {
@@ -103,15 +106,15 @@ export async function POST(req: Request) {
         upfrontAmount, // 100% for other methods
         remainingAmount,
         shippingFee: totalOrderAmount < 100 ? shippingCharges : 0,
-        paymentId: res.payment.id,
-        orderReference: res.payment.order.reference_id,
+        paymentId:res.payment.id,
+        orderReference:res.payment.order.reference_id
       };
       const orderRef = db.collection("orders").doc();
       orderMetadata.id = orderRef.id;
       await orderRef.set(orderMetadata);
       return NextResponse.json(res);
     }
-    return NextResponse.json(data);
+    return NextResponse.json(res);
   } catch (error) {
     console.error("Error creating Tabby session:", error);
     return NextResponse.json(

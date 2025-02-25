@@ -8,6 +8,7 @@ export interface CartItem {
     price: number;
     quantity: number;
     image:string;
+    category?:string;
   }
   
   export interface CartContextType {
@@ -25,6 +26,7 @@ export interface CartItem {
   export interface ProductProps {
     id?: string;
     title: string;
+    category?: string;
     price: number;
     description:string;
     image:string;
