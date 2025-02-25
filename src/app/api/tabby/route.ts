@@ -25,10 +25,82 @@ export async function POST(req: Request) {
     data,
     totalAmount: totalOrderAmount,
     selectedMethod,
-    buyer_history,order_history,shipping_address
+    // buyer_history,order_history,
+    shipping_address
   } = await req.json();
 
   try {
+
+
+
+ console.log(data.userId,"************")
+      // Fetch last 10 orders of the user
+      const ordersRef = db.collection("orders");
+      const ordersSnapshot = await ordersRef
+        .where("userId", "==", data.userId)
+        // .orderBy("createdAt", "desc")
+        .limit(10)
+        .get();
+  
+      const orderHistory = ordersSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          purchased_at: data?.createdAt?.toISOString()|| "",
+          amount: `${data.totalAmount/100}.00`,
+          payment_method: data.paymentMethod || "card",
+          status: data.status || "completed",
+          buyer: {
+            email: data?.email || "",
+            phone: data?.phone || "",
+            name: data?.name || "",
+          },
+          shipping_address: {
+            city: data.state || "",
+            address: data?.address || "",
+            zip: data?.zip || "",
+          },
+          items: data.orderDetails.map((i:any) => ({
+            title: i.title,
+            category: i?.category || "",
+            quantity: i.quantity,
+            unit_price: i.unit_amount/100,
+          })),
+        };
+      });
+  
+      const loyalityLevel = orderHistory.filter(i=>i.status === "paid").length;
+      // Fetch buyer details
+      const userRef = db.collection("users").doc(data.userId);
+      const userSnapshot = await userRef.get();
+  
+      
+  
+      const userData = userSnapshot.data();
+      console.log(userData)
+      const date = new Date(userData?.createdAt._seconds * 1000 + userData?.createdAt._nanoseconds / 1e6);
+      const isoString = date.toISOString();
+      const buyerHistory = {
+        registered_since: isoString || new Date().toISOString(),
+        loyalty_level: loyalityLevel || 0,
+        wishlist_count: userData?.wishlist?.length || 0,
+        is_social_networks_connected: false,
+        is_phone_number_verified: true,
+        is_email_verified: true,
+      };
+  
+     
+
+      console.log(orderHistory,"Order History")
+      console.log(buyerHistory,"Buyer History")
+
+
+
+
+
+
+
+
+
     console.log( "amount" ,amount + (totalOrderAmount < 100 ? shippingCharges : 0 ),)
     const response = await fetch("https://api.tabby.ai/api/v2/checkout", {
       method: "POST",
@@ -42,8 +114,8 @@ export async function POST(req: Request) {
           currency,
           description: "Your order description",
           buyer,
-          buyer_history,
-          order_history,
+          buyer_history:buyerHistory,
+          order_history:orderHistory,
           shipping_address,
           order: {
             shipping_amount: totalOrderAmount < 100 ? shippingCharges : 0,

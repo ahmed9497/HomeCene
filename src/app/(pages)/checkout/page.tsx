@@ -151,41 +151,41 @@ const Checkout = () => {
             address: data.address,
             zip: "",
           },
-          order_history: [
-            {
-              purchased_at: new Date().toISOString(),
-              amount: `${totalAmount}.00`,
-              payment_method: "card",
-              status: "new",
-              buyer: {
-                email: data.email,
-                phone: data?.phone,
-                name: data?.name,
-              },
-              shipping_address: {
-                city: data.state,
-                address: data.address,
-                zip: "",
-              },
-              items: items?.map((i) => ({
-                title: i.title,
-                category: i.category,
-                // description: "Black premium leather jacket",
-                quantity: i.quantity,
-                unit_price: i.price,
-                // category:i.category
-              })),
-            },
-          ],
+          // order_history: [
+          //   {
+          //     purchased_at: new Date().toISOString(),
+          //     amount: `${totalAmount}.00`,
+          //     payment_method: "card",
+          //     status: "new",
+          //     buyer: {
+          //       email: data.email,
+          //       phone: data?.phone,
+          //       name: data?.name,
+          //     },
+          //     shipping_address: {
+          //       city: data.state,
+          //       address: data.address,
+          //       zip: "",
+          //     },
+          //     items: items?.map((i) => ({
+          //       title: i.title,
+          //       category: i.category,
+          //       // description: "Black premium leather jacket",
+          //       quantity: i.quantity,
+          //       unit_price: i.price,
+          //       // category:i.category
+          //     })),
+          //   },
+          // ],
 
-          buyer_history: {
-            registered_since: new Date().toISOString(),
-            loyalty_level: 0,
-            wishlist_count: 0,
-            is_social_networks_connected: false,
-            is_phone_number_verified: true,
-            is_email_verified: true,
-          },
+          // buyer_history: {
+          //   registered_since: new Date().toISOString(),
+          //   loyalty_level: 0,
+          //   wishlist_count: 0,
+          //   is_social_networks_connected: false,
+          //   is_phone_number_verified: true,
+          //   is_email_verified: true,
+          // },
           products: items?.map((i) => ({
             title: i.title,
             category: i.category,
