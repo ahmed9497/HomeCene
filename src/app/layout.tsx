@@ -59,7 +59,7 @@ export default function RootLayout({
       <body>
   
       <Suspense fallback={<p>Loading...</p>}>
-        {/* <Script strategy="beforeInteractive"
+        <Script strategy="beforeInteractive"
           id="facebook-pixel"
           // Ensures script is loaded after the page is interactive
           dangerouslySetInnerHTML={{
@@ -72,7 +72,7 @@ export default function RootLayout({
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '575276985320409');
+            fbq('init', '465789456465893');
             fbq('track', 'PageView');
           `,
           }}
@@ -82,9 +82,9 @@ export default function RootLayout({
             height="1"
             width="1"
             style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=575276985320409&ev=PageView&noscript=1"
+            src="https://www.facebook.com/tr?id=465789456465893&ev=PageView&noscript=1"
           />
-        </noscript> */}
+        </noscript>
 
         <CartProvider>
           <ToastContainer
