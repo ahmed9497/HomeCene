@@ -44,8 +44,11 @@ export async function POST(req: Request) {
   
       const orderHistory = ordersSnapshot.docs.map((doc) => {
         const data = doc.data();
+        console.log(data,"---dater")
+        const date = new Date(data?.createdAt._seconds * 1000 + data?.createdAt._nanoseconds / 1e6);
+      const isoString = date.toISOString();
         return {
-          purchased_at: data?.createdAt?.toISOString()|| "",
+          purchased_at: isoString || "",
           amount: `${data.totalAmount/100}.00`,
           payment_method: data.paymentMethod || "card",
           status: data.status || "completed",
@@ -82,7 +85,7 @@ export async function POST(req: Request) {
       const buyerHistory = {
         registered_since: isoString || new Date().toISOString(),
         loyalty_level: loyalityLevel || 0,
-        wishlist_count: userData?.wishlist?.length || 0,
+        wishlist_count: 0,
         is_social_networks_connected: false,
         is_phone_number_verified: true,
         is_email_verified: true,
@@ -179,7 +182,8 @@ export async function POST(req: Request) {
         remainingAmount,
         shippingFee: totalOrderAmount < 100 ? shippingCharges : 0,
         paymentId:res.payment.id,
-        orderReference:res.payment.order.reference_id
+        orderReference:res.payment.order.reference_id,
+        createdAt: admin.firestore.FieldValue.serverTimestamp()
       };
       const orderRef = db.collection("orders").doc();
       orderMetadata.id = orderRef.id;
