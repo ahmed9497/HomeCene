@@ -23,7 +23,9 @@ import { generateStrongPassword } from "@/app/utils/helper";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import PaymentMethod from "@/app/components/PaymentMethod";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import TabbyCheckout from "@/app/components/TabbyCheckout";
+import { fbEvent } from "@/app/lib/fpixel";
 
 const Checkout = () => {
   // const [createUserWithEmailAndPassword] =
@@ -34,7 +36,7 @@ const Checkout = () => {
   const [selectedMethod, setSelectedMethod] = useState("card");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -53,6 +55,7 @@ const Checkout = () => {
   });
 
   const { items, totalAmount } = useCart();
+  const params = useSearchParams();
   useEffect(() => {
     if (user?.uid) {
       const fetchProfile = async () => {
@@ -86,6 +89,19 @@ const Checkout = () => {
 
       fetchProfile();
     }
+    console.log(params.get("payment_id"));
+    const id = params.get("payment_id");
+    const cancel = params.get("cancel");
+    if (id) {
+      setError(
+        "Sorry, Tabby is unable to approve this purchase. Please use an alternative payment method for your order"
+      );
+    }
+    if (cancel) {
+      setError(
+        "You aborted the payment. Please retry or choose another payment method."
+      );
+    }
   }, [user]);
   const handleFormSubmit = async (data: any) => {
     try {
@@ -109,7 +125,19 @@ const Checkout = () => {
       } else {
         data.userId = profile?.userId;
       }
-
+      console.log(items)
+      fbEvent("InitiateCheckout", {
+          content_ids: items.map(i=>i.id), // ID of the product added to the cart
+          content_name: items.map(i=>i.title), // Name of the product
+          content_category: items.map(i=>i.category), // Category of the product
+          value: totalAmount, // Total price for the quantity added to the cart
+          currency: "AED", // Currency (e.g., USD, AED)
+          quantity: items?.length > 0 &&
+            items?.reduce((prev, cur) => {
+              return prev + cur.quantity;
+            }, 0)
+        });
+        return
       // if (selectedMethod === "cod") {
       //   const response = await fetch("/api/order", {
       //     method: "POST",
@@ -127,21 +155,29 @@ const Checkout = () => {
           amount: totalAmount,
           currency: "AED",
           buyer: {
-            email: "otp.success@tabby.ai", //||data.email,
-            phone: "+971500000001", //data?.phone,
+            email: data.email, //"otp.success@tabby.ai",////"otp.success@tabby.ai", //||//
+            phone: data?.phone, //"+971500000002",////"+971500000002", //,
             name: data?.name,
           },
+          shipping_address: {
+            city: data.state,
+            address: data.address,
+            zip: "",
+          },
+         
           products: items?.map((i) => ({
             title: i.title,
+            category: i.category,
             // description: "Black premium leather jacket",
             quantity: i.quantity,
             unit_price: i.price,
+            // category:i.category
           })),
           ...data,
           items,
-           data,
-           totalAmount,
-           selectedMethod
+          data,
+          totalAmount,
+          selectedMethod,
         };
         const response = await fetch("/api/tabby", {
           method: "POST",
@@ -150,7 +186,7 @@ const Checkout = () => {
         });
 
         const tabbyResponse = await response.json();
-        console.log(tabbyResponse)
+        console.log(tabbyResponse);
         if (
           tabbyResponse.configuration &&
           tabbyResponse.configuration?.available_products?.installments
@@ -160,12 +196,18 @@ const Checkout = () => {
               .web_url;
           window.location.href = checkoutUrl;
         } else {
-          if(tabbyResponse.rejection_reason_code === "not_available"){
-            toast.error("Sorry, Tabby is unable to approve this purchase, please use an alternative payment method for your order.",{autoClose:4000})
-          }
-          else{
-
-            toast.error("Tabby checkout is not available for this order.");
+          if (tabbyResponse.rejection_reason_code === "not_available") {
+            setError(
+              "Sorry, Tabby is unable to approve this purchase, please use an alternative payment method for your order."
+            );
+            toast.error(
+              "Sorry, Tabby is unable to approve this purchase, please use an alternative payment method for your order.",
+              { autoClose: 8000 }
+            );
+          } else {
+            toast.error("Tabby checkout is not available for this order.", {
+              autoClose: 8000,
+            });
           }
         }
         return;
@@ -365,6 +407,8 @@ const Checkout = () => {
                 <PaymentMethod
                   selectedMethod={selectedMethod}
                   setSelectedMethod={setSelectedMethod}
+                  totalAmount={totalAmount}
+                  error={error}
                 />
               </div>
 
@@ -401,7 +445,7 @@ const Checkout = () => {
                   <>
                     {selectedMethod === "card" && `Pay ${totalAmount} Aed`}
                     {selectedMethod === "cod" && `Pay ${totalAmount / 2} Aed`}
-                    {selectedMethod === "tabby" && "Proceed to Checkout"}
+                    {selectedMethod === "tabby" && "Proceed to Tabby Checkout"}
                     {selectedMethod === "tamara" && "Proceed to Checkout"}
                     {selectedMethod === "gpay" && `Pay ${totalAmount} Aed`}
                     {selectedMethod === "apple_pay" && `Pay ${totalAmount} Aed`}
@@ -480,7 +524,7 @@ const Checkout = () => {
                     {items?.length > 0 &&
                       items?.reduce((prev, cur) => {
                         return prev + cur.quantity;
-                      }, 0)}{" "}
+                      }, 0)}
                     Items
                   </div>
                   {selectedMethod === "cod" ? (

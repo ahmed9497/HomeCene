@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { FaCircle } from "react-icons/fa6";
 import { HiLightBulb } from "react-icons/hi";
 import { fbEvent } from "@/app/lib/fpixel";
+import TabbyPromo from "./Tabby";
 interface AddToCartButtonProps {
   product: ProductProps;
   // btnType?:string
@@ -46,6 +47,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
     const p = {
       id: product.id,
       title: product.title,
+      category:product.category,
       quantity: quantity,
       price: calPrice,
       image: (product?.images && product?.images[0]) || "",
@@ -72,7 +74,6 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
   return (
     <>
       <div>
-        
         <div className="font-bold flex items-center text-primary gap-x-4 my-4 text-2xl font-Poppins">
           {product?.variant && product?.variant[activeVariant]?.discount ? (
             <>
@@ -94,6 +95,18 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
               {product?.variant && product?.variant[activeVariant]?.price[0]}
             </h2>
           )}
+        </div>
+       
+        <div>
+          <TabbyPromo
+            price={product?.variant && product?.variant[activeVariant]?.discount ?
+              +product?.variant[activeVariant]?.discountedPrice[0]
+              :
+              +product?.variant[activeVariant]?.price[0]
+            }
+            currency={"AED"}
+            lang="en"
+          />
         </div>
 
         {product?.variant[activeVariant]?.size && (
@@ -182,7 +195,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                           borderColor: selectedColor === color ? color : "#ccc",
                           color: selectedColor === color ? "#fff" : "#000",
                           cursor: "pointer",
-                          textTransform:'capitalize'
+                          textTransform: "capitalize",
                         }}
                       >
                         {color}{" "}
@@ -263,10 +276,10 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                 //   color="gray"
                 size={10}
                 className="cursor-pointer h-full text-gray-500 hover:text-red-500 hover:scale-125"
-                onClick={(e) =>{
-                  if(quantity===1) return;
-                  setQuantity(quantity - 1)}
-                }
+                onClick={(e) => {
+                  if (quantity === 1) return;
+                  setQuantity(quantity - 1);
+                }}
               />
               <input
                 className=" w-12 text-center focus:outline-none"
@@ -302,32 +315,31 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
           </div>
 
           <div>
-          {!product?.variant[activeVariant]?.soldOut && (
-            
-                <button
+            {!product?.variant[activeVariant]?.soldOut && (
+              <button
                 onClick={() => {
                   handleAddToCart();
-                  fbEvent("InitiateCheckout", {
-                    content_ids: [product.id], // ID of the product added to the cart
-                    content_name: product.title, // Name of the product
-                    content_category: product.category, // Category of the product
-                    value: product.variant[activeVariant]?.discount
-                      ? parseInt(
-                          product.variant[activeVariant].discountedPrice[0]
-                        )
-                      : parseInt(product.variant[activeVariant].price[0]) *
-                        quantity, // Total price for the quantity added to the cart
-                    currency: "AED", // Currency (e.g., USD, AED)
-                    quantity: quantity,
-                  });
+                  
+                  // fbEvent("InitiateCheckout", {
+                  //   content_ids: [product.id], // ID of the product added to the cart
+                  //   content_name: product.title, // Name of the product
+                  //   content_category: product.category, // Category of the product
+                  //   value: product.variant[activeVariant]?.discount
+                  //     ? parseInt(
+                  //         product.variant[activeVariant].discountedPrice[0]
+                  //       )
+                  //     : parseInt(product.variant[activeVariant].price[0]) *
+                  //       quantity, // Total price for the quantity added to the cart
+                  //   currency: "AED", // Currency (e.g., USD, AED)
+                  //   quantity: quantity,
+                  // });
                   router.push("/checkout");
                 }}
                 className="bg-white py-2 rounded w-full border-2 border-primary hover:text-white hover:bg-primary text-primary"
               >
                 Buy It Now
               </button>
-              )}
-           
+            )}
           </div>
         </>
       )}

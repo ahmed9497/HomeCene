@@ -218,7 +218,7 @@ export default async function ShopPage({
                 <FaAngleLeft color="black"/> Previous 
               </a>
             )}
-            {nextPageCursor && !(products.length < 28) &&(
+            {nextPageCursor && !(products.length < 30) &&(
               <a 
                 href={`?page=${+currentPage + 1}&cursor=${
                   nextPageCursor[0]

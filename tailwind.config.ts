@@ -25,7 +25,16 @@ export default {
       },
       transitionDuration: {
         '2000': '2000ms',
-      }
+      },
+      animation: {
+        "slide-left-right": "slideLR 1s infinite ease-in-out",
+      },
+      keyframes: {
+        slideLR: {
+          "0%, 100%": { transform: "translateX(0)",color:'white' },
+          "50%": { transform: "translateX(5px)",color:'orange' },
+        },
+      },
     },
   },
   plugins: [],

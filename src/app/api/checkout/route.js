@@ -76,7 +76,8 @@ export async function POST(req) {
       totalAmount,// Full Amount
       upfrontAmount,// 100% for other methods
       remainingAmount,
-      shippingFee: totalOrderAmount < 100 ? shippingCharges : 0
+      shippingFee: totalOrderAmount < 100 ? shippingCharges : 0,
+      createdAt: admin.firestore.FieldValue.serverTimestamp()
     };
     const orderRef = db.collection("orders").doc();
     orderMetadata.id = orderRef.id;

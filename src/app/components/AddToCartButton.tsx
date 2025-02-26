@@ -6,6 +6,7 @@ import { useCart } from "../context/CartContext";
 import { ProductProps } from "../types/types";
 import { PiShoppingCartLight } from "react-icons/pi";
 import { toast } from "react-toastify";
+import { fbEvent } from "../lib/fpixel";
 
 interface AddToCartButtonProps {
   product: ProductProps;
@@ -17,11 +18,22 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType,classes })
   const { addItemToCart } = useCart();
 
   const handleAddToCart = () => {
-    
-    const p:any = {
-    
+    let calPrice = product.variant[0]?.discount
+      ? parseInt(product.variant[0].discountedPrice[0])
+      : parseInt(product.variant[0].price[0]);
+
+    fbEvent("AddToCart", {
+      content_ids: [product.id], // ID of the product added to the cart
+      content_name: product.title, // Name of the product
+      content_category: product.category, // Category of the product
+      value: calPrice * 1, // Total price for the quantity added to the cart
+      currency: "AED", // Currency (e.g., USD, AED)
+      quantity: 1,
+    });
+    const p:any = {    
       id: product.id,
       title: product.title,
+      category:product.category,
       quantity: 1,
       price: product.variant[0]?.discount ?parseInt(product.variant[0].discountedPrice[0]) :parseInt(product.variant[0].price[0]),
       image: product?.images[0] ||"",
