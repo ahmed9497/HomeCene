@@ -137,7 +137,7 @@ const Checkout = () => {
               return prev + cur.quantity;
             }, 0)
         });
-        return
+        
       // if (selectedMethod === "cod") {
       //   const response = await fetch("/api/order", {
       //     method: "POST",
