@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
 
 
- console.log(data.userId,"************")
+
       // Fetch last 10 orders of the user
       const ordersRef = db.collection("orders");
       const ordersSnapshot = await ordersRef
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
   
       const orderHistory = ordersSnapshot.docs.map((doc) => {
         const data = doc.data();
-        console.log(data,"---dater")
+        // console.log(data,"---dater")
         const date = new Date(data?.createdAt._seconds * 1000 + data?.createdAt._nanoseconds / 1e6);
       const isoString = date.toISOString();
         return {
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
       
   
       const userData = userSnapshot.data();
-      console.log(userData)
+      // console.log(userData)
       const date = new Date(userData?.createdAt._seconds * 1000 + userData?.createdAt._nanoseconds / 1e6);
       const isoString = date.toISOString();
       const buyerHistory = {
@@ -93,8 +93,9 @@ export async function POST(req: Request) {
   
      
 
-      console.log(orderHistory,"Order History")
-      console.log(buyerHistory,"Buyer History")
+      // console.log(orderHistory,"Order History")
+      // console.log(buyerHistory,"Buyer History")
+      // console.log(loyalityLevel,"loyal level")
 
 
 
@@ -103,8 +104,7 @@ export async function POST(req: Request) {
 
 
 
-
-    console.log( "amount" ,amount + (totalOrderAmount < 100 ? shippingCharges : 0 ),)
+    // console.log( "amount" ,amount + (totalOrderAmount < 100 ? shippingCharges : 0 ),)
     const response = await fetch("https://api.tabby.ai/api/v2/checkout", {
       method: "POST",
       headers: {
