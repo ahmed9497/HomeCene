@@ -22,6 +22,7 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType,classes })
     
       id: product.id,
       title: product.title,
+      category:product.category,
       quantity: 1,
       price: product.variant[0]?.discount ?parseInt(product.variant[0].discountedPrice[0]) :parseInt(product.variant[0].price[0]),
       image: product?.images[0] ||"",

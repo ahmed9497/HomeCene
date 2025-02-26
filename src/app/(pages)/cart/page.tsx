@@ -9,6 +9,7 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
+import TabbyPromo from "@/app/components/Tabby";
 const Cart = () => {
   const router = useRouter();
   const {
@@ -194,6 +195,14 @@ const Cart = () => {
                 </div>
               </div>
             </div>
+            <div className="mt-2">
+         {totalAmount && <TabbyPromo
+            price={+totalAmount}
+            currency={"AED"}
+            lang="en"
+          />
+         }
+        </div>
             <button
               onClick={handleCheckout}
               className="bg-primary w-full py-3 text-lg capitalize font-Poppins hover:bg-white hover:text-primary hover:border-2 border-primary  rounded text-white mt-10"
