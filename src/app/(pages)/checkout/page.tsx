@@ -25,6 +25,7 @@ import Link from "next/link";
 import PaymentMethod from "@/app/components/PaymentMethod";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import TabbyCheckout from "@/app/components/TabbyCheckout";
+import { fbEvent } from "@/app/lib/fpixel";
 
 const Checkout = () => {
   // const [createUserWithEmailAndPassword] =
@@ -124,7 +125,19 @@ const Checkout = () => {
       } else {
         data.userId = profile?.userId;
       }
-
+      console.log(items)
+      fbEvent("InitiateCheckout", {
+          content_ids: items.map(i=>i.id), // ID of the product added to the cart
+          content_name: items.map(i=>i.title), // Name of the product
+          content_category: items.map(i=>i.category), // Category of the product
+          value: totalAmount, // Total price for the quantity added to the cart
+          currency: "AED", // Currency (e.g., USD, AED)
+          quantity: items?.length > 0 &&
+            items?.reduce((prev, cur) => {
+              return prev + cur.quantity;
+            }, 0)
+        });
+        return
       // if (selectedMethod === "cod") {
       //   const response = await fetch("/api/order", {
       //     method: "POST",
@@ -151,41 +164,7 @@ const Checkout = () => {
             address: data.address,
             zip: "",
           },
-          // order_history: [
-          //   {
-          //     purchased_at: new Date().toISOString(),
-          //     amount: `${totalAmount}.00`,
-          //     payment_method: "card",
-          //     status: "new",
-          //     buyer: {
-          //       email: data.email,
-          //       phone: data?.phone,
-          //       name: data?.name,
-          //     },
-          //     shipping_address: {
-          //       city: data.state,
-          //       address: data.address,
-          //       zip: "",
-          //     },
-          //     items: items?.map((i) => ({
-          //       title: i.title,
-          //       category: i.category,
-          //       // description: "Black premium leather jacket",
-          //       quantity: i.quantity,
-          //       unit_price: i.price,
-          //       // category:i.category
-          //     })),
-          //   },
-          // ],
-
-          // buyer_history: {
-          //   registered_since: new Date().toISOString(),
-          //   loyalty_level: 0,
-          //   wishlist_count: 0,
-          //   is_social_networks_connected: false,
-          //   is_phone_number_verified: true,
-          //   is_email_verified: true,
-          // },
+         
           products: items?.map((i) => ({
             title: i.title,
             category: i.category,
@@ -545,7 +524,7 @@ const Checkout = () => {
                     {items?.length > 0 &&
                       items?.reduce((prev, cur) => {
                         return prev + cur.quantity;
-                      }, 0)}{" "}
+                      }, 0)}
                     Items
                   </div>
                   {selectedMethod === "cod" ? (
