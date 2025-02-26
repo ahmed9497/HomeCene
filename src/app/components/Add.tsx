@@ -319,19 +319,20 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
               <button
                 onClick={() => {
                   handleAddToCart();
-                  fbEvent("InitiateCheckout", {
-                    content_ids: [product.id], // ID of the product added to the cart
-                    content_name: product.title, // Name of the product
-                    content_category: product.category, // Category of the product
-                    value: product.variant[activeVariant]?.discount
-                      ? parseInt(
-                          product.variant[activeVariant].discountedPrice[0]
-                        )
-                      : parseInt(product.variant[activeVariant].price[0]) *
-                        quantity, // Total price for the quantity added to the cart
-                    currency: "AED", // Currency (e.g., USD, AED)
-                    quantity: quantity,
-                  });
+                  
+                  // fbEvent("InitiateCheckout", {
+                  //   content_ids: [product.id], // ID of the product added to the cart
+                  //   content_name: product.title, // Name of the product
+                  //   content_category: product.category, // Category of the product
+                  //   value: product.variant[activeVariant]?.discount
+                  //     ? parseInt(
+                  //         product.variant[activeVariant].discountedPrice[0]
+                  //       )
+                  //     : parseInt(product.variant[activeVariant].price[0]) *
+                  //       quantity, // Total price for the quantity added to the cart
+                  //   currency: "AED", // Currency (e.g., USD, AED)
+                  //   quantity: quantity,
+                  // });
                   router.push("/checkout");
                 }}
                 className="bg-white py-2 rounded w-full border-2 border-primary hover:text-white hover:bg-primary text-primary"

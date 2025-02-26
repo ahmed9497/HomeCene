@@ -76,7 +76,7 @@ const TabbyPromo = ({
         try {
 
       // 🔄 Reinitialize TabbyPromo
-      window &&  (window as any).TabbyPromo&&  new (window as any).TabbyPromo({
+      window &&  (window as any)?.TabbyPromo&&  new (window as any).TabbyPromo({
         selector: "#TabbyPromo",
         currency: currency,
         price: price,
@@ -87,7 +87,7 @@ const TabbyPromo = ({
       });
     }
     catch (error) {
-      console.error("Error initializing TabbyPromo:", error);
+      console.log("Error initializing TabbyPromo:", error);
     }
       console.log("✅ TabbyPromo updated!");
       // setIsLoading(false)

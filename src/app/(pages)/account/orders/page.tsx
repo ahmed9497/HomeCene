@@ -266,14 +266,14 @@ const OrdersPage = () => {
                   </div>
                 </>
               )}
-              {order?.shippingFee && (
+              {order?.shippingFee ? (
                 <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
                   <span>Shipping:</span>
                   <span className="text-primary font-bold">
                     {order.shippingFee} AED
                   </span>
                 </div>
-              )}
+              ):null}
               <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
                 <span>Order Total Amount:</span>
                 <span className="text-primary font-bold">
