@@ -106,13 +106,6 @@ export default function RootLayout({
             {children}
             <Analytics />
           </div>
-          <div className="flex justify-center bg-gray-100 py-10 items-center flex-col">
-            <h1 className="text-primary font-bold text-3xl mb-4">Licensed & Registered By</h1>
-            <div className="flex gap-x-10">
-            <img src="dubai_gov_logo.png" alt="DED_LOGO_DUBAI" className="w-[300x]"/>
-            <img src="logo_ded.png" alt="DED_LOGO_DUBAI" className="w-[200px"/>
-            </div>
-          </div>
           <Footer />
         </CartProvider>
         </Suspense>

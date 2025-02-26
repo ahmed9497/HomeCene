@@ -47,10 +47,10 @@ const headerMenu = [
   //   title: "Artifical Plants",
   //   href: "/shop/artificial-plants",
   // },
-  {
-    title: "Wooden Decor",
-    href: "/shop/wooden-decore",
-  },
+  // {
+  //   title: "Wooden Decor",
+  //   href: "/shop/wooden-decore",
+  // },
 ];
 const Header = () => {
   const router = useRouter();
