@@ -24,7 +24,7 @@ const slides = [
   {
     id: 1,
     title: "Get up to 80% OFF on our exclusive Mirrors & Vase Collection!",
-    description: `Pre-Ramadan Sale!`,
+    description: `Ramadan Sale!`,
     img: "/pre-ramadan-banner.webp",
     url: "/shop/mirrors",
     
