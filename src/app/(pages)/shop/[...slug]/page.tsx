@@ -64,7 +64,8 @@ async function fetchProducts(
   cursor = null,
   id = null,
   direction = "next",
-  pageSize = 6
+  pageSize = 6,
+  subcategory= null
 ) {
   const productCollection = collection(db, "products");
   let productQuery;
@@ -86,32 +87,25 @@ async function fetchProducts(
           limit(pageSize)
         );
   } else {
-    productQuery = cursor
-      ? query(
-          productCollection,
-          where(
-            "category",
-            "==",
-            decodeURIComponent(slug)?.replaceAll("-", " ")
-          ),
-          where("status", "==", true),
-          orderBy("slug"),
-          orderBy("id"),
-          direction === "next" ? startAfter(cursor) : endBefore(cursor),
-          direction === "next" ? limit(pageSize) : limitToLast(pageSize)
-        )
-      : query(
-          productCollection,
-          where(
-            "category",
-            "==",
-            decodeURIComponent(slug)?.replaceAll("-", " ")
-          ),
-          where("status", "==", true),
-          orderBy("slug"),
-          orderBy("id"),
-          limit(pageSize)
-        );
+    const filters:any = [
+      where("category", "==", decodeURIComponent(slug)?.replaceAll("-", " ")), // Main category
+      where("status", "==", true),
+      orderBy("slug"),
+      orderBy("id"),
+      // direction === "next" ? startAfter(cursor) : endBefore(cursor),
+      // direction === "next" ? limit(pageSize) : limitToLast(pageSize)
+    ];
+    if (subcategory) {
+      filters.push(where("subcategory", "==", decodeURIComponent(`${subcategory} ${slug}`)?.replaceAll("-", " ")));
+    }
+    if (cursor) {
+      filters.push(direction === "next" ? startAfter(cursor) : endBefore(cursor));
+      filters.push(direction === "next" ? limit(pageSize) : limitToLast(pageSize));
+    } else {
+      filters.push(limit(pageSize)); // First-time query
+    }
+
+     productQuery = query(productCollection, ...filters);
   }
   const snapshot = await getDocs(productQuery);
   const products = snapshot.docs.map((doc) => ({
@@ -169,16 +163,22 @@ export default async function ShopPage({
   searchParams: any;
 }) {
   const { slug } = await params;
+console.log(slug,"_______");
+  const slugArray = Array.isArray(slug) ? slug : [slug];
+  // Extract category & optional subcategory
+  const category = slugArray[0] || "all products"; // Default if no category
+  const subcategory = slugArray[1] || null;
 
   const { cursor, page, id, direction = "next" } = await searchParams;
   const currentPage = parseInt(page || "1", 10);
   const pageSize = 30;
   const { products, firstCursor, lastCursor } = await fetchProducts(
-    slug,
+    category,
     cursor,
     id,
     direction,
-    pageSize
+    pageSize,
+    subcategory,
   );
 
   const nextPageCursor = lastCursor;
@@ -189,7 +189,7 @@ export default async function ShopPage({
     <div className="container px-2 pb-20 page">
       <div className="grid grid-cols-1 sm:grid-cols-4 sm:gap-x-16">
         <div className="col-span-1 sm:cols-span-2  pt-4 sm:p-4">
-          <div className="sticky top-[80px]">
+          <div className="sticky top-[100px]">
           <div className=" gap-x-3 flex items-center text-xl font-bold uppercase">
             <IoMenu size={30} />
             Categories
