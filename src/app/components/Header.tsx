@@ -21,6 +21,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import CartDrawer from "./CartDrawer";
+import AnimatedText from "./AnimatedText";
 
 const headerMenu = [
   {
@@ -47,10 +48,10 @@ const headerMenu = [
   //   title: "Artifical Plants",
   //   href: "/shop/artificial-plants",
   // },
-  {
-    title: "Wooden Decor",
-    href: "/shop/wooden-decore",
-  },
+  // {
+  //   title: "Wooden Decor",
+  //   href: "/shop/wooden-decore",
+  // },
 ];
 const Header = () => {
   const router = useRouter();
@@ -138,9 +139,11 @@ const Header = () => {
     );
   };
   return (
+    
     <header
-      className={`bg-white text-primary font-Poppins z-50 fixed top-0 w-full shadow-md min-h-[56px] sm:min-h-[80px] flex items-center`}
+      className={`bg-white text-primary font-Poppins z-50 sticky top-0 w-full shadow-md min-h-[56px] sm:min-h-[80px] flex items-center`}
     >
+
       <div className="max-w-7xl mx-auto w-full py-3 sm:py-0 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
@@ -264,6 +267,7 @@ const Header = () => {
         )}
       </div>
     </header>
+
   );
 };
 

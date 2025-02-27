@@ -9,26 +9,41 @@ import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 import Script from "next/script";
 import { Suspense } from "react";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
+import AnimatedText from "./components/AnimatedText";
 
-
-const FB_PIXEL_ID =process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
-export const metadata:Metadata = {
-  title: "HomeCene | Premium Home Decor, Mirrors, Vases & Lamps in Dubai – Elevate Your Space",
-  description: "Discover Homecene, Dubai’s premier destination for luxury home decor, mirror vases, lamps, and stylish furniture. Transform your space with elegant designs and smart home essentials. Fast delivery across the UAE!",
-  keywords: "home decor, mirrors, vases, lamps,furniture Dubai, modern furniture, home essentials, interior design, luxury home decor, online furniture store",
+const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
+export const metadata: Metadata = {
+  title:
+    "HomeCene | Premium Home Decor, Mirrors, Vases & Lamps in Dubai – Elevate Your Space",
+  description:
+    "Discover Homecene, Dubai’s premier destination for luxury home decor, mirror vases, lamps, and stylish furniture. Transform your space with elegant designs and smart home essentials. Fast delivery across the UAE!",
+  keywords:
+    "home decor, mirrors, vases, lamps,furniture Dubai, modern furniture, home essentials, interior design, luxury home decor, online furniture store",
   // viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
   icons: [
     { rel: "icon", type: "image/x-icon", url: "/favicon.ico" }, // Favicon
-    { rel: "apple-touch-icon", url: "/apple-touch-icon.png" },  // iOS icon
-    { rel: "icon", type: "image/png", sizes: "192x192", url: "/android-chrome-192x192.png" }, // Android 192x192
-    { rel: "icon", type: "image/png", sizes: "512x512", url: "/android-chrome-512x512.png" }, // Android 512x512
+    { rel: "apple-touch-icon", url: "/apple-touch-icon.png" }, // iOS icon
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "192x192",
+      url: "/android-chrome-192x192.png",
+    }, // Android 192x192
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "512x512",
+      url: "/android-chrome-512x512.png",
+    }, // Android 512x512
   ],
   manifest: "/site.webmanifest", // Link to the Web App Manifest for Android
   openGraph: {
-    title: "HomeCene | Premium Home Decor, Mirrors, Vases & Lamps in Dubai – Elevate Your Space",
-    description: "Shop luxury home decor & furniture in Dubai. Explore our stylish and modern collections to upgrade your space.",
+    title:
+      "HomeCene | Premium Home Decor, Mirrors, Vases & Lamps in Dubai – Elevate Your Space",
+    description:
+      "Shop luxury home decor & furniture in Dubai. Explore our stylish and modern collections to upgrade your space.",
     url: "https://www.homecene.com",
     siteName: "HomeCene",
     images: [
@@ -43,8 +58,10 @@ export const metadata:Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "HomeCene | Premium Home Decor, Mirrors, Vases & Lamps in Dubai – Elevate Your Space",
-    description: "Discover premium home decor and furniture at HomeCene. Elevate your living space with stylish, high-quality essentials. Shop now!",
+    title:
+      "HomeCene | Premium Home Decor, Mirrors, Vases & Lamps in Dubai – Elevate Your Space",
+    description:
+      "Discover premium home decor and furniture at HomeCene. Elevate your living space with stylish, high-quality essentials. Shop now!",
     images: ["https://www.homecene.com/mirror-slide.webp"],
   },
 };
@@ -55,11 +72,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html >
-      <body>
-  
-      <Suspense fallback={<p>Loading...</p>}>
-        <Script strategy="beforeInteractive"
+    <html>
+      <body className="min-h-screen">
+        <AnimatedText/>
+        <Script
+          strategy="beforeInteractive"
           id="facebook-pixel"
           // Ensures script is loaded after the page is interactive
           dangerouslySetInnerHTML={{
@@ -101,14 +118,14 @@ export default function RootLayout({
             transition={Slide}
           />
           <Header />
-
-          <div>
-            {children}
-            <Analytics />
-          </div>
+          <Suspense fallback={<div className="min-h-[50vh]">Loading...</div>}>
+            <main className="flex-grow">
+              {children}
+              <Analytics />
+            </main>
+          </Suspense>
           <Footer />
         </CartProvider>
-        </Suspense>
       </body>
     </html>
   );

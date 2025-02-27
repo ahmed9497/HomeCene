@@ -25,10 +25,10 @@ const categories=[
   //   title:'Artificial Plants',
   //   href:'/shop/artificial-plants'
   // },
-  {
-    title:'Wooden Decor',
-    href:'/shop/wooden-decore'
-  },
+  // {
+  //   title:'Wooden Decor',
+  //   href:'/shop/wooden-decore'
+  // },
 ]
 const ShopCategories = () => {
   const pathname = usePathname();

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const messages = [
-  "20% OFF on everything",
+  "Upto 80% OFF on everything",
   "Ramadan Sale",
   "Pay in installments with Tabby",
 ];
@@ -24,13 +24,13 @@ export default function AnimatedText() {
   }, []);
 
   return (
-    <div className="h-8 rounded-sm bg-red-900 flex justify-center items-center overflow-hidden">
+    <div className="h-8 bg-red-900 flex justify-center items-center overflow-hidden">
       <p
-        className={`transition-all duration-500 transform ${
+        className={`capitalize tracking-[0.15rem] transition-all duration-500 transform ${
           fade ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"
         } text-sm  text-white`}
       >
-        {messages[index]}
+        {messages[index]}!
       </p>
     </div>
   );

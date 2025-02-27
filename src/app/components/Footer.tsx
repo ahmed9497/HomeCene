@@ -19,11 +19,12 @@ const Footer = () => {
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
        
         <div>
-          <h3 className="text-xl font-bold text-white mb-4">HomeCene</h3>
+          <h3 className="text-xl font-bold text-white mb-4">Home Cene</h3>
           <p className="text-sm">
-            HomeCene is your go-to destination for premium products. We are
+            Home Cene is your go-to destination for premium products. We are
             dedicated to providing the best service and top-quality items.
           </p>
+          <div className="flex gap-x-1  ">
           <Image
             unoptimized
             src="/paymethods.png"
@@ -32,6 +33,16 @@ const Footer = () => {
             width={400}
             height={60}
           />
+          <Image
+            unoptimized
+            src="/tabby.png"
+            className="bg-primary h-[30px] mt-3 w-[70px]"
+            alt="payments-methods"
+            width={300}
+            height={60}
+          />
+          </div>
+         
         </div>
         
         <div>
@@ -69,14 +80,14 @@ const Footer = () => {
                 Artificial Plants
               </Link>
             </li> */}
-            <li>
+            {/* <li>
               <Link
                 href="/shop/wooden-decor"
                 className="hover:text-gray-400 hover:underline"
               >
                 Wooden Decor
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div>
@@ -146,6 +157,10 @@ const Footer = () => {
             </li>
           </ul>
         </div>
+      <p className="text-white border- border-white">
+          Registered Under Government of UAE<br/>
+          Licensed No. 4418290.01
+          </p>
       </div>
       <div className="flex justify-center flex-col gap-y-4 items-center my-8">
         <h4 className="text-lg font-semibold text-white mb-4">Follow Us</h4>

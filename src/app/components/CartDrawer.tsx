@@ -61,6 +61,7 @@ const CartDrawer = () => {
         className={`fixed top-2 h-[calc(100%-16px)] z-20 rounded-2xl w-[calc(100%-40px)] sm:w-[500px]  bg-white shadow-xl p-5 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        onClick={(e) => e.stopPropagation()} 
       >
         {/* Close Button */}
         <button
@@ -71,9 +72,12 @@ const CartDrawer = () => {
         </button>
 
         <h2 className="text-xl font-semibold mb-4">My Cart</h2>
-          <AnimatedText/>
+          <div className="absolute w-full left-0">
+            
+            <AnimatedText/>
+            </div>
         {/* Cart Items */}
-        <div className="space-y-4 h-[calc(100%-42px)]">
+        <div className="mt-12 space-y-4 h-[calc(100%-42px)]">
           {items && items.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded h-[500px] bg-gradient-to-br from-green-100 to-purple-200">
               <Image
@@ -90,7 +94,7 @@ const CartDrawer = () => {
               </p>
               <Link
                 href={"/shop/all-products"}
-                className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md"
+                className="mt-4 bg-primary bg-opacity-80 hover:bg-opacity-100 text-white px-6 py-3 rounded-lg shadow-md"
               >
                 Continue Shopping
               </Link>

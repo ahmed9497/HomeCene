@@ -43,7 +43,7 @@ const Contact = () => {
     }
   };
   return (
-    <div className="page bg-primary bg-opacity-5 font-Poppins">
+    <div className="bg-primary bg-opacity-5 font-Poppins">
       <TopHeaderImg title="Contact Us" />
       
 

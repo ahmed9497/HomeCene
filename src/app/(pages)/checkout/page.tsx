@@ -273,12 +273,13 @@ const Checkout = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 py-6">
-          <div className="order-2 sm:order-1 p-2 pb-0 sm:px-6">
+          <div className="order-2 sm:order-1 pt-0 p-2 pb-0 sm:px-6">
+          <img src="pay-logos.png" alt="pay-logos" className="mt-3 sm:-mt-1"/>
             <form
               onSubmit={handleSubmit(handleFormSubmit)}
               className="space-y-4"
             >
-              <h1 className="text-2xl font-bold">Contact</h1>
+              <h1 className="text-2xl mt-3 font-bold">Contact</h1>
 
               <div>
                 <div className="flex justify-between">

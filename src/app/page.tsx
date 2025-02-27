@@ -11,6 +11,7 @@ import { RiSecurePaymentLine } from "react-icons/ri";
 import VerticalSlider from "./components/VerticalSlider";
 import { collection, getDocs, getDocsFromServer, or, query, where } from "firebase/firestore";
 import { db } from "./firebase/config";
+import Marquee from "./components/Marquee";
 
 
 
@@ -30,10 +31,11 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
 // const newArrival = products?.filter((i:any)=>i.newArrival);
 // console.log(bigProducts);
   return (
-    <div className="pt-[60px] sm:pt-[80px]">
+    <div className="pt-[5px]">
       <Slider />
+      <Marquee/>
       <main className="container">
-        <div className="grid sm:grid-cols-2 grid-cols-1 gap-3 pt-10 sm:pt-20">
+        <div className="grid grid-cols-1 gap-3 pt-10 sm:pt-20">
           {/* <div className="grid-cols-1 relative rounded overflow-hidden">
             <Image
               src="/category1.webp"
@@ -51,25 +53,28 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
               </button>
             </div>
           </div> */}
+        
           <div className="grid-cols-1 relative rounded overflow-hidden">
-            {" "}
+            <Link href={'/shop/mirrors'}>
             <Image
-              src="/category2.webp"
-              alt="lamps"
-              unoptimized
+              src="/Mirrors.jpeg"
+              alt="mirrors"
+              // layout="responsive"
               width={100}
               height={100}
-              className="hover:scale-105 object-cover h-full w-full transition-all"
+              unoptimized
+              className="hover:scale-110 duration-500 object-cover sm:h-[500px] w-full transition-all "
             />
-            <div className="absolute top-1/4 left-3 flex flex-col">
-              <h1 className="text-4xl font-extrabold text-white">CHAIN LAMP</h1>
-              <p className="text-xl my-3 text-gray-500">Get up to 40% off</p>
-              <Link href={'/shop/lamps'} className="hover:bg-[#0a5d5d] text-center w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
+            <div className="absolute top-1/4 left-3 flex flex-col text-white">
+              <h1 className="text-md sm:text-6xl font-extrabold w-1/2">Reflect Your Style! Elegant Mirrors for Every Space</h1>
+              <p className="text-md sm:text-4xl  font-extrabold my-3 underline">Discover Now</p>
+              {/* <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
                 SHOP NOW
-              </Link>
+              </button> */}
             </div>
+            </Link>
           </div>
-          <div className="grid-cols-1 relative rounded overflow-hidden">
+          {/* <div className="grid-cols-1 relative rounded overflow-hidden">
            
             <Image
               src="/category3.webp"
@@ -87,7 +92,7 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
               </Link>
             </div>
             
-          </div>
+          </div> */}
         </div>
 
         {/* <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-16">
@@ -119,7 +124,7 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
           
         </div> */}
 
-        <div className="mt-28 mb-20">
+        <div className="sm:mt-28 sm:mb-20 mt-16 mb-16">
           <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
             New Arrival
           </h1>
@@ -155,25 +160,23 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-20">
-          <div className="grid-cols-1 relative rounded overflow-hidden">
-            <Link href={'/shop/mirrors'}>
+        <div className="grid-cols-1 relative rounded overflow-hidden">
+            {" "}
             <Image
-              src="/Mirrors.jpeg"
-              alt="mirrors"
-              // layout="responsive"
+              src="/category2.webp"
+              alt="lamps"
+              unoptimized
               width={100}
               height={100}
-              unoptimized
-              className="hover:scale-110 duration-500 object-cover h-full w-full transition-all "
+              className="hover:scale-105 object-cover h-full w-full transition-all"
             />
-            <div className="absolute top-1/4 left-3 flex flex-col text-white">
-              <h1 className="text-4xl font-extrabold">Mirrors</h1>
-              <p className="text-xl my-3 underline">Discover Now</p>
-              {/* <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
+            <div className="absolute top-1/4 left-3 flex flex-col">
+              <h1 className="text-4xl font-extrabold text-white">CHAIN LAMP</h1>
+              <p className="text-xl my-3 text-gray-500">Get up to 40% off</p>
+              <Link href={'/shop/lamps'} className="hover:bg-[#0a5d5d] text-center w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
                 SHOP NOW
-              </button> */}
+              </Link>
             </div>
-            </Link>
           </div>
           <div className="grid-cols-1 relative rounded overflow-hidden">
           <Link href={'/shop/vase-&-decore'}>
