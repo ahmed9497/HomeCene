@@ -10,6 +10,7 @@ import { FaCircle } from "react-icons/fa6";
 import { HiLightBulb } from "react-icons/hi";
 import { fbEvent } from "@/app/lib/fpixel";
 import TabbyPromo from "./Tabby";
+import CartDrawer from "./CartDrawer";
 interface AddToCartButtonProps {
   product: ProductProps;
   // btnType?:string
@@ -30,8 +31,9 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
   );
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(0);
   const [activeVariant, setActiveVariant] = useState(0);
-
-  const handleAddToCart = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleAddToCart = (e: any) => {
+    e.stopPropagation();
     let calPrice = product.variant[activeVariant]?.discount
       ? parseInt(product.variant[activeVariant].discountedPrice[0])
       : parseInt(product.variant[activeVariant].price[0]);
@@ -47,7 +49,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
     const p = {
       id: product.id,
       title: product.title,
-      category:product.category,
+      category: product.category,
       quantity: quantity,
       price: calPrice,
       image: (product?.images && product?.images[0]) || "",
@@ -57,6 +59,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
     };
 
     addItemToCart(p);
+    setIsOpen(true);
     toast.info("Product Added To Cart", {
       theme: "colored",
       hideProgressBar: true,
@@ -96,13 +99,13 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
             </h2>
           )}
         </div>
-       
+
         <div>
           <TabbyPromo
-            price={product?.variant && product?.variant[activeVariant]?.discount ?
-              +product?.variant[activeVariant]?.discountedPrice[0]
-              :
-              +product?.variant[activeVariant]?.price[0]
+            price={
+              product?.variant && product?.variant[activeVariant]?.discount
+                ? +product?.variant[activeVariant]?.discountedPrice[0]
+                : +product?.variant[activeVariant]?.price[0]
             }
             currency={"AED"}
             lang="en"
@@ -304,12 +307,17 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                   Sold Out
                 </button>
               ) : (
-                <button
-                  onClick={handleAddToCart}
-                  className="bg-primary py-2 rounded w-full hover:bg-[#082e21] text-white"
-                >
-                  Add To Bag
-                </button>
+                <div className="flex relative">
+                
+                    <CartDrawer isOpen={isOpen} setIsOpen={setIsOpen} icon={true}/>
+             
+                  <button
+                    onClick={(e) => handleAddToCart(e)}
+                    className="bg-primary py-2 rounded w-full flex items-center justify-center hover:bg-[#082e21] text-white"
+                  >
+                    Add To Bag
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -317,22 +325,8 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
           <div>
             {!product?.variant[activeVariant]?.soldOut && (
               <button
-                onClick={() => {
-                  handleAddToCart();
-                  
-                  // fbEvent("InitiateCheckout", {
-                  //   content_ids: [product.id], // ID of the product added to the cart
-                  //   content_name: product.title, // Name of the product
-                  //   content_category: product.category, // Category of the product
-                  //   value: product.variant[activeVariant]?.discount
-                  //     ? parseInt(
-                  //         product.variant[activeVariant].discountedPrice[0]
-                  //       )
-                  //     : parseInt(product.variant[activeVariant].price[0]) *
-                  //       quantity, // Total price for the quantity added to the cart
-                  //   currency: "AED", // Currency (e.g., USD, AED)
-                  //   quantity: quantity,
-                  // });
+                onClick={(e) => {
+                  handleAddToCart(e);
                   router.push("/checkout");
                 }}
                 className="bg-white py-2 rounded w-full border-2 border-primary hover:text-white hover:bg-primary text-primary"

@@ -110,7 +110,7 @@ const Header = () => {
   const [user] = useAuthState(auth);
   const [profile, setProfile] = useState<any>();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
-
+const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     const activeCategory = headerMenu.find((category) =>
       pathname.startsWith(category.href)
@@ -257,7 +257,7 @@ const Header = () => {
                 <IoCartOutline size={25} className="z-10" />
               </button> */}
 
-              <CartDrawer />
+              <CartDrawer isOpen={isOpen} setIsOpen={setIsOpen} icon={false}/>
             </div>
 
             {/* Mobile Menu Button (Hamburger Icon) */}

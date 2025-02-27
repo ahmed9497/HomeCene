@@ -11,8 +11,8 @@ import Link from "next/link";
 import { MdDeleteForever } from "react-icons/md";
 import AnimatedText from "./AnimatedText";
 
-const CartDrawer = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const CartDrawer = ({isOpen, setIsOpen,icon}:{isOpen:any, setIsOpen:any,icon:any}) => {
+  
   const router = useRouter();
   const {
     items,
@@ -40,7 +40,7 @@ const CartDrawer = () => {
       >
         <FaShoppingCart size={24} />
       </button> */}
-     {!isOpen &&
+     {!isOpen && !icon &&
       <button
         className="text-lg relative group size-10 flex rounded-full justify-center items-center hover:bg-[#0a5d5d1f]"
         onClick={() => setIsOpen(true)}
@@ -50,7 +50,7 @@ const CartDrawer = () => {
 }
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center sm:justify-end transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black bg-opacity-70 z-[100] flex items-center justify-center sm:justify-end transition-opacity duration-300 ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={() => setIsOpen(false)}
@@ -58,7 +58,7 @@ const CartDrawer = () => {
 
       {/* Cart Drawer */}
       <div
-        className={`fixed top-2 h-[calc(100%-16px)] z-20 rounded-2xl w-[calc(100%-40px)] sm:w-[500px]  bg-white shadow-xl p-5 transition-transform duration-300 ${
+        className={`fixed top-2 h-[calc(100%-16px)] z-[100] rounded-2xl w-[calc(100%-40px)] sm:w-[500px]  bg-white shadow-xl p-5 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         onClick={(e) => e.stopPropagation()} 
@@ -109,7 +109,7 @@ const CartDrawer = () => {
                   >
                     <div
                       onClick={() => removeItemFromCart(item.id)}
-                      className="absolute  top-1/2  -translate-y-1/2 right-1 size-7 bg-white border hover:bg-red-100 cursor-pointer rounded-full flex justify-center items-center"
+                      className="absolute  top-1/2  -translate-y-1/2 right-1 size-7 bg-white text-black border hover:bg-red-100 cursor-pointer rounded-full flex justify-center items-center"
                     >
                       <MdDeleteForever size={20} color="red" />
                     </div>
