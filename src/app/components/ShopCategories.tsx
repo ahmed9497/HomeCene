@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const categories=[
@@ -37,11 +37,7 @@ const categories=[
       {
         title:'oval mirrors',
         href:'/shop/mirrors/oval'
-      },
-      {
-        title:'backlit mirrors',
-        href:'/shop/mirrors/backlit'
-      },
+      }
     ]
   },
   {
@@ -62,7 +58,7 @@ const categories=[
       },
       {
         title:'pendant and chandelier lamps',
-        href:'/shop/lamps/pendant and chandelier'
+        href:'/shop/lamps/pendant-and-chandelier'
       },
       {
         title:'wall lamps',
@@ -88,6 +84,12 @@ const ShopCategories = () => {
   const pathname = usePathname();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
 
+  useEffect(() => {
+    const activeCategory = categories.find(category =>
+      pathname.startsWith(category.href)
+    );
+    setOpenCategory(activeCategory?.title || null);
+  }, [pathname, categories]);
   const toggleCategory = (title: string) => {
     setOpenCategory(openCategory === title ? null : title);
   };

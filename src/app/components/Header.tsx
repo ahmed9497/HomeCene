@@ -21,7 +21,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import CartDrawer from "./CartDrawer";
-import AnimatedText from "./AnimatedText";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const headerMenu = [
   {
@@ -35,10 +35,58 @@ const headerMenu = [
   {
     title: "Mirrors",
     href: "/shop/mirrors",
+    subCategories: [
+      {
+        title: "All Mirrors",
+        href: "/shop/mirrors",
+      },
+      {
+        title: "arched mirrors",
+        href: "/shop/mirrors/arched",
+      },
+      {
+        title: "irregular mirrors",
+        href: "/shop/mirrors/irregular",
+      },
+      {
+        title: "round mirrors",
+        href: "/shop/mirrors/round",
+      },
+      {
+        title: "rectangular mirrors",
+        href: "/shop/mirrors/rectangular",
+      },
+      {
+        title: "oval mirrors",
+        href: "/shop/mirrors/oval",
+      },
+    ],
   },
   {
     title: "Lamps",
     href: "/shop/lamps",
+    subCategories: [
+      {
+        title: "All Lamps",
+        href: "/shop/lamps",
+      },
+      {
+        title: "table lamps",
+        href: "/shop/lamps/table",
+      },
+      {
+        title: "floor lamps",
+        href: "/shop/lamps/floor",
+      },
+      {
+        title: "pendant and chandelier lamps",
+        href: "/shop/lamps/pendant-and-chandelier",
+      },
+      {
+        title: "wall lamps",
+        href: "/shop/lamps/wall",
+      },
+    ],
   },
   {
     title: "Vase & Decor",
@@ -61,7 +109,17 @@ const Header = () => {
   const { items } = useCart();
   const [user] = useAuthState(auth);
   const [profile, setProfile] = useState<any>();
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
 
+  useEffect(() => {
+    const activeCategory = headerMenu.find((category) =>
+      pathname.startsWith(category.href)
+    );
+    setOpenCategory(activeCategory?.title || null);
+  }, [pathname, headerMenu]);
+  const toggleCategory = (title: string) => {
+    setOpenCategory(openCategory === title ? null : title);
+  };
   useEffect(() => {
     if (user?.uid) {
       const fetchProfile = async () => {
@@ -81,7 +139,6 @@ const Header = () => {
       fetchProfile();
     }
   }, [user]);
-
 
   const logOut = () => {
     signOut(auth);
@@ -139,11 +196,9 @@ const Header = () => {
     );
   };
   return (
-    
     <header
       className={`bg-white text-primary font-Poppins z-50 sticky top-0 w-full shadow-md min-h-[56px] sm:min-h-[80px] flex items-center`}
     >
-
       <div className="max-w-7xl mx-auto w-full py-3 sm:py-0 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
@@ -204,70 +259,114 @@ const Header = () => {
 
               <CartDrawer />
             </div>
-         
 
-          {/* Mobile Menu Button (Hamburger Icon) */}
-          <div className="md:hidden flex">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-primary focus:outline-none "
-            >
-              {isMenuOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
+            {/* Mobile Menu Button (Hamburger Icon) */}
+            <div className="md:hidden flex">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-primary focus:outline-none "
+              >
+                {isMenuOpen ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Mobile Menu - Conditional Rendering */}
+
         {isMenuOpen && (
-          <div className="md:hidden mt-3">
+          <div className="md:hidden mt-3 absolute w-full left-0 p-2 bg-white">
             <nav className="flex flex-col gap-y-1">
-              {headerMenu.map((menu, index) => (
-                <a
-                  href={menu.href}
-                  key={index}
-                  className="text-black hover:text-primary rounded-sm group hover:font-semibold py-2 bg-primary active:bg-primary active:text-white bg-opacity-5 text-center"
-                >
-                  {menu.title}
-                  {/* <div className="w-[0px] border-b border-primary h-[1px] absolute group-hover:w-[100%] transition-all"></div> */}
-                </a>
+              {headerMenu.map((category: any, index) => (
+                <div key={index}>
+                  {/* Main Category */}
+                  <div
+                    className={`flex items-center justify-between px-3 py-2 rounded cursor-pointer
+                    ${
+                      pathname === category.href
+                        ? "bg-primary text-white"
+                        : "bg-gray-200"
+                    }`}
+                    onClick={() => toggleCategory(category.title)}
+                  >
+                    {category?.subCategories?.length > 0 ? (
+                      category.title
+                    ) : (
+                      <Link href={category.href} className="w-full"          onClick={() => setIsMenuOpen(false)}>
+                        {category.title}
+                      </Link>
+                    )}
+
+                    {category?.subCategories?.length > 0 && (
+                      <button className="ml-2">
+                        {openCategory === category.title ? (
+                          <FaChevronUp />
+                        ) : (
+                          <FaChevronDown />
+                        )}
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Subcategories */}
+                  {openCategory === category.title &&
+                    category?.subCategories?.length > 0 && (
+                      <div className="ml-6 mt-1 space-y-1">
+                        {category.subCategories.map(
+                          (sub: any, subIndex: number) => (
+                            <Link
+                              key={subIndex}
+                              href={sub.href}
+                              onClick={() => setIsMenuOpen(false)}
+                              className={`block capitalize px-3 py-1 rounded hover:bg-gray-200 ${
+                                pathname === sub.href
+                                  ? "bg-primary text-white"
+                                  : "bg-gray-100"
+                              }`}
+                            >
+                              {sub.title}
+                            </Link>
+                          )
+                        )}
+                      </div>
+                    )}
+                </div>
               ))}
             </nav>
           </div>
         )}
       </div>
     </header>
-
   );
 };
 
