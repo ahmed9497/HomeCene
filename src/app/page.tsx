@@ -11,6 +11,7 @@ import { RiSecurePaymentLine } from "react-icons/ri";
 import VerticalSlider from "./components/VerticalSlider";
 import { collection, getDocs, getDocsFromServer, or, query, where } from "firebase/firestore";
 import { db } from "./firebase/config";
+import Marquee from "./components/Marquee";
 
 
 
@@ -30,8 +31,9 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
 // const newArrival = products?.filter((i:any)=>i.newArrival);
 // console.log(bigProducts);
   return (
-    <div className="pt-[60px] sm:pt-[80px]">
+    <div className="pt-[5px]">
       <Slider />
+      <Marquee/>
       <main className="container">
         <div className="grid grid-cols-1 gap-3 pt-10 sm:pt-20">
           {/* <div className="grid-cols-1 relative rounded overflow-hidden">

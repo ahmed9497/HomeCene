@@ -38,9 +38,10 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: "Jost", Helvetica, sans-serif;
+  height: 100%;
 }
 .page{
-  padding-top: 100px;
+  padding-top: 30px;
 }
 @keyframes slideDownWithClip {
   0% {
@@ -77,4 +78,43 @@ body {
   display: block !important;
   visibility: visible !important;
   min-height: 50px;
+}
+@keyframes smoothMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.marquee {
+  font-size: 15px;
+  padding-block: 8px;
+  border-block: 1px solid;
+  overflow: hidden;
+  user-select: none;
+  --gap: 50px;
+  display: flex;
+  gap: var(--gap);
+  margin-top: 1rem;
+  /* background: #7f1d1d; */
+  color: #7f1d1d;
+}
+
+.marquee ul {
+  list-style: none;
+  flex-shrink: 0;
+  min-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap);
+
+  animation: scroll 40s linear infinite;
+}
+.marquee:hover ul {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
 }

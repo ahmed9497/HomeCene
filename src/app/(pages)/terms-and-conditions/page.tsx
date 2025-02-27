@@ -4,7 +4,7 @@ import React from "react";
 
 const TermsAndConditions = () => {
   return (
-    <div className=" page bg-primary bg-opacity-5">
+    <div className=" bg-primary bg-opacity-5">
       <TopHeaderImg title="Terms And Conditions"/>
       <div className=" mx-auto p-6">
         <div className="max-w-4xl mx-auto bg-white  rounded-lg p-8 mb-10">

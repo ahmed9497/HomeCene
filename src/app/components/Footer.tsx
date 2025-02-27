@@ -24,6 +24,7 @@ const Footer = () => {
             Home Cene is your go-to destination for premium products. We are
             dedicated to providing the best service and top-quality items.
           </p>
+          <div className="flex gap-x-1  ">
           <Image
             unoptimized
             src="/paymethods.png"
@@ -32,6 +33,15 @@ const Footer = () => {
             width={400}
             height={60}
           />
+          <Image
+            unoptimized
+            src="/tabby.png"
+            className="bg-primary h-[30px] mt-3 w-[70px]"
+            alt="payments-methods"
+            width={300}
+            height={60}
+          />
+          </div>
          
         </div>
         
