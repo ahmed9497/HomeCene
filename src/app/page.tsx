@@ -35,7 +35,35 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
       <Slider />
       <Marquee/>
       <main className="container">
-        <div className="grid grid-cols-1 gap-3 pt-10 sm:pt-20">
+      <div className="grid grid-cols-3 sm:grid-cols-3 sm:gap-3 pt-5 sm:py-8">
+        
+        <div  className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}>
+          <div className="flex justify-center">
+            <GoRocket color="red" className="size-[25px] sm:size-10" />
+          </div>
+          <h2 className="text-[10px] sm:text-[16px] mt-1">Free Shipping</h2>
+        </div>
+        <div  className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 border-x sm:border `}>
+          <div className="flex justify-center">
+            <img src="/tabby.png" className="w-10 sm:w-24"/>
+          </div>
+          <h2 className="text-[10px] sm:text-[16px] mt-1">Split Payment With Tabby</h2>
+        </div>
+        <div  className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}>
+          <div className="flex justify-center">
+            <RiSecurePaymentLine color="light-blue" className="size-[25px] sm:size-10"/>
+          </div>
+          <h2 className="text-[10px] sm:text-[16px] mt-1">Secure Payments</h2>
+        </div>
+        {/* <div  className={`text-center sm:grid-cols-1 p-1 sm:border `}>
+          <div className="flex justify-center">
+            <GiTakeMyMoney size={15} color="purple" />
+          </div>
+          <h2 className="text-[10px] sm:text-[16px] mt-1">Money Back Guarantee</h2>
+        </div> */}
+      
+    </div>
+        <div className="grid grid-cols-3  pt-10 sm:pt-20">
           {/* <div className="grid-cols-1 relative rounded overflow-hidden">
             <Image
               src="/category1.webp"
@@ -54,7 +82,7 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
             </div>
           </div> */}
         
-          <div className="grid-cols-1 relative rounded overflow-hidden">
+          <div className="grid-cols-1 col-span-3 sm:col-span-2 relative  overflow-hidden">
             <Link href={'/shop/mirrors'}>
             <Image
               src="/Mirrors.jpeg"
@@ -65,64 +93,22 @@ const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
               unoptimized
               className="hover:scale-110 duration-500 object-cover sm:h-[500px] w-full transition-all "
             />
-            <div className="absolute top-1/4 left-3 flex flex-col text-white">
-              <h1 className="text-md sm:text-6xl font-extrabold w-1/2">Reflect Your Style! Elegant Mirrors for Every Space</h1>
-              <p className="text-md sm:text-4xl  font-extrabold my-3 underline">Discover Now</p>
-              {/* <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
-                SHOP NOW
-              </button> */}
-            </div>
+          
             </Link>
           </div>
-          {/* <div className="grid-cols-1 relative rounded overflow-hidden">
+          <div className="grid-cols-1 col-span-3 sm:col-span-1 bg-gray-100 relative overflow-hidden py-2 px-2 flex items-center">
            
-            <Image
-              src="/category3.webp"
-              alt="wooden decor"
-              unoptimized
-              width={100}
-              height={100}
-              className="hover:scale-105 object-cover h-full w-full transition-all"
-            />
-            <div className="absolute top-1/4 left-3 flex flex-col">
-              <h1 className="text-4xl font-extrabold">Wooden Decor</h1>
-              <p className="text-xl my-3">Get up to 40% off</p>
-              <Link href={'/shop/wooden-decore'} className="hover:bg-[#0a5d5d] text-center w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
-                SHOP NOW
-              </Link>
+            
+            <div className="flex flex-col  justify-between text-black">
+              <h1 className="text-md sm:text-5xl text-center font-extrabold ">Reflect Your Style! Elegant Mirrors for Every Space</h1>
+              <Link href={'/shop/mirrors'} className="text-sm text-center sm:text-4xl sm:mt-10 text-primary font-Poppins font-medium underline hover:cursor-pointer">Shop Now</Link>
+             
             </div>
             
-          </div> */}
+          </div>
         </div>
 
-        {/* <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-16">
         
-            <div  className={`text-center grid-cols-1 p-3 border `}>
-              <div className="flex justify-center">
-                <GoRocket size={40} color="red" />
-              </div>
-              <h2 className="text-sm sm:text-[16px] mt-1">Extra Shipping</h2>
-            </div>
-            <div  className={`text-center grid-cols-1 p-3 border `}>
-              <div className="flex justify-center">
-                <GiReturnArrow size={40} color="green" />
-              </div>
-              <h2 className="text-sm sm:text-[16px] mt-1">Return Policy</h2>
-            </div>
-            <div  className={`text-center grid-cols-1 p-3 border `}>
-              <div className="flex justify-center">
-                <RiSecurePaymentLine size={40} color="light-blue" />
-              </div>
-              <h2 className="text-sm sm:text-[16px] mt-1">Secure Payments</h2>
-            </div>
-            <div  className={`text-center grid-cols-1 p-3 border `}>
-              <div className="flex justify-center">
-                <GiTakeMyMoney size={40} color="purple" />
-              </div>
-              <h2 className="text-sm sm:text-[16px] mt-1">Money Back Guarantee</h2>
-            </div>
-          
-        </div> */}
 
         <div className="sm:mt-28 sm:mb-20 mt-16 mb-16">
           <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
