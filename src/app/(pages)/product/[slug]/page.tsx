@@ -21,19 +21,20 @@ import { GoClock } from "react-icons/go";
 import Link from "next/link";
 import ProductSlider from "@/app/components/ProductSlider";
 
-
 interface PageProps {
   params: { slug: string };
 }
-function stripHtml(html:any) {
-  if(!html) return;
+function stripHtml(html: any) {
+  if (!html) return;
   return html.replace(/<\/?[^>]+(>|$)/g, ""); // Removes all HTML tags
 }
 // // Generate Metadata Dynamically
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const { slug } = await params;
   const product = await fetchProduct(slug);
-  const cleanDescription = product?.description ? stripHtml(product?.description) : "Discover premium home decor at HomeCene.";
+  const cleanDescription = product?.description
+    ? stripHtml(product?.description)
+    : "Discover premium home decor at HomeCene.";
   if (!product) {
     return {
       title: "Product Not Found",
@@ -46,8 +47,13 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
     description: cleanDescription,
     openGraph: {
       title: `${product.title} | HomeCene`,
-      description: cleanDescription || "Discover premium home decor and furniture at HomeCene.",
-      url: `https://www.homecene.com/product/${product.title.replaceAll(" ","-")}`,
+      description:
+        cleanDescription ||
+        "Discover premium home decor and furniture at HomeCene.",
+      url: `https://www.homecene.com/product/${product.title.replaceAll(
+        " ",
+        "-"
+      )}`,
       siteName: "HomeCene",
       images: [
         {
@@ -62,36 +68,50 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: `${product.title} | HomeCene`,
-      description: cleanDescription || "Discover premium home decor and furniture at HomeCene.",
+      description:
+        cleanDescription ||
+        "Discover premium home decor and furniture at HomeCene.",
       images: [product.images[0]],
     },
   };
 }
-const getProductSchema = (product:any) => ({
+const getProductSchema = (product: any) => ({
   "@context": "https://schema.org/",
   "@type": "Product",
-  "name": product?.title,
-  "image": product?.images[0], // Ensure this is a valid URL
-  "description": product?.description?.replace(/<\/?p>/g, ""), // Remove HTML tags
-  "sku": product?.id,
-  "brand": {
+  name: product?.title,
+  image: product?.images[0], // Ensure this is a valid URL
+  description: product?.description?.replace(/<\/?p>/g, ""), // Remove HTML tags
+  sku: product?.id,
+  brand: {
     "@type": "Brand",
-    "name": "HomeCene"
+    name: "HomeCene",
   },
-  "offers": {
+  offers: {
     "@type": "Offer",
-    "url": `https://homecene.com/product/${product.slug}`,
-    "priceCurrency": "AED",
-    "price": product?.variant[0]?.discount
-    ? parseInt(product?.variant[0]?.discountedPrice[0])
-    : parseInt(product?.variant[0]?.price[0]),
-    "availability": "https://schema.org/InStock",
-    "itemCondition": "https://schema.org/NewCondition",
-    "seller": {
+    url: `https://homecene.com/product/${product.slug}`,
+    priceCurrency: "AED",
+    price: product?.variant[0]?.discount
+      ? parseInt(product?.variant[0]?.discountedPrice[0])
+      : parseInt(product?.variant[0]?.price[0]),
+    availability: "https://schema.org/InStock",
+    itemCondition: "https://schema.org/NewCondition",
+    seller: {
       "@type": "Organization",
-      "name": "HomeCene"
-    }
-  }
+      name: "HomeCene",
+    },
+    shippingDetails: {
+      "@type": "OfferShippingDetails",
+      shippingRate: {
+        "@type": "MonetaryAmount",
+        value: "15.00",
+        currency: "AED",
+      },
+      shippingDestination: {
+        "@type": "Country",
+        name: "United Arab Emirates",
+      },
+    },
+  },
 });
 
 // Function to fetch product details
@@ -119,11 +139,14 @@ const Product = async ({ params }: any) => {
     );
   }
   const getDescription = (description: any) => {
-    if(!description) return;
+    if (!description) return;
     const isHTML = /<\/?[a-z][\s\S]*>/i.test(description); // Check if it contains HTML tags
 
     return isHTML ? (
-      <div className="my-4 text-gray-400"  dangerouslySetInnerHTML={{ __html: description }} />
+      <div
+        className="my-4 text-gray-400"
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
     ) : (
       <p className="my-4 text-gray-400">{description}</p>
     );
@@ -146,9 +169,11 @@ const Product = async ({ params }: any) => {
           <FaAngleRight />
           {product.title}
           <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(getProductSchema(product)) }}
-      />
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(getProductSchema(product)),
+            }}
+          />
         </div>
         {/* Track FB ViewContent */}
         <ViewContentEvent
@@ -175,10 +200,6 @@ const Product = async ({ params }: any) => {
               </h1>
             </div>
             {/* <SelectSize product={product}/> */}
-          
-          
-              
-        
 
             {/* <div className="flex gap-x-10 mt-4 text-sm">
             <div className="text-black basis-1/4 font-extrabold uppercase">
@@ -191,8 +212,8 @@ const Product = async ({ params }: any) => {
               <Add product={product} />
             </div>
             <div className="text-black basis-1/4 mt-10 text-sm font-extrabold uppercase">
-                About Product:
-              </div>
+              About Product:
+            </div>
 
             {getDescription(product?.description)}
             <div className="mt-10">
@@ -226,7 +247,7 @@ const Product = async ({ params }: any) => {
         </div>
 
         <div className="mt-20">
-          <ProductSlider category={product.category}/>
+          <ProductSlider category={product.category} />
         </div>
       </main>
     </>
