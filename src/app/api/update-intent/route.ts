@@ -118,6 +118,7 @@ export async function POST(req: NextRequest) {
     const updatedPaymentIntent = await stripe.paymentIntents.update(
         paymentIntentId,
         {
+          amount:totalAmount,
           metadata: {
             orderId: orderRef.id,
             paymentMethod:selectedMethod
