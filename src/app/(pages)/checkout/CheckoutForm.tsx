@@ -83,7 +83,7 @@ export default function CheckoutForm({
   });
 
   useEffect(() => {
-    if (profile&&Object.keys(profile)?.length >0) {
+    if (profile && Object.keys(profile)?.length > 0) {
       setValue("name", profile?.name);
       setValue("email", profile?.email);
       setValue("phone", profile?.phone);
@@ -221,7 +221,9 @@ export default function CheckoutForm({
 
     if (error) {
       console.log("Payment failed:", error.message);
-      toast.error(error?.message||"Something went wrong.Payment Failed!!",{autoClose:false})
+      toast.error(error?.message || "Something went wrong.Payment Failed!!", {
+        autoClose: false,
+      });
       setLoading(false);
     } else {
       //   const response = await fetch("/api/update-intent", {
@@ -304,9 +306,9 @@ export default function CheckoutForm({
 
       <div>
         <label htmlFor="address">Address</label>
-        <input
+        <textarea
           id="address"
-          type="text"
+          rows={3}
           {...register("address", { required: "Address is required" })}
           className="border p-2 rounded w-full"
         />
@@ -361,8 +363,12 @@ export default function CheckoutForm({
         </div>
       </div>
 
-      <h1 className="text-2xl font-bold">Payment Methods:</h1>
-      <div></div>
+      <div>
+        <h1 className="text-2xl font-bold">Payment Methods:</h1>
+        <p className="text-slate-400 m-0">
+          All transactions are secure and encrypted
+        </p>
+      </div>
 
       <div className="space-y-2">
         <label
@@ -472,10 +478,10 @@ export default function CheckoutForm({
                 name="paymentMethod"
                 value="cod"
                 checked={selectedMethod === "wallet"}
-                onChange={() => { 
-                    setDirectPayment(false);
-                    setSelectedMethod("wallet")}
-                }
+                onChange={() => {
+                  setDirectPayment(false);
+                  setSelectedMethod("wallet");
+                }}
                 className="accent-blue-500"
               />
               <span>Apple Pay | Google Pay</span>
