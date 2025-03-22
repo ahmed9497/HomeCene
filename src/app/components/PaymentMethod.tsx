@@ -245,7 +245,7 @@ const PaymentMethod: any = ({
  {/* Apple/Google Pay */}
 
           <label className={`flex flex-col  space-x-2 border rounded-lg p-2 cursor-pointer transition hover:bg-gray-100 
-            ${selectedMethod === "cod" && 'border-primary border-2'}`}>
+            ${selectedMethod === "wallet" && 'border-primary border-2'}`}>
             <div className="justify-between items-center flex">
             <div className="flex gap-3">
               <input

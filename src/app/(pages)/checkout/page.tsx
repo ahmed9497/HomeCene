@@ -407,9 +407,9 @@ const Checkout = () => {
 
                 <div>
                   <label htmlFor="address">Address</label>
-                  <input
+                  <textarea
                     id="address"
-                    type="text"
+                    rows={3}
                     {...register("address", {
                       required: "Address is required",
                     })}
@@ -465,8 +465,10 @@ const Checkout = () => {
                     )}
                   </div>
                 </div>
-
+                 <div>   
                 <h1 className="text-2xl font-bold">Payment Methods:</h1>
+                <p className="text-slate-400 m-0">All transactions are secure and encrypted</p>
+                </div>
                 <div>
                   <PaymentMethod
                     selectedMethod={selectedMethod}
