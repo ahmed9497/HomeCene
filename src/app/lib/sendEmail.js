@@ -133,7 +133,7 @@ export async function sendConfirmationEmail(orderDetails) {
                 <small>Color: ${item.color}</small><br/>
                 <small>Size: ${item.size}</small><br/>
                 <small>Quantity: ${item.quantity}</small><br/>
-                <small>Price: $${(item.unit_amount / 100).toFixed(2)} Aed </small>
+                <small>Price: ${(item.unit_amount / 100).toFixed(2)} Aed </small>
               </div>
             </li>
           `).join('')}
@@ -280,7 +280,7 @@ export async function sendOrderEmailToAdmins(orderDetails) {
                       <small>Color: ${item.color}</small><br/>
                       <small>Size: ${item.size}</small><br/>
                       <small>Quantity: ${item.quantity}</small><br/>
-                      <small>Price: $${(item.unit_amount / 100).toFixed(2)} Aed </small>
+                      <small>Price: ${(item.unit_amount / 100).toFixed(2)} Aed </small>
                     </div>
                   </li>
                 `).join('')}

@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  console.log("Stripe Event:", event);
+  // console.log("Stripe Event:", event);
 
 
   // Handle the event (example: payment_intent.succeeded)
@@ -85,6 +85,7 @@ export async function POST(req: NextRequest) {
       
        console.log( charge)
        console.log( sessionId,"-----sessionId-------")
+       console.log( orderId,"-----sessionId-------")
        console.log( paymentIntent.metadata)
        console.log(paymentIntent.metadata?.paymentMethod,"***********")
 
@@ -94,7 +95,7 @@ export async function POST(req: NextRequest) {
          status: (paymentIntent.status === "succeeded" && paymentIntent.metadata?.paymentMethod ==='cod') ? "partial" : "paid",
          createdAt: admin.firestore.FieldValue.serverTimestamp(),
          // ...paymentIntent.metadata,
-         paymentIntentId:paymentIntent.id,
+         paymentId:paymentIntent.id,
          sessionId,
          receiptUrl: charge.receipt_url,
          last4:charge.payment_method_details?.card?.last4,
