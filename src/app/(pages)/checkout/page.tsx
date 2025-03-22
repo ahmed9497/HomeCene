@@ -1,7 +1,7 @@
 "use client";
 import { useCart } from "@/app/context/CartContext";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FieldError, useForm } from "react-hook-form";
 
 import { db, auth } from "@/app/firebase/config";
@@ -27,10 +27,21 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import TabbyCheckout from "@/app/components/TabbyCheckout";
 import { fbEvent } from "@/app/lib/fpixel";
 
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
+import CheckoutForm from "./CheckoutForm";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+
 const Checkout = () => {
-  // const [createUserWithEmailAndPassword] =
-  //   useCreateUserWithEmailAndPassword(auth);
   const [user] = useAuthState(auth);
+  const requestSent = useRef(false);
   const [profile, setProfile] = useState<any>();
   const [isDisable, setIsDisable] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState("card");
@@ -56,6 +67,32 @@ const Checkout = () => {
 
   const { items, totalAmount } = useCart();
   const params = useSearchParams();
+  const [clientSecret, setClientSecret] = useState("");
+  const [paymentIntentId, setPaymentIntentId] = useState("");
+  const [directPayment, setDirectPayment] = useState(true);
+
+  useEffect(() => {
+    const fetchClientSecret = async () => {
+      if (requestSent?.current) return; // Prevent duplicate calls
+      requestSent.current = true;
+
+      fetch("/api/payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: totalAmount * 100 }), // Amount in cents ($50)
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setClientSecret(data.clientSecret);
+          setPaymentIntentId(data.paymentIntentId);
+        });
+    };
+    if (!clientSecret) {
+      fetchClientSecret();
+    }
+  }, []);
+
   useEffect(() => {
     if (user?.uid) {
       const fetchProfile = async () => {
@@ -103,6 +140,7 @@ const Checkout = () => {
       );
     }
   }, [user]);
+
   const handleFormSubmit = async (data: any) => {
     try {
       setLoading(true);
@@ -125,19 +163,20 @@ const Checkout = () => {
       } else {
         data.userId = profile?.userId;
       }
-      console.log(items)
+      console.log(items);
       fbEvent("InitiateCheckout", {
-          content_ids: items.map(i=>i.id), // ID of the product added to the cart
-          content_name: items.map(i=>i.title), // Name of the product
-          content_category: items.map(i=>i.category), // Category of the product
-          value: totalAmount, // Total price for the quantity added to the cart
-          currency: "AED", // Currency (e.g., USD, AED)
-          quantity: items?.length > 0 &&
-            items?.reduce((prev, cur) => {
-              return prev + cur.quantity;
-            }, 0)
-        });
-        
+        content_ids: items.map((i) => i.id), // ID of the product added to the cart
+        content_name: items.map((i) => i.title), // Name of the product
+        content_category: items.map((i) => i.category), // Category of the product
+        value: totalAmount, // Total price for the quantity added to the cart
+        currency: "AED", // Currency (e.g., USD, AED)
+        quantity:
+          items?.length > 0 &&
+          items?.reduce((prev, cur) => {
+            return prev + cur.quantity;
+          }, 0),
+      });
+
       // if (selectedMethod === "cod") {
       //   const response = await fetch("/api/order", {
       //     method: "POST",
@@ -164,7 +203,7 @@ const Checkout = () => {
             address: data.address,
             zip: "",
           },
-         
+
           products: items?.map((i) => ({
             title: i.title,
             category: i.category,
@@ -242,7 +281,7 @@ const Checkout = () => {
       setLoading(false);
     }
   };
-
+  const options = { clientSecret };
   return (
     <div className="container page pb-20">
       {items?.length === 0 ? (
@@ -274,186 +313,212 @@ const Checkout = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 py-6">
           <div className="order-2 sm:order-1 pt-0 p-2 pb-0 sm:px-6">
-          <img src="pay-logos.png" alt="pay-logos" className="mt-3 sm:-mt-1"/>
-            <form
-              onSubmit={handleSubmit(handleFormSubmit)}
-              className="space-y-4"
-            >
-              <h1 className="text-2xl mt-3 font-bold">Contact</h1>
-
-              <div>
-                <div className="flex justify-between">
-                  <label htmlFor="email">Email</label>
-                  {!user?.uid && (
-                    <Link href={"/auth/login"} className="underline">
-                      Login
-                    </Link>
-                  )}
-                </div>
-                <input
-                  id="email"
-                  type="email"
-                  disabled={isDisable}
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Enter a valid email address",
-                    },
-                  })}
-                  className="border p-2 rounded w-full"
-                />
-                {errors.email && (
-                  <p className="text-red-500">
-                    {(errors.email as FieldError).message}
-                  </p>
-                )}
-              </div>
-
-              <h1 className="text-2xl font-bold">Delivery</h1>
-
-              <div>
-                <label htmlFor="name">Full Name</label>
-                <input
-                  id="name"
-                  type="text"
-                  {...register("name", { required: "Full name is required" })}
-                  className="border p-2 rounded w-full"
-                />
-                {errors.name && (
-                  <p className="text-red-500">
-                    {(errors.name as FieldError).message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="phone">Phone Number</label>
-                <input
-                  id="phone"
-                  type="tel"
-                  {...register("phone", {
-                    required: "Phone number is required",
-                  })}
-                  className="border p-2 rounded w-full"
-                />
-                {errors.phone && (
-                  <p className="text-red-500">
-                    {(errors.phone as FieldError).message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="address">Address</label>
-                <input
-                  id="address"
-                  type="text"
-                  {...register("address", { required: "Address is required" })}
-                  className="border p-2 rounded w-full"
-                />
-                {errors.address && (
-                  <p className="text-red-500">
-                    {(errors.address as FieldError).message}
-                  </p>
-                )}
-              </div>
-
-              <div className="grid grid-cols-2 gap-x-3">
-                <div>
-                  <label htmlFor="country">Country</label>
-                  <select
-                    id="country"
-                    {...register("country", {
-                      required: "Country is required",
-                    })}
-                    className="border p-2 rounded w-full"
-                    disabled
-                  >
-                    <option value="UAE">United Arab Emirates</option>
-                  </select>
-                  {errors.country && (
-                    <p className="text-red-500">
-                      {(errors.country as FieldError).message}
-                    </p>
-                  )}
-                </div>
-
-                <div className="">
-                  <label htmlFor="state">State</label>
-                  <select
-                    id="state"
-                    {...register("state", { required: "State is required" })}
-                    className="border p-2 rounded w-full"
-                  >
-                    <option value="">Select a state</option>
-                    <option value="Abu Dhabi">Abu Dhabi</option>
-                    <option value="Dubai">Dubai</option>
-                    <option value="Sharjah">Sharjah</option>
-                    <option value="Ajman">Ajman</option>
-                    <option value="Umm Al Quwain">Umm Al Quwain</option>
-                    <option value="Fujairah">Fujairah</option>
-                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
-                  </select>
-                  {errors.state && (
-                    <p className="text-red-500">
-                      {(errors.state as FieldError).message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <h1 className="text-2xl font-bold">Payment Methods:</h1>
-              <div>
-                <PaymentMethod
+            <img
+              src="pay-logos.png"
+              alt="pay-logos"
+              className="mt-3 sm:-mt-1"
+            />
+            {clientSecret && directPayment ? (
+              <Elements
+                stripe={stripePromise}
+                options={options}
+                key={clientSecret}
+              >
+                <CheckoutForm
+                  user={user}
+                  isDisable={isDisable}
+                  directPayment={directPayment}
                   selectedMethod={selectedMethod}
                   setSelectedMethod={setSelectedMethod}
-                  totalAmount={totalAmount}
-                  error={error}
+                  setDirectPayment={setDirectPayment}
+                  profile={profile}
+                  paymentIntentId={paymentIntentId}
                 />
-              </div>
-
-              <button
-                name="submit-btn"
-                type="submit"
-                className="bg-primary text-white flex justify-center gap-x-2 items-center text-xl !mt-8 py-3  rounded w-full  border-primary border-2 transition"
+              </Elements>
+            ) : (
+              <form
+                onSubmit={handleSubmit(handleFormSubmit)}
+                className="space-y-4"
               >
-                {loading ? (
-                  <>
-                    <svg
-                      className="animate-spin h-5 w-5 mr-2 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
+                <h1 className="text-2xl mt-3 font-bold">Contact</h1>
+
+                <div>
+                  <div className="flex justify-between">
+                    <label htmlFor="email">Email</label>
+                    {!user?.uid && (
+                      <Link href={"/auth/login"} className="underline">
+                        Login
+                      </Link>
+                    )}
+                  </div>
+                  <input
+                    id="email"
+                    type="email"
+                    disabled={isDisable}
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Enter a valid email address",
+                      },
+                    })}
+                    className="border p-2 rounded w-full"
+                  />
+                  {errors.email && (
+                    <p className="text-red-500">
+                      {(errors.email as FieldError).message}
+                    </p>
+                  )}
+                </div>
+
+                <h1 className="text-2xl font-bold">Delivery</h1>
+
+                <div>
+                  <label htmlFor="name">Full Name</label>
+                  <input
+                    id="name"
+                    type="text"
+                    {...register("name", { required: "Full name is required" })}
+                    className="border p-2 rounded w-full"
+                  />
+                  {errors.name && (
+                    <p className="text-red-500">
+                      {(errors.name as FieldError).message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="phone">Phone Number</label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    {...register("phone", {
+                      required: "Phone number is required",
+                    })}
+                    className="border p-2 rounded w-full"
+                  />
+                  {errors.phone && (
+                    <p className="text-red-500">
+                      {(errors.phone as FieldError).message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="address">Address</label>
+                  <input
+                    id="address"
+                    type="text"
+                    {...register("address", {
+                      required: "Address is required",
+                    })}
+                    className="border p-2 rounded w-full"
+                  />
+                  {errors.address && (
+                    <p className="text-red-500">
+                      {(errors.address as FieldError).message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-x-3">
+                  <div>
+                    <label htmlFor="country">Country</label>
+                    <select
+                      id="country"
+                      {...register("country", {
+                        required: "Country is required",
+                      })}
+                      className="border p-2 rounded w-full"
+                      disabled
                     >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v8H4z"
-                      ></path>
-                    </svg>
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    {selectedMethod === "card" && `Pay ${totalAmount} Aed`}
-                    {selectedMethod === "cod" && `Pay ${totalAmount / 2} Aed`}
-                    {selectedMethod === "tabby" && "Proceed to Tabby Checkout"}
-                    {selectedMethod === "tamara" && "Proceed to Checkout"}
-                    {selectedMethod === "gpay" && `Pay ${totalAmount} Aed`}
-                    {selectedMethod === "apple_pay" && `Pay ${totalAmount} Aed`}
-                  </>
-                )}
-              </button>
-            </form>
+                      <option value="UAE">United Arab Emirates</option>
+                    </select>
+                    {errors.country && (
+                      <p className="text-red-500">
+                        {(errors.country as FieldError).message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="">
+                    <label htmlFor="state">State</label>
+                    <select
+                      id="state"
+                      {...register("state", { required: "State is required" })}
+                      className="border p-2 rounded w-full"
+                    >
+                      <option value="">Select a state</option>
+                      <option value="Abu Dhabi">Abu Dhabi</option>
+                      <option value="Dubai">Dubai</option>
+                      <option value="Sharjah">Sharjah</option>
+                      <option value="Ajman">Ajman</option>
+                      <option value="Umm Al Quwain">Umm Al Quwain</option>
+                      <option value="Fujairah">Fujairah</option>
+                      <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                    </select>
+                    {errors.state && (
+                      <p className="text-red-500">
+                        {(errors.state as FieldError).message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <h1 className="text-2xl font-bold">Payment Methods:</h1>
+                <div>
+                  <PaymentMethod
+                    selectedMethod={selectedMethod}
+                    setSelectedMethod={setSelectedMethod}
+                    totalAmount={totalAmount}
+                    error={error}
+                    setDirectPayment={setDirectPayment}
+                  />
+                </div>
+
+                <button
+                  name="submit-btn"
+                  type="submit"
+                  className="bg-primary text-white flex justify-center gap-x-2 items-center text-xl !mt-8 py-3  rounded w-full  border-primary border-2 transition"
+                >
+                  {loading ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5 mr-2 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v8H4z"
+                        ></path>
+                      </svg>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      {selectedMethod === "card" && `Pay ${totalAmount} Aed`}
+                      {selectedMethod === "cod" && `Checkout`}
+                      {selectedMethod === "tabby" &&
+                        "Proceed to Tabby Checkout"}
+                      {selectedMethod === "tamara" && "Proceed to Checkout"}
+                      {selectedMethod === "wallet" && `Checkout`}
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
 
           <div className="order-1 sm:order-2 bg-slate-200 rounded-md p-3 sm:p-10 ">
@@ -526,7 +591,7 @@ const Checkout = () => {
                       items?.reduce((prev, cur) => {
                         return prev + cur.quantity;
                       }, 0)}
-                    Items
+                    &nbsp;Items
                   </div>
                   {selectedMethod === "cod" ? (
                     <div className="text-right">Aed {totalAmount / 2}</div>
