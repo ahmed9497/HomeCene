@@ -52,7 +52,7 @@ const Product: any = ({
       
       <AddToCartButton product={product} btnType="cartBtn" />
       <div className=" min-h-64 w-full">
-      <Link
+      <a
         href={"/product/" + product?.title?.replaceAll(" ", "-")}
         // className="w-full h-full"
         key={product.id}
@@ -127,7 +127,7 @@ const Product: any = ({
         Quick Add
       </button> */}
         </div>
-      </Link>
+      </a>
 
       {/* {quickAddBtn && <AddToCartButton product={product} />} */}
     </div>
