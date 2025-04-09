@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const messages = [
   "Upto 80% OFF on everything",
-  "Ramadan Sale",
+  // "Ramadan Sale",
   "Pay in installments with Tabby",
   "Free shipping",
 ];
