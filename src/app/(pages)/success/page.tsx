@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import Confetti from "react-confetti";
 import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
@@ -13,12 +13,13 @@ const SuccessPage = () => {
   const [loading, setLoading] = useState(true);
   const session_id = params.get("session_id");
   const payment_id = params.get("payment_id");
-
+  const eventFiredRef = useRef(false);
   useEffect(() => {
     if (session_id || payment_id) {
       let retries = 0;
       const maxRetries = 5; // Number of retry attempts
       const retryDelay = 2000;
+      let eventFired = false;
       const fetchSessionDetails = () => {
         if (!session_id && !payment_id) return;
       
@@ -36,28 +37,56 @@ const SuccessPage = () => {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           
           
-          if (!querySnapshot.empty) {
+          if (!querySnapshot.empty && !eventFiredRef.current) {
             const orderData = querySnapshot.docs[0].data();
             setSession(orderData);
-      
-            if (typeof window !== "undefined" && window.fbq) {
-              window.fbq("track", "Purchase", {
-                content_ids: orderData?.items?.items?.map((item:any) => item.productId),
-                content_name: "Order Purchase",
-                value: orderData?.total,
-                currency: "AED",
-                num_items: orderData?.items?.items?.reduce(
-                  (acc:any, item:any) => acc + item.quantity,
-                  0
-                ),
-                contents: orderData?.items?.items?.map((item:any) => ({
-                  id: item.productId,
-                  quantity: item.quantity,
-                })),
+            eventFiredRef.current = true;
+            // if (typeof window !== "undefined" && window.fbq) {
+              // window.fbq("track", "Purchase", {
+              //   content_ids: orderData?.items?.items?.map((item:any) => item.productId),
+              //   content_name: "Order Purchase",
+              //   value: orderData?.total,
+              //   currency: "AED",
+              //   num_items: orderData?.items?.items?.reduce(
+              //     (acc:any, item:any) => acc + item.quantity,
+              //     0
+              //   ),
+              //   contents: orderData?.items?.items?.map((item:any) => ({
+              //     id: item.productId,
+              //     quantity: item.quantity,
+              //   })),
+              // });
+              (window as any).dataLayer = (window as any).dataLayer || [];
+              (window as any).dataLayer.push({
+                event: "purchase", // GTM Event Name
+                ecommerce: {
+                  transaction_id: orderData.id, // Unique order ID
+                  affiliation: "HomeCene", // Store Name or Affiliate
+                  value: orderData?.total, // Total Order Amount
+                  currency: "AED", // Currency Code (e.g., USD, AED)
+                  tax: 0, // Tax Amount (Optional)
+                  shipping: orderData?.shippingFee, // Shipping Cost (Optional)
+                  coupon: "", // Applied Coupon Code (Optional)
+                  items: orderData?.orderDetails?.map((item: any) => ({
+                    item_name: item.title, // Product Name
+                    item_id: item.productId, // Product SKU or ID
+                    price: item.half_amount / 100, // Product Price
+                    quantity: item.quantity, // Quantity Purchased
+                    item_category: item.category, // Main Category
+                    item_variant: item.size||"", // Variant (Size, Color)
+                    currency: "AED", // Currency Code
+                  })),
+                },
+                // customer:{
+                //   ...data
+                // }
               });
-            }
-          } else {
-            console.log("❌ Order not found.");
+
+
+            // }
+          // } else {
+          //   console.log("❌ Order not found.");
+          // eventFired = true;
           }
           setLoading(false);
         });
@@ -70,7 +99,7 @@ const SuccessPage = () => {
     }
   }, [session_id]);
 
-  if (loading) {
+  if (loading && !session) {
     return (
       <div className="">
         <div className="page  pb-20 flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -114,9 +143,9 @@ const SuccessPage = () => {
     );
   }
 
-  if (!session) {
-    return <div className="page">Session not found or payment failed.</div>;
-  }
+  // if (!session) {
+  //   return <div className="page">Loading...</div>;
+  // }
 
   return (
     <Suspense fallback={<p>Loading...</p>}>

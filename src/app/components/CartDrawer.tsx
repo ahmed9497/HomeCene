@@ -24,6 +24,27 @@ const CartDrawer = ({isOpen, setIsOpen,icon}:{isOpen:any, setIsOpen:any,icon:any
   } = useCart();
 
   const handleCheckout = async () => {
+       
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push({
+      event: "initiate_checkout",
+      ecommerce: {
+        currency:"AED",
+        value: +totalAmount,
+        items:  items.map((item)=>{
+          return(
+            {
+              item_name: item.title,
+              item_id: item.id,
+              value:item.price, 
+              quantity:item.quantity
+            }
+          )
+        })
+        
+        
+      },
+    })
     setIsOpen(false)
     router.push("/checkout");
   };

@@ -17,7 +17,7 @@ interface AddToCartButtonProps {
 }
 
 const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
-  const { addItemToCart } = useCart();
+  const { addItemToCart,items } = useCart();
   const [quantity, setQuantity] = useState(1);
   const router = useRouter();
   const [selectedSize, setSelectedSize] = useState(
@@ -38,14 +38,31 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
       ? parseInt(product.variant[activeVariant].discountedPrice[0])
       : parseInt(product.variant[activeVariant].price[0]);
 
-    fbEvent("AddToCart", {
-      content_ids: [product.id], // ID of the product added to the cart
-      content_name: product.title, // Name of the product
-      content_category: product.category, // Category of the product
-      value: calPrice * quantity, // Total price for the quantity added to the cart
-      currency: "AED", // Currency (e.g., USD, AED)
-      quantity: quantity,
-    });
+    // fbEvent("AddToCart", {
+    //   content_ids: [product.id], // ID of the product added to the cart
+    //   content_name: product.title, // Name of the product
+    //   content_category: product.category, // Category of the product
+    //   value: calPrice * quantity, // Total price for the quantity added to the cart
+    //   currency: "AED", // Currency (e.g., USD, AED)
+    //   quantity: quantity,
+    // });
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push({
+      event: "add_to_cart",
+      ecommerce: {
+        currency:"AED",
+        value: calPrice * quantity,
+        items: [
+          {
+            item_name: product.title,
+            item_id: product.id,
+            price: calPrice,
+            value: calPrice,
+            quantity,
+          },
+        ],
+      },
+    })
     const p = {
       id: product.id,
       title: product.title,
@@ -327,6 +344,32 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
               <button
                 onClick={(e) => {
                   handleAddToCart(e);
+
+                  const  i = [{
+                    item_name: product.title,
+                    item_id: product.id,
+                    price: product.variant[activeVariant]?.discount ?parseInt(product.variant[activeVariant].discountedPrice[0]) :parseInt(product.variant[activeVariant].price[0]) * quantity, // Total price for the quantity added to the cart
+                    quantity:quantity,
+                  } 
+                  ,...items.map((item:any)=>(
+
+                    {
+                      item_name: item.title,
+                      item_id: item.id,
+                      price: item.price,
+                      quantity:item.quantity,
+                    }
+                  ))
+                ];
+                  (window as any).dataLayer = (window as any).dataLayer || [];
+                  (window as any).dataLayer.push({
+                    event: "initiate_checkout",
+                    ecommerce: {
+                      currency:"AED",
+                      items: i,
+                      value: i.reduce((total, item) => total + item.price * item.quantity, 0)
+                    },
+                  })
                   router.push("/checkout");
                 }}
                 className="bg-white py-2 rounded w-full border-2 border-primary hover:text-white hover:bg-primary text-primary"

@@ -22,14 +22,32 @@ const AddToCartButton: FC<AddToCartButtonProps> = ({ product, btnType,classes })
       ? parseInt(product.variant[0].discountedPrice[0])
       : parseInt(product.variant[0].price[0]);
 
-    fbEvent("AddToCart", {
-      content_ids: [product.id], // ID of the product added to the cart
-      content_name: product.title, // Name of the product
-      content_category: product.category, // Category of the product
-      value: calPrice * 1, // Total price for the quantity added to the cart
-      currency: "AED", // Currency (e.g., USD, AED)
-      quantity: 1,
-    });
+    // fbEvent("AddToCart", {
+    //   content_ids: [product.id], // ID of the product added to the cart
+    //   content_name: product.title, // Name of the product
+    //   content_category: product.category, // Category of the product
+    //   value: calPrice * 1, // Total price for the quantity added to the cart
+    //   currency: "AED", // Currency (e.g., USD, AED)
+    //   quantity: 1,
+    // });
+
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push({
+      event: "add_to_cart",
+      ecommerce: {
+        value: calPrice, 
+        currency: "AED",
+        items: [
+          {
+            item_name: product.title,
+            item_id: product.id,
+            price: calPrice,
+            value: calPrice,
+            quantity:1,
+          },
+        ],
+      },
+    })
     const p:any = {    
       id: product.id,
       title: product.title,

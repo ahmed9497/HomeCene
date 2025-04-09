@@ -176,7 +176,7 @@ const Product = async ({ params }: any) => {
           />
         </div>
         {/* Track FB ViewContent */}
-        <ViewContentEvent
+        {/* <ViewContentEvent
           contentId={product?.id}
           contentName={product?.title}
           contentCategory={product?.category}
@@ -186,7 +186,21 @@ const Product = async ({ params }: any) => {
               : parseInt(product.variant[0].price[0])
           }
           currency="AED"
-        />
+        /> */}
+
+{product?.id &&
+          <ViewContentEvent
+            contentId={product?.id}
+            contentName={product?.title}
+            contentCategory={product?.category}
+            value={
+              product.variant[0]?.discount
+                ? parseInt(product.variant[0].discountedPrice[0])
+                : parseInt(product.variant[0].price[0])
+            }
+            currency="AED"
+          />
+}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-20">
           <ProductPageImage product={product} />
 
