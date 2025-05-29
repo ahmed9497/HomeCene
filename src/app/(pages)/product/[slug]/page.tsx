@@ -20,6 +20,8 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { GoClock } from "react-icons/go";
 import Link from "next/link";
 import ProductSlider from "@/app/components/ProductSlider";
+import CustomerReviews from "@/app/components/CustomerReviews";
+import Accordion from "@/app/components/Accordion";
 
 interface PageProps {
   params: { slug: string };
@@ -125,11 +127,32 @@ async function fetchProduct(slug: string): Promise<any> {
   const product = productSnapshot.docs[0]?.data();
   return product;
 }
+async function fetchReviews(id: string): Promise<any> {
+  const reviewsCollection = collection(db, "reviews");
+  const productQuery = query(
+    reviewsCollection,
+    where("productId", "==", id),
+    where("status", "==", true)
+  );
+  const reviewsSnapshot = await getDocs(productQuery);
+  if (reviewsSnapshot.empty) return null; // ✅ Return null if no product is found
+
+  const reviews = reviewsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+    timestamp: doc.data().timestamp?.seconds
+      ? new Date(doc.data().timestamp.seconds * 1000).toISOString()
+      : null,
+  }));
+
+  return reviews;
+}
 
 const Product = async ({ params }: any) => {
   const { slug } = await params;
   const product = await fetchProduct(slug);
-  // console.log(product)
+  const reviews = await fetchReviews(product.id);
+
   if (!product) {
     return (
       <div>
@@ -188,7 +211,7 @@ const Product = async ({ params }: any) => {
           currency="AED"
         /> */}
 
-{product?.id &&
+        {product?.id && (
           <ViewContentEvent
             contentId={product?.id}
             contentName={product?.title}
@@ -200,7 +223,7 @@ const Product = async ({ params }: any) => {
             }
             currency="AED"
           />
-}
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-20">
           <ProductPageImage product={product} />
 
@@ -230,6 +253,11 @@ const Product = async ({ params }: any) => {
             </div>
 
             {getDescription(product?.description)}
+
+           
+
+        {product?.productDetail && <Accordion content={getDescription(product?.productDetail)}/>}
+
             <div className="mt-10">
               <div className="text-black basis-1/4 text-sm font-extrabold uppercase">
                 Guaranteed safe checkout:
@@ -259,7 +287,16 @@ const Product = async ({ params }: any) => {
             </div>
           </div>
         </div>
-
+        <div className="mt-20 sm:container">
+          <CustomerReviews
+            title={product.title}
+            productImg={product.images[0]}
+            reviews={reviews}
+            productId={product?.id}
+            avgRating={product?.averageRating}
+            rating={product?.reviewCount}
+          />
+        </div>
         <div className="mt-20">
           <ProductSlider category={product.category} />
         </div>

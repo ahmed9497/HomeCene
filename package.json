@@ -26,6 +26,7 @@
     "react-hook-form": "^7.53.2",
     "react-icons": "^5.3.0",
     "react-image-magnify": "^2.7.4",
+    "react-star-ratings": "^2.3.0",
     "react-toastify": "^10.0.6",
     "stream": "^0.0.3",
     "stripe": "^17.3.1"
@@ -35,6 +36,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-image-magnify": "^2.7.4",
+    "@types/react-star-ratings": "^2.3.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"

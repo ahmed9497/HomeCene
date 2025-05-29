@@ -105,7 +105,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                 {" "}
                 Aed {product?.variant[activeVariant]?.discountedPrice}.00
               </h2>
-              <div className="text-sm py-[1px] text-white rounded-full px-4 bg-red-600">
+              <div className="text-sm py-[1px] text-white rounded-full px-2 min-w-[200px]:text-5xl sm:px-4 bg-red-600">
                 {product?.variant[activeVariant]?.discountPercentage} OFF
               </div>
             </>
@@ -330,7 +330,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
              
                   <button
                     onClick={(e) => handleAddToCart(e)}
-                    className="bg-primary py-2 rounded w-full flex items-center justify-center hover:bg-[#082e21] text-white"
+                    className="animate-bounce text-lg animate-wiggle bg-primary py-2 rounded w-full flex items-center justify-center hover:bg-[#082e21] text-white"
                   >
                     Add To Bag
                   </button>
@@ -372,7 +372,7 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
                   })
                   router.push("/checkout");
                 }}
-                className="bg-white py-2 rounded w-full border-2 border-primary hover:text-white hover:bg-primary text-primary"
+                className="bg-white text-lg py-2 animate-slide-left-right rounded w-full border-2 border-primary hover:text-white hover:bg-primary text-primary"
               >
                 Buy It Now
               </button>

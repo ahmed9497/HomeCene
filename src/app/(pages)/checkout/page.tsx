@@ -164,18 +164,18 @@ const Checkout = () => {
         data.userId = profile?.userId;
       }
       console.log(items);
-      fbEvent("InitiateCheckout", {
-        content_ids: items.map((i) => i.id), // ID of the product added to the cart
-        content_name: items.map((i) => i.title), // Name of the product
-        content_category: items.map((i) => i.category), // Category of the product
-        value: totalAmount, // Total price for the quantity added to the cart
-        currency: "AED", // Currency (e.g., USD, AED)
-        quantity:
-          items?.length > 0 &&
-          items?.reduce((prev, cur) => {
-            return prev + cur.quantity;
-          }, 0),
-      });
+      // fbEvent("InitiateCheckout", {
+      //   content_ids: items.map((i) => i.id), // ID of the product added to the cart
+      //   content_name: items.map((i) => i.title), // Name of the product
+      //   content_category: items.map((i) => i.category), // Category of the product
+      //   value: totalAmount, // Total price for the quantity added to the cart
+      //   currency: "AED", // Currency (e.g., USD, AED)
+      //   quantity:
+      //     items?.length > 0 &&
+      //     items?.reduce((prev, cur) => {
+      //       return prev + cur.quantity;
+      //     }, 0),
+      // });
 
       // if (selectedMethod === "cod") {
       //   const response = await fetch("/api/order", {
