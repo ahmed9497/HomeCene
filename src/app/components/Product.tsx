@@ -34,10 +34,8 @@ const getProductSchema = (product:any) => ({
 });
 const Product: any = ({
   product,
-  quickAddBtn,
 }: {
   product: ProductProps;
-  quickAddBtn: boolean;
 }) => {
  
   return (

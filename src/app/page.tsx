@@ -1,231 +1,296 @@
-
-
 import Image from "next/image";
 import Slider from "./components/Slider";
 import { GoRocket } from "react-icons/go";
 import Link from "next/link";
 import Product from "./components/Product";
 import BigProduct from "./components/BigProduct";
-import { GiReturnArrow, GiTakeMyMoney } from "react-icons/gi";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import VerticalSlider from "./components/VerticalSlider";
-import { collection, getDocs, getDocsFromServer, or, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocsFromServer,
+  or,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "./firebase/config";
 import Marquee from "./components/Marquee";
+import SlideIn from "./components/SlideIn";
 
-
-
-
-export const dynamic = "force-dynamic";// Disables caching for the page
-export default async function  Home() {
+export const dynamic = "force-dynamic"; // Disables caching for the page
+export default async function Home() {
   const productCollection = collection(db, "products");
-  const featuredQuery = query(productCollection,or( where("featuredProduct", "==", true),where("newArrival", "==", true),where("bigProduct", "==", true)));
+  const featuredQuery = query(
+    productCollection,
+    or(
+      where("featuredProduct", "==", true),
+      where("newArrival", "==", true),
+      where("bigProduct", "==", true)
+    )
+  );
   const productSnapshot = await getDocsFromServer(featuredQuery);
 
   const products = productSnapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-// console.log(products);
-const bigProducts = products?.filter((i:any)=>i.bigProduct) || [];
-// const newArrival = products?.filter((i:any)=>i.newArrival);
-// console.log(bigProducts);
+  // console.log(products);
+  const bigProducts = products?.filter((i: any) => i.bigProduct) || [];
+  // const newArrival = products?.filter((i:any)=>i.newArrival);
+  // console.log(bigProducts);
   return (
     <div className="pt-[5px]">
       <Slider />
-      <Marquee/>
+      <Marquee />
       <main className="container">
-      <div className="grid grid-cols-3 sm:grid-cols-3 sm:gap-3 pt-5 sm:py-8">
-        
-        <div  className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}>
-          <div className="flex justify-center">
-            <GoRocket color="red" className="size-[25px] sm:size-10" />
+        <div className="grid grid-cols-3 sm:grid-cols-3 sm:gap-3 pt-5 sm:py-8">
+          <div
+            className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}
+          >
+            <SlideIn direction="up">
+            <div className="flex justify-center">
+              <GoRocket color="red" className="size-[25px] sm:size-10" />
+            </div>
+            <h2 className="text-[10px] sm:text-[16px] mt-1">Free Shipping</h2>
+            </SlideIn>
           </div>
-          <h2 className="text-[10px] sm:text-[16px] mt-1">Free Shipping</h2>
-        </div>
-        <div  className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 border-x sm:border `}>
-          <div className="flex justify-center">
-            <img src="/tabby.png" className="w-10 sm:w-24"/>
+          <div
+            className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 border-x sm:border `}
+          >
+             <SlideIn direction="down">
+            <div className="flex justify-center">
+              <img src="/tabby.png" className="w-10 sm:w-24" />
+            </div>
+            <h2 className="text-[10px] sm:text-[16px] mt-1">
+              Split Payment With Tabby
+            </h2>
+            </SlideIn>
           </div>
-          <h2 className="text-[10px] sm:text-[16px] mt-1">Split Payment With Tabby</h2>
-        </div>
-        <div  className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}>
-          <div className="flex justify-center">
-            <RiSecurePaymentLine color="light-blue" className="size-[25px] sm:size-10"/>
+          <div
+            className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}
+          >
+            <SlideIn direction="up">
+            <div className="flex justify-center">
+              <RiSecurePaymentLine
+                color="light-blue"
+                className="size-[25px] sm:size-10"
+              />
+            </div>
+            <h2 className="text-[10px] sm:text-[16px] mt-1">Secure Payments</h2>
+            </SlideIn>
           </div>
-          <h2 className="text-[10px] sm:text-[16px] mt-1">Secure Payments</h2>
-        </div>
-        {/* <div  className={`text-center sm:grid-cols-1 p-1 sm:border `}>
+          {/* <div  className={`text-center sm:grid-cols-1 p-1 sm:border `}>
           <div className="flex justify-center">
             <GiTakeMyMoney size={15} color="purple" />
           </div>
           <h2 className="text-[10px] sm:text-[16px] mt-1">Money Back Guarantee</h2>
         </div> */}
-      
-    </div>
+        </div>
         <div className="grid grid-cols-3  pt-10 sm:pt-20">
-          {/* <div className="grid-cols-1 relative rounded overflow-hidden">
-            <Image
-              src="/category1.webp"
-              alt="cat"
-              layout="responsive"
-              width={100}
-              height={100}
-              className="hover:scale-105 transition-all"
-            />
-            <div className="absolute top-1/4 left-3 flex flex-col">
-              <h1 className="text-4xl font-extrabold">New Plants</h1>
-              <p className="text-xl my-3">Get up to 40% off</p>
-              <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#2c2c2c] text-white px-2 py-2">
-                SHOP NOW
-              </button>
-            </div>
-          </div> */}
-        
+         
+
           <div className="grid-cols-1 col-span-3 sm:col-span-2 relative  overflow-hidden">
-            <Link href={'/shop/mirrors'}>
-            <Image
-              src="/Mirrors.jpeg"
-              alt="mirrors"
-              // layout="responsive"
-              width={100}
-              height={100}
-              unoptimized
-              className="hover:scale-110 duration-500 object-cover sm:h-[500px] w-full transition-all "
-            />
-          
+          <SlideIn direction="left">
+            <Link href={"/shop/mirrors"}>
+              <Image
+                src="/Mirrors.jpeg"
+                alt="mirrors"
+                // layout="responsive"
+                width={100}
+                height={100}
+                unoptimized
+                className="hover:scale-110 duration-500 object-cover sm:h-[500px] w-full transition-all "
+              />
             </Link>
+            </SlideIn>
           </div>
           <div className="grid-cols-1 col-span-3 sm:col-span-1 bg-gray-100 relative overflow-hidden py-2 px-2 flex items-center">
-           
-            
+           <SlideIn direction="right">
             <div className="flex flex-col  justify-between text-black">
-              <h1 className="text-md sm:text-5xl text-center font-extrabold ">Reflect Your Style! Elegant Mirrors for Every Space</h1>
-              <Link href={'/shop/mirrors'} className="text-sm text-center sm:text-4xl sm:mt-10 text-primary font-Poppins font-medium underline hover:cursor-pointer">Shop Now</Link>
-             
+              <h1 className="text-md sm:text-5xl text-center font-extrabold ">
+                Reflect Your Style! Elegant Mirrors for Every Space
+              </h1>
+              <Link
+                href={"/shop/mirrors"}
+                className="shop-btn text-sm text-center sm:text-4xl sm:mt-10 text-primary font-Poppins font-medium underline hover:cursor-pointer"
+              >
+                Shop Now
+                <span>Shop Now</span>
+              </Link>
             </div>
-            
+            </SlideIn>
           </div>
         </div>
 
-        
-
         <div className="sm:mt-28 sm:mb-20 mt-16 mb-16">
+        <SlideIn direction="up" >
           <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
             New Arrival
           </h1>
+          </SlideIn>
         </div>
 
         {/* Products */}
 
         <div className="grid grid-cols-5 gap-5">
           <div className="col-span-12 sm:col-span-2">
-            <VerticalSlider products={bigProducts.slice(0,2)}/>
-            
+            <VerticalSlider products={bigProducts.slice(0, 2)} />
           </div>
           <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-x-3 gap-y-5">
-            {products&& products?.filter((i:any)=>i.newArrival).slice(0,6).map((product:any, index:number) => (
-              <div key={product.id}>
-                <Product product={product} quickAddBtn={true} />
-              </div>
-            ))}
+            {products &&
+              products
+                ?.filter((i: any) => i.newArrival)
+                .slice(0, 6)
+                .map((product: any, index: number) => (
+                  <div key={product.id}>
+                    <Product product={product} quickAddBtn={true} />
+                  </div>
+                ))}
           </div>
         </div>
         <div className="grid grid-cols-5 gap-5 mt-10">
           <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-x-3 gap-y-5">
-            {products&& products?.filter((i:any)=>i.newArrival).slice(6,12).map((product:any, index:number) => (
-              <div key={product.id}>
-                <Product product={product} quickAddBtn={true} />
-              </div>
-            ))}
+            {products &&
+              products
+                ?.filter((i: any) => i.newArrival)
+                .slice(6, 12)
+                .map((product: any, index: number) => (
+                  <div key={product.id}>
+                    <Product product={product} quickAddBtn={true} />
+                  </div>
+                ))}
           </div>
           <div className="col-span-12 sm:col-span-2">
-          <VerticalSlider products={bigProducts.slice(2,4)}/>
-          {/* <BigProduct product={bigProducts[3]}/> */}
+            <VerticalSlider products={bigProducts.slice(2, 4)} />
+            {/* <BigProduct product={bigProducts[3]}/> */}
           </div>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-20">
-        <div className="grid-cols-1 relative rounded overflow-hidden">
-            {" "}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-4 sm:py-20">
+          <div className="grid-cols-1 relative rounded overflow-hidden ">
+        <SlideIn direction="right">
+     
             <Image
-              src="/category2.webp"
+              src="/lamp.webp"
               alt="lamps"
               unoptimized
               width={100}
               height={100}
               className="hover:scale-105 object-cover h-full w-full transition-all"
             />
-            <div className="absolute top-1/4 left-3 flex flex-col">
-              <h1 className="text-4xl font-extrabold text-white">CHAIN LAMP</h1>
-              <p className="text-xl my-3 text-gray-500">Get up to 40% off</p>
-              <Link href={'/shop/lamps'} className="hover:bg-[#0a5d5d] text-center w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
-                SHOP NOW
-              </Link>
+            </SlideIn>
+          </div>
+          <div className="flex grid-cols-1 relative rounded overflow-hidden">
+            <div className="my-auto">
+            <SlideIn direction="left" delay={200}>
+              <div className="space-y-4">
+                <h1 className="text-3xl sm:text-4xl font-extrabold">
+                  Light Up Every Corner
+                </h1>
+                <p className="text-lg sm:text-2xl text-justify">
+                  Illuminate your home with lamps that merge elegance and
+                  function. Designed to complement any décor, our lamps offer
+                  warm, inviting light perfect for living rooms, bedrooms, or
+                  workspaces.
+                </p>
+                <p className="text-lg sm:text-xl my-3 text-gray-500">Get up to 40% off</p>
+                <Link href={"/shop/lamps"} className="shop-btn">
+                  <span className="text">Shop Now</span>
+                  <span>Shop Now</span>
+                </Link>
+              </div>
+              </SlideIn>
             </div>
           </div>
-          <div className="grid-cols-1 relative rounded overflow-hidden">
-          <Link href={'/shop/vase-&-decore'}>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-4 sm:py-20">
+          <div className="flex grid-cols-1 sm:order-1 order-2 relative rounded overflow-hidden">
+            <div className="my-auto">
+            <SlideIn direction="left" >
+              <div className="space-y-4">
+                <h1 className="text-3xl sm:text-4xl font-extrabold ">Crafted for Charm</h1>
+                <p className="text-lg sm:text-2xl text-left">
+                  Turn empty corners into artful statements.Whether placed on a
+                  table, shelf, or entryway, our vases bring charm and texture
+                  to your home. Designed to stand out with or without flowers.
+                </p>
+                <p className="text-xl my-3 text-gray-500">Get up to 40% off</p>
+                <Link href={"/shop/lamps"}>
+                  <div className="shop-btn mt-4">
+                    <span className="text">Shop Now</span>
+                    <span>Shop Now</span>
+                  </div>
+                </Link>
+              </div>
+              </SlideIn>
+            </div>
+          </div>
+          <div className="grid-cols-1 relative sm:order-2 order-1 rounded overflow-hidden">
+          <SlideIn direction="right" >
             <Image
-              src="/sidetable.webp"
-              alt="vase&decor"
+              src="/vases.jpg"
+              alt="lamps"
               unoptimized
               width={100}
               height={100}
-              className="hover:scale-110 object-cover h-full w-full transition-all duration-500"
+              className="hover:scale-105 object-cover h-full w-full transition-all"
             />
-            <div className="absolute top-1/4 left-3 flex flex-col">
-              <h1 className="text-4xl font-extrabold ">Vase & Decor</h1>
-              <p className="text-xl my-3 text-gray-500 underline">
-                Discover Now
-              </p>
-              {/* <button className="hover:bg-[#0a5d5d] w-[150px] rounded-[2px] text-lg bg-[#fff] text-black px-2 py-2">
-                SHOP NOW
-              </button> */}
-            </div>
-            </Link>
+            </SlideIn>
           </div>
         </div>
 
         <div className="mt-4 mb-20">
+        <SlideIn direction="down" >
           <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
             Our Products
           </h1>
+          </SlideIn>
         </div>
 
         {/* Products */}
 
         <div className="grid grid-cols-6 gap-3">
           <div className="order-2 sm:order-1 grid grid-cols-2 col-span-12 sm:col-span-2 gap-x-3 gap-y-5">
-            {products&& products?.filter((i:any)=>i.featuredProduct).slice(0, 4).map((product:any, index:number) => (
-              <div key={product.id}>
-                <Product product={product} quickAddBtn={false} />
-              </div>
-            ))}
+            {products &&
+              products
+                ?.filter((i: any) => i.featuredProduct)
+                .slice(0, 4)
+                .map((product: any, index: number) => (
+                  <div key={product.id}>
+                    <Product product={product} quickAddBtn={false} />
+                  </div>
+                ))}
           </div>
-
 
           <div className="order-1  flex items-center sm:order-2 col-span-12 sm:col-span-2">
-            <BigProduct product={bigProducts[4]}/>
+            <BigProduct product={bigProducts[4]} />
           </div>
 
-
           <div className="order-3 sm:order-3 grid grid-cols-2 col-span-12 sm:col-span-2 gap-x-3 gap-y-5">
-          {products&& products?.filter((i:any)=>i.featuredProduct).slice(4,8).map((product:any, index:number) => (
-              <div key={product.id}>
-                <Product product={product} quickAddBtn={false} />
-              </div>
-            ))}
+            {products &&
+              products
+                ?.filter((i: any) => i.featuredProduct)
+                .slice(4, 8)
+                .map((product: any, index: number) => (
+                  <div key={product.id}>
+                    <Product product={product} quickAddBtn={false} />
+                  </div>
+                ))}
           </div>
         </div>
 
         {/* View All */}
-
+                <SlideIn direction="left">
         <div className="flex justify-center my-16">
-          <Link href={'shop/all-products'} className="hover:bg-[#0a5d5d] text-center hover:text-white w-[170px] transition-all duration-200 border-2 rounded-[2px] text-lg bg-white text-[#0a5d5d] border-[#0a5d5d] px-5 py-2">
+          <Link
+            href={"shop/all-products"}
+            className="shop-btn text-center w-[170px]"
+          >
             View All
+            <span>View All</span>
           </Link>
         </div>
+        </SlideIn>
       </main>
     </div>
   );

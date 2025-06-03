@@ -5,8 +5,6 @@ import Image from "next/image";
 import React from "react";
 import { FaAngleRight, FaHome, FaMinus, FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { FaDeleteLeft } from "react-icons/fa6";
-import { RiDeleteBin2Line } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
 import TabbyPromo from "@/app/components/Tabby";
