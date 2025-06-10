@@ -143,7 +143,7 @@ export default async function Home() {
                 .slice(0, 6)
                 .map((product: any, index: number) => (
                   <div key={product.id}>
-                    <Product product={product} quickAddBtn={true} />
+                    <Product product={product} quickAddBtn={true} index={index}/>
                   </div>
                 ))}
           </div>
@@ -156,7 +156,7 @@ export default async function Home() {
                 .slice(6, 12)
                 .map((product: any, index: number) => (
                   <div key={product.id}>
-                    <Product product={product} quickAddBtn={true} />
+                    <Product product={product} quickAddBtn={true} index={index}/>
                   </div>
                 ))}
           </div>
@@ -263,7 +263,7 @@ export default async function Home() {
                 .slice(0, 4)
                 .map((product: any, index: number) => (
                   <div key={product.id}>
-                    <Product product={product} quickAddBtn={false} />
+                    <Product product={product} quickAddBtn={false} index={index}/>
                   </div>
                 ))}
           </div>

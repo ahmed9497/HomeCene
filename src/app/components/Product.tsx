@@ -4,6 +4,7 @@ import React from "react";
 import { PiShoppingCartLight } from "react-icons/pi";
 import AddToCartButton from "./AddToCartButton";
 import { ProductProps } from "../types/types";
+import SlideIn from "./SlideIn";
 
 
 const getProductSchema = (product:any) => ({
@@ -34,11 +35,14 @@ const getProductSchema = (product:any) => ({
 });
 const Product: any = ({
   product,
+  index
 }: {
   product: ProductProps;
+  index:number
 }) => {
  
   return (
+    <SlideIn direction="up" delay={index * 100} className="w-full">
     <div
       key={product.id}
       className="group  rounded-sm col-span-1 hover:border-primary hover:shadow-lg hover:border hover:rounded hover:p-1 hover:transition-all overflow-hidden cursor-pointer relative"
@@ -130,6 +134,7 @@ const Product: any = ({
       {/* {quickAddBtn && <AddToCartButton product={product} />} */}
     </div>
     </div>
+    </SlideIn>
   );
 };
 
