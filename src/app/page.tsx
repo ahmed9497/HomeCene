@@ -48,35 +48,37 @@ export default async function Home() {
             className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}
           >
             <SlideIn direction="up">
-            <div className="flex justify-center">
-              <GoRocket color="red" className="size-[25px] sm:size-10" />
-            </div>
-            <h2 className="text-[10px] sm:text-[16px] mt-1">Free Shipping</h2>
+              <div className="flex justify-center">
+                <GoRocket color="red" className="size-[25px] sm:size-10" />
+              </div>
+              <h2 className="text-[10px] sm:text-[16px] mt-1">Free Shipping</h2>
             </SlideIn>
           </div>
           <div
             className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 border-x sm:border `}
           >
-             <SlideIn direction="down">
-            <div className="flex justify-center">
-              <img src="/tabby.png" className="w-10 sm:w-24" />
-            </div>
-            <h2 className="text-[10px] sm:text-[16px] mt-1">
-              Split Payment With Tabby
-            </h2>
+            <SlideIn direction="down">
+              <div className="flex justify-center">
+                <img src="/tabby.png" className="w-10 sm:w-24" />
+              </div>
+              <h2 className="text-[10px] sm:text-[16px] mt-1">
+                Split Payment With Tabby
+              </h2>
             </SlideIn>
           </div>
           <div
             className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}
           >
             <SlideIn direction="up">
-            <div className="flex justify-center">
-              <RiSecurePaymentLine
-                color="light-blue"
-                className="size-[25px] sm:size-10"
-              />
-            </div>
-            <h2 className="text-[10px] sm:text-[16px] mt-1">Secure Payments</h2>
+              <div className="flex justify-center">
+                <RiSecurePaymentLine
+                  color="light-blue"
+                  className="size-[25px] sm:size-10"
+                />
+              </div>
+              <h2 className="text-[10px] sm:text-[16px] mt-1">
+                Secure Payments
+              </h2>
             </SlideIn>
           </div>
           {/* <div  className={`text-center sm:grid-cols-1 p-1 sm:border `}>
@@ -87,46 +89,44 @@ export default async function Home() {
         </div> */}
         </div>
         <div className="grid grid-cols-3  pt-10 sm:pt-20">
-         
-
           <div className="grid-cols-1 col-span-3 sm:col-span-2 relative  overflow-hidden">
-          <SlideIn direction="left">
-            <Link href={"/shop/mirrors"}>
-              <Image
-                src="/Mirrors.jpeg"
-                alt="mirrors"
-                // layout="responsive"
-                width={100}
-                height={100}
-                unoptimized
-                className="hover:scale-110 duration-500 object-cover sm:h-[500px] w-full transition-all "
-              />
-            </Link>
+            <SlideIn direction="left">
+              <Link href={"/shop/mirrors"}>
+                <Image
+                  src="/Mirrors.jpeg"
+                  alt="mirrors"
+                  // layout="responsive"
+                  width={100}
+                  height={100}
+                  unoptimized
+                  className="hover:scale-110 duration-500 object-cover sm:h-[500px] w-full transition-all "
+                />
+              </Link>
             </SlideIn>
           </div>
           <div className="grid-cols-1 col-span-3 sm:col-span-1 bg-gray-100 relative overflow-hidden py-2 px-2 flex items-center">
-           <SlideIn direction="right">
-            <div className="flex flex-col  justify-between text-black">
-              <h1 className="text-md sm:text-5xl text-center font-extrabold ">
-                Reflect Your Style! Elegant Mirrors for Every Space
-              </h1>
-              <Link
-                href={"/shop/mirrors"}
-                className="shop-btn text-sm text-center sm:text-4xl sm:mt-10 text-primary font-Poppins font-medium underline hover:cursor-pointer"
-              >
-                Shop Now
-                <span>Shop Now</span>
-              </Link>
-            </div>
+            <SlideIn direction="right">
+              <div className="flex flex-col  justify-between text-black">
+                <h1 className="text-md sm:text-5xl text-center font-extrabold ">
+                  Reflect Your Style! Elegant Mirrors for Every Space
+                </h1>
+                <Link
+                  href={"/shop/mirrors"}
+                  className="shop-btn text-sm text-center sm:text-4xl sm:mt-10 text-primary font-Poppins font-medium underline hover:cursor-pointer"
+                >
+                  Shop Now
+                  <span>Shop Now</span>
+                </Link>
+              </div>
             </SlideIn>
           </div>
         </div>
 
         <div className="sm:mt-28 sm:mb-20 mt-16 mb-16">
-        <SlideIn direction="up" >
-          <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
-            New Arrival
-          </h1>
+          <SlideIn direction="up">
+            <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
+              New Arrival
+            </h1>
           </SlideIn>
         </div>
 
@@ -167,37 +167,38 @@ export default async function Home() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-4 sm:py-20">
           <div className="grid-cols-1 relative rounded overflow-hidden ">
-        <SlideIn direction="right">
-     
-            <Image
-              src="/lamp.webp"
-              alt="lamps"
-              unoptimized
-              width={100}
-              height={100}
-              className="hover:scale-105 object-cover h-full w-full transition-all"
-            />
+            <SlideIn direction="right">
+              <Image
+                src="/lamp.webp"
+                alt="lamps"
+                unoptimized
+                width={100}
+                height={100}
+                className="hover:scale-105 object-cover h-full w-full transition-all"
+              />
             </SlideIn>
           </div>
           <div className="flex grid-cols-1 relative rounded overflow-hidden">
             <div className="my-auto">
-            <SlideIn direction="left" delay={200}>
-              <div className="space-y-4">
-                <h1 className="text-3xl sm:text-4xl font-extrabold">
-                  Light Up Every Corner
-                </h1>
-                <p className="text-lg sm:text-2xl text-justify">
-                  Illuminate your home with lamps that merge elegance and
-                  function. Designed to complement any décor, our lamps offer
-                  warm, inviting light perfect for living rooms, bedrooms, or
-                  workspaces.
-                </p>
-                <p className="text-lg sm:text-xl my-3 text-gray-500">Get up to 40% off</p>
-                <Link href={"/shop/lamps"} className="shop-btn">
-                  <span className="text">Shop Now</span>
-                  <span>Shop Now</span>
-                </Link>
-              </div>
+              <SlideIn direction="left" delay={200}>
+                <div className="space-y-4">
+                  <h1 className="text-3xl sm:text-4xl font-extrabold">
+                    Light Up Every Corner
+                  </h1>
+                  <p className="text-lg sm:text-2xl text-justify">
+                    Illuminate your home with lamps that merge elegance and
+                    function. Designed to complement any décor, our lamps offer
+                    warm, inviting light perfect for living rooms, bedrooms, or
+                    workspaces.
+                  </p>
+                  <p className="text-lg sm:text-xl my-3 text-gray-500">
+                    Get up to 40% off
+                  </p>
+                  <Link href={"/shop/lamps"} className="shop-btn">
+                    <span className="text">Shop Now</span>
+                    <span>Shop Now</span>
+                  </Link>
+                </div>
               </SlideIn>
             </div>
           </div>
@@ -206,44 +207,49 @@ export default async function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-4 sm:py-20">
           <div className="flex grid-cols-1 sm:order-1 order-2 relative rounded overflow-hidden">
             <div className="my-auto">
-            <SlideIn direction="left" >
-              <div className="space-y-4">
-                <h1 className="text-3xl sm:text-4xl font-extrabold ">Crafted for Charm</h1>
-                <p className="text-lg sm:text-2xl text-left">
-                  Turn empty corners into artful statements.Whether placed on a
-                  table, shelf, or entryway, our vases bring charm and texture
-                  to your home. Designed to stand out with or without flowers.
-                </p>
-                <p className="text-xl my-3 text-gray-500">Get up to 40% off</p>
-                <Link href={"/shop/lamps"}>
-                  <div className="shop-btn mt-4">
-                    <span className="text">Shop Now</span>
-                    <span>Shop Now</span>
-                  </div>
-                </Link>
-              </div>
+              <SlideIn direction="left">
+                <div className="space-y-4">
+                  <h1 className="text-3xl sm:text-4xl font-extrabold ">
+                    Crafted for Charm
+                  </h1>
+                  <p className="text-lg sm:text-2xl text-left">
+                    Turn empty corners into artful statements.Whether placed on
+                    a table, shelf, or entryway, our vases bring charm and
+                    texture to your home. Designed to stand out with or without
+                    flowers.
+                  </p>
+                  <p className="text-xl my-3 text-gray-500">
+                    Get up to 40% off
+                  </p>
+                  <Link href={"/shop/lamps"}>
+                    <div className="shop-btn mt-4">
+                      <span className="text">Shop Now</span>
+                      <span>Shop Now</span>
+                    </div>
+                  </Link>
+                </div>
               </SlideIn>
             </div>
           </div>
           <div className="grid-cols-1 relative sm:order-2 order-1 rounded overflow-hidden">
-          <SlideIn direction="right" >
-            <Image
-              src="/vases.jpg"
-              alt="lamps"
-              unoptimized
-              width={100}
-              height={100}
-              className="hover:scale-105 object-cover h-full w-full transition-all"
-            />
+            <SlideIn direction="right">
+              <Image
+                src="/vases.jpg"
+                alt="lamps"
+                unoptimized
+                width={100}
+                height={100}
+                className="hover:scale-105 object-cover h-full w-full transition-all"
+              />
             </SlideIn>
           </div>
         </div>
 
         <div className="mt-4 mb-20">
-        <SlideIn direction="down" >
-          <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
-            Our Products
-          </h1>
+          <SlideIn direction="down">
+            <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
+              Our Products
+            </h1>
           </SlideIn>
         </div>
 
@@ -280,16 +286,16 @@ export default async function Home() {
         </div>
 
         {/* View All */}
-                <SlideIn direction="left">
-        <div className="flex justify-center my-16">
-          <Link
-            href={"shop/all-products"}
-            className="shop-btn text-center w-[170px]"
-          >
-            View All
-            <span>View All</span>
-          </Link>
-        </div>
+        <SlideIn direction="left">
+          <div className="flex justify-center my-16">
+            <Link
+              href={"shop/all-products"}
+              className="shop-btn text-center w-[170px]"
+            >
+              View All
+              <span>View All</span>
+            </Link>
+          </div>
         </SlideIn>
       </main>
     </div>
