@@ -111,9 +111,6 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-
-   
-   
    
     const updatedPaymentIntent = await stripe.paymentIntents.update(
         paymentIntentId,

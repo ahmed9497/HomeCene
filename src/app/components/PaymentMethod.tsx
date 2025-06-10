@@ -1,6 +1,4 @@
 import Image from "next/image";
-import { useState } from "react";
-import { FaInfo } from "react-icons/fa6";
 import TabbyCheckout from "./TabbyCheckout";
 
 const PaymentMethod: any = ({

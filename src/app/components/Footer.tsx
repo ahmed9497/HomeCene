@@ -3,9 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-import { FaPhone } from "react-icons/fa";
 import { FaMessage, FaWhatsapp } from "react-icons/fa6";
 import SocialIcons from "./SocialIcons";
+import SlideIn from "./SlideIn";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -18,10 +18,11 @@ const Footer = () => {
       <div className="bg-primary py-10 rounded-t-3xl">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
        
+       <SlideIn direction="up">
         <div>
           <h3 className="text-xl font-bold text-white mb-4">Home Cene</h3>
           <p className="text-sm">
-            Home Cene is your go-to destination for premium products. We are
+            HomeCene is your go-to destination for premium products. We are
             dedicated to providing the best service and top-quality items.
           </p>
           <div className="flex gap-x-1  ">
@@ -44,7 +45,8 @@ const Footer = () => {
           </div>
          
         </div>
-        
+        </SlideIn>
+        <SlideIn direction="up" delay={300}>
         <div>
           <h4 className="text-lg font-semibold text-white mb-4">Categories</h4>
           <ul className="space-y-2">
@@ -90,6 +92,8 @@ const Footer = () => {
             </li> */}
           </ul>
         </div>
+        </SlideIn>
+        <SlideIn direction="up" delay={400}>
         <div>
           <h4 className="text-lg font-semibold text-white mb-4">Policies</h4>
           <ul className="space-y-2">
@@ -119,6 +123,8 @@ const Footer = () => {
             </li>
           </ul>
         </div>
+        </SlideIn>
+        <SlideIn direction="up" delay={500}>
         <div>
           <h4 className="text-lg font-semibold text-white mb-4">Information</h4>
           <ul className="space-y-2">
@@ -157,16 +163,21 @@ const Footer = () => {
             </li>
           </ul>
         </div>
+        </SlideIn>
+        <SlideIn direction="up" delay={600}>
       <p className="text-white border- border-white">
           Registered Under Government of UAE<br/>
           Licensed No. 4418290.01
           </p>
+          </SlideIn>
       </div>
+      <SlideIn direction="up" delay={700}>
       <div className="flex justify-center flex-col gap-y-4 items-center my-8">
         <h4 className="text-lg font-semibold text-white mb-4">Follow Us</h4>
         <SocialIcons />
       </div>
-      
+      </SlideIn>
+      <SlideIn direction="down" delay={800}>
       <div className="mt-8 border-t border-gray-700 pt-6 text-center text-sm">
         <p>© {new Date().getFullYear()} HomeCene. All rights reserved.</p>
         <div className="flex justify-center space-x-4 mt-4">
@@ -178,6 +189,7 @@ const Footer = () => {
           </Link>
         </div>
       </div>
+      </SlideIn>
       </div>
     </footer>
   );

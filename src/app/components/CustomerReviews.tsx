@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  addDoc,
   collection,
   doc,
   serverTimestamp,
@@ -261,9 +260,9 @@ const CustomerReviews = ({
                     <div className="bg-primary inline px-[3px] text-sm rounded-sm text-white">
                       Verified
                     </div>
-                    <div className="text-sm">
+                    {/* <div className="text-sm">
                       {new Date(review.timestamp).toLocaleDateString()}
-                    </div>
+                    </div> */}
                     <div className="bold text-lg text-gray-500">
                       {review.reviewText}
                     </div>

@@ -226,7 +226,7 @@ const SuccessPage = () => {
             </ul>
             <hr className="my-3" />
             <p className="text-sm text-center text-gray-600 font-bold">
-              <span className="font-medium">Total Amount:</span> {session.total}{" "}
+              <span className="font-medium">Total Amount:</span> {session?.total}{" "}
               Aed
             </p>
           </div>

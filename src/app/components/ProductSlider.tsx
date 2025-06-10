@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
-import Link from "next/link";
+
 
 const ProductSlider = ({ category }: { category: string }) => {
   const [current, setCurrent] = useState(0);
@@ -79,7 +79,7 @@ const ProductSlider = ({ category }: { category: string }) => {
                   key={idx}
                   className="w-full p-2 bg-white  shadow border rounded-lg"
                 >
-                  <Link href={`/product/${product.title.replaceAll(" ", "-")}`}>
+                  <a href={`/product/${product.title.replaceAll(" ", "-")}`}>
                     <img
                       src={product.images[0]}
                       alt={product.title}
@@ -91,14 +91,14 @@ const ProductSlider = ({ category }: { category: string }) => {
                     <div className="font-bold flex items-center justify-center text-primary gap-x-4 my-4  font-Poppins">
                       {product?.variant && product?.variant[0]?.discount ? (
                         <>
-                          <h2 className="text-red-500 line-through font-normal text-sm  ">
+                          <h2 className="text-red-500 line-through font-normal text-[13px] sm:text-sm  ">
                             Aed {product?.variant[0]?.price[0]}.00
                           </h2>
                           <div className="h-6 w-[2px] bg-gray-300"></div>
-                          <h2 className="text-black">
+                          <h2 className="text-black ">
                             Aed {product?.variant[0]?.discountedPrice}.00
                           </h2>
-                          <div className="text-sm py-[1px] text-white rounded-full px-4 bg-red-600">
+                          <div className="text-[13px] sm:text-sm py-[1px] text-white rounded-full px-4 bg-red-600">
                             {product?.variant[0]?.discountPercentage} OFF
                           </div>
                         </>
@@ -109,7 +109,7 @@ const ProductSlider = ({ category }: { category: string }) => {
                         </h2>
                       )}
                     </div>
-                  </Link>
+                  </a>
                 </div>
               ))}
           </div>

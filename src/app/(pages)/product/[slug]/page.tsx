@@ -22,6 +22,7 @@ import Link from "next/link";
 import ProductSlider from "@/app/components/ProductSlider";
 import CustomerReviews from "@/app/components/CustomerReviews";
 import Accordion from "@/app/components/Accordion";
+import Faqs from "@/app/components/Faqs";
 
 interface PageProps {
   params: { slug: string };
@@ -295,6 +296,13 @@ const Product = async ({ params }: any) => {
             productId={product?.id}
             avgRating={product?.averageRating}
             rating={product?.reviewCount}
+          />
+        </div>
+        <div className="mt-20 sm:container">
+          <Faqs
+            
+            faqData={product.faqs}
+            
           />
         </div>
         <div className="mt-20">
