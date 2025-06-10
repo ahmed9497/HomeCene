@@ -202,7 +202,7 @@ console.log(slug,"_______");
             {products &&
               products.map((product, index) => (
                 <div key={product.id + index}>
-                  <Product product={product} quickAddBtn={true} />
+                  <Product product={product} quickAddBtn={true} index={index}/>
                 </div>
               ))}
           </div>
