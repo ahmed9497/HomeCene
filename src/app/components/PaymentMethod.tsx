@@ -230,10 +230,10 @@ const PaymentMethod: any = ({
             {selectedMethod === "cod" && (
               <div className="mt-3 p-3 border rounded-md bg-white shadow-sm animate-fadeIn">
                 <h3 className="text-sm font-semibold mb-2">Cash on Delivery
-                  <span className="text-red-500 capitalize">&nbsp; (with 50% down payment)</span>
+                  {/* <span className="text-red-500 capitalize">&nbsp; (with 50% down payment)</span> */}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Pay 50% when you receive your order. Please keep the exact amount
+                  Pay full payment when you receive your order. Please keep the exact amount
                   ready.
                 </p>
               </div>

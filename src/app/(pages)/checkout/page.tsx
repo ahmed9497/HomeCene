@@ -177,17 +177,17 @@ const Checkout = () => {
       //     }, 0),
       // });
 
-      // if (selectedMethod === "cod") {
-      //   const response = await fetch("/api/order", {
-      //     method: "POST",
-      //     headers: { "Content-Type": "application/json" },
-      //     body: JSON.stringify({ items, data, totalAmount }),
-      //   });
+      if (selectedMethod === "cod") {
+        const response = await fetch("/api/order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items, data, totalAmount, selectedMethod }),
+        });
 
-      //   const { message } = await response.json();
-      //   router.push("/account/orders");
-      //   return;
-      // }
+        const { message,orderId } = await response.json();
+        router.push(`/success?orderId=${orderId}`);
+        return;
+      }
 
       if (selectedMethod === "tabby") {
         const payload: any = {
@@ -268,6 +268,7 @@ const Checkout = () => {
           "This email is already in use. Please try logging in or use a different email.",
           { hideProgressBar: true }
         );
+        return;
       }
 
       // Handle other Firebase error messages
@@ -276,7 +277,9 @@ const Checkout = () => {
           "This email is already registered. Please log in instead.",
           { hideProgressBar: true }
         );
+        return;
       }
+      toast.error("Something went wrong!!");
     } finally {
       setLoading(false);
     }
@@ -465,9 +468,11 @@ const Checkout = () => {
                     )}
                   </div>
                 </div>
-                 <div>   
-                <h1 className="text-2xl font-bold">Payment Methods:</h1>
-                <p className="text-slate-400 m-0">All transactions are secure and encrypted</p>
+                <div>
+                  <h1 className="text-2xl font-bold">Payment Methods:</h1>
+                  <p className="text-slate-400 m-0">
+                    All transactions are secure and encrypted
+                  </p>
                 </div>
                 <div>
                   <PaymentMethod
@@ -479,46 +484,51 @@ const Checkout = () => {
                   />
                 </div>
 
-                <button
-                  name="submit-btn"
-                  type="submit"
-                  className="bg-primary text-white flex justify-center gap-x-2 items-center text-xl !mt-8 py-3  rounded w-full  border-primary border-2 transition"
-                >
-                  {loading ? (
-                    <>
-                      <svg
-                        className="animate-spin h-5 w-5 mr-2 text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v8H4z"
-                        ></path>
-                      </svg>
-                      Processing...
-                    </>
-                  ) : (
+                {loading ? (
+                  <div
+                    // name="submit-btn"
+                    // type=""
+                    className="bg-primary text-white flex justify-center gap-x-2 items-center text-xl !mt-8 py-3  rounded w-full  border-primary border-2 transition"
+                  >
+                    <svg
+                      className="animate-spin h-5 w-5 mr-2 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      ></path>
+                    </svg>
+                    Processing...
+                  </div>
+                ) : (
+                  <button
+                    name="submit-btn"
+                    type="submit"
+                    className="bg-primary text-white flex justify-center gap-x-2 items-center text-xl !mt-8 py-3  rounded w-full  border-primary border-2 transition"
+                  >
                     <>
                       {selectedMethod === "card" && `Pay ${totalAmount} Aed`}
-                      {selectedMethod === "cod" && `Checkout`}
+                      {/* {selectedMethod === "cod" && `Checkout`} */}
+                      {selectedMethod === "cod" && `Order Now`}
                       {selectedMethod === "tabby" &&
                         "Proceed to Tabby Checkout"}
                       {selectedMethod === "tamara" && "Proceed to Checkout"}
                       {selectedMethod === "wallet" && `Checkout`}
                     </>
-                  )}
-                </button>
+                  </button>
+                )}
               </form>
             )}
           </div>
@@ -595,11 +605,11 @@ const Checkout = () => {
                       }, 0)}
                     &nbsp;Items
                   </div>
-                  {selectedMethod === "cod" ? (
+                  {/* {selectedMethod === "cod" ? (
                     <div className="text-right">Aed {totalAmount / 2}</div>
                   ) : (
                     <div className="text-right">Aed {totalAmount}</div>
-                  )}
+                  )} */}
                 </div>
                 <div className="grid grid-cols-2">
                   {totalAmount > 100 ? (
@@ -616,7 +626,7 @@ const Checkout = () => {
                     </>
                   )}
                 </div>
-                {selectedMethod === "cod" ? (
+                {/* {selectedMethod === "cod" ? (
                   <>
                     <div className="grid grid-cols-2 text-xl text-red-500  my-6 font-extrabold">
                       <div className="">Remaining via COD</div>
@@ -627,7 +637,7 @@ const Checkout = () => {
                       <div className="text-right">Aed {totalAmount / 2}</div>
                     </div>
                   </>
-                ) : null}
+                ) : null} */}
                 <div className="grid grid-cols-2 text-2xl  my-6 font-extrabold">
                   <div className="">Total</div>
                   <div className="text-right">
