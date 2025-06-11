@@ -71,6 +71,7 @@ export async function POST(req) {
     const orderMetadata = {
       ...data,
       status: 'pending',
+      orderStatus:'processing',
       paymentMethod: selectedMethod,
       orderDetails: productItems,
       totalAmount,// Full Amount

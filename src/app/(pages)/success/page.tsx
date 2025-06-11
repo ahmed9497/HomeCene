@@ -13,15 +13,18 @@ const SuccessPage = () => {
   const [loading, setLoading] = useState(true);
   const session_id = params.get("session_id");
   const payment_id = params.get("payment_id");
+  const order_id = params.get("orderId");
+  console.log(order_id)
   const eventFiredRef = useRef(false);
   useEffect(() => {
-    if (session_id || payment_id) {
+    if (session_id || payment_id || order_id) {
+    
       let retries = 0;
       const maxRetries = 5; // Number of retry attempts
       const retryDelay = 2000;
       let eventFired = false;
       const fetchSessionDetails = () => {
-        if (!session_id && !payment_id) return;
+        if (!session_id && !payment_id && !order_id) return;
       
         const ordersRef = collection(db, "orders");
         const conditions = [];
@@ -29,18 +32,19 @@ const SuccessPage = () => {
         // Dynamically add filters
         if (session_id) conditions.push(where("sessionId", "==", session_id));
         if (payment_id) conditions.push(where("paymentId", "==", payment_id));
+        if (order_id) conditions.push(where("id", "==", order_id));
       
         // Construct query
         const q = query(ordersRef, ...conditions);
-      
+
         // Real-time listener
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           
           
           if (!querySnapshot.empty && !eventFiredRef.current) {
+            eventFiredRef.current = true;
             const orderData = querySnapshot.docs[0].data();
             setSession(orderData);
-            eventFiredRef.current = true;
             // if (typeof window !== "undefined" && window.fbq) {
               // window.fbq("track", "Purchase", {
               //   content_ids: orderData?.items?.items?.map((item:any) => item.productId),
@@ -97,7 +101,7 @@ const SuccessPage = () => {
 
       fetchSessionDetails();
     }
-  }, [session_id]);
+  }, [session_id,payment_id,order_id]);
 
   if (loading && !session) {
     return (
@@ -192,7 +196,7 @@ const SuccessPage = () => {
                 </span>
               </p>
             ):null}
-            {session?.remainingAmount ? (
+            {/* {session?.remainingAmount ? (
               <p className="text-sm flex mb-2  text-gray-600">
                 <span className="basis-1/2 font-bold">
                   Remaining Payment Via Cod:{" "}
@@ -202,7 +206,7 @@ const SuccessPage = () => {
                   {session?.remainingAmount / 100} Aed
                 </span>
               </p>
-            ) : null}
+            ) : null} */}
             <p className=" text-sm flex mb-2 text-gray-600">
               <span className="basis-2/3 font-bold">Order Detail:</span>
               <span className="basis-1/3 font-bold text-right"></span>
@@ -217,7 +221,7 @@ const SuccessPage = () => {
                   <span className="basis-1/3 text-right">
                     {" "}
                     {session.paymentMethod === "cod"
-                      ? item.half_amount / 100
+                      ? item.unit_amount / 100//item.half_amount / 100
                       : item.unit_amount / 100}{" "}
                     Aed
                   </span>
@@ -226,7 +230,7 @@ const SuccessPage = () => {
             </ul>
             <hr className="my-3" />
             <p className="text-sm text-center text-gray-600 font-bold">
-              <span className="font-medium">Total Amount:</span> {session?.total}{" "}
+              <span className="font-medium">Total Amount:</span> {session?.total}
               Aed
             </p>
           </div>

@@ -167,19 +167,19 @@ const OrdersPage = () => {
                   {order.status}
                 </span>
               </p>
-              {order.remainingAmount ? (
+              {/* {order.remainingAmount ? (
                 <p className="text-sm flex gap-x-4  text-gray-600 mb-3">
                   <span className="basis-40">Remaining Payment: </span>
                   <span className="capitalize  bg-primary bg-opacity-20 px-4 rounded-sm text-primary font-medium">
                     {order.remainingAmount / 100} Aed
                   </span>
                 </p>
-              ) : null}
+              ) : null} */}
               <p className="text-sm flex gap-x-4  text-gray-600 mb-3">
                 <span className="basis-40">Payment Method:</span>
                 <span className="capitalize  bg-primary bg-opacity-20 px-4 rounded-sm text-primary font-medium">
                   {order.paymentMethod === "cod"
-                    ? "50%--50% COD--Card"
+                    ? "Cash On Delivery" // "50%--50% COD--Card"
                     : order.paymentMethod}
                 </span>
               </p>
@@ -241,16 +241,17 @@ const OrdersPage = () => {
                       </div>
                     </div>
                     {order.paymentMethod === "cod" ? (
-                      <span>
-                        {item.unit_amount / 100} - {item.half_amount / 100} AED
-                      </span>
+                      // <span>
+                      //   {item.unit_amount / 100} - {item.half_amount / 100} AED
+                      // </span>
+                      <span>{item.unit_amount / 100} AED</span>
                     ) : (
                       <span>{item.unit_amount / 100} AED</span>
                     )}
                   </li>
                 ))}
               </ul>
-              {order.paymentMethod === "cod" && (
+              {/* {order.paymentMethod === "cod" && (
                 <>
                   <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
                     <span>Paid Amount:</span>
@@ -265,7 +266,7 @@ const OrdersPage = () => {
                     </span>
                   </div>
                 </>
-              )}
+              )} */}
               {order?.shippingFee ? (
                 <div className="mt-3 flex justify-between border-t pt-3 text-gray-800 font-medium">
                   <span>Shipping:</span>
