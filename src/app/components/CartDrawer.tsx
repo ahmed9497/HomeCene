@@ -263,15 +263,15 @@ const CartDrawer = ({isOpen, setIsOpen,icon}:{isOpen:any, setIsOpen:any,icon:any
                     </div>
                   </div>
                 </div>
-                <button
+                {/* <button
                   onClick={handleCart}
                   className="bg-black flex gap-x-2 items-center justify-center w-full py-1 text-md capitalize font-Poppins hover:bg-white hover:text-primary hover:border-2 border-primary  rounded text-white mt-1"
                 >
                   View Cart 
-                </button>
+                </button> */}
                 <button
                   onClick={handleCheckout}
-                  className="bg-black flex gap-x-2 items-center justify-center w-full py-1 text-md capitalize font-Poppins hover:bg-white hover:text-primary hover:border-2 border-primary  rounded text-white mt-1"
+                  className="bg-black animate-slide-left-right flex gap-x-2 items-center justify-center w-full py-2 text-md capitalize font-Poppins hover:bg-white hover:text-primary hover:border-2 border-primary  rounded text-white mt-1"
                 >
                   Checkout <FaArrowRight className="animate-slide-left-right"/>
                 </button>

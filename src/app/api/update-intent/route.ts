@@ -94,6 +94,7 @@ export async function POST(req: NextRequest) {
       ...data,
       status: "pending",
       paymentMethod: selectedMethod,
+      orderStatus:'processing',
       orderDetails: productItems,
       totalAmount, // Full Amount
       upfrontAmount, // 100% for other methods
