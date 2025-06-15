@@ -74,7 +74,7 @@ const SuccessPage = () => {
                   items: orderData?.orderDetails?.map((item: any) => ({
                     item_name: item.title, // Product Name
                     item_id: item.productId, // Product SKU or ID
-                    price: item.half_amount / 100, // Product Price
+                    price: item.unit_amount / 100, // Product Price
                     quantity: item.quantity, // Quantity Purchased
                     item_category: item.category, // Main Category
                     item_variant: item.size||"", // Variant (Size, Color)
