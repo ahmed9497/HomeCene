@@ -164,7 +164,7 @@ export async function sendConfirmationEmail(orderDetails) {
 export async function sendOrderEmailToAdmins(orderDetails) {
   const msg = {
     from: `HomeCene <${process.env.EMAIL_USERNAME}>`,  // Sender email (this should be your email)
-    to: ['ahmedkhalil9497@gmail.com'], //'khurramkhalil276@gmail.com','namrah.khalil1234@gmail.com'         // Recipient email (customer's email)
+    to:  'ahmedkhalil9497@gmail.com,namrah.khalil1234@gmail.com,khurramkhalil276@gmail.com',
     subject: `Alhamdulilah Order Received - Order #HC_${orderDetails.id}`,
     text: `Order with ID #HC_${orderDetails.id} has been successfully placed and payment received.\n\n
            Order Details:\n
