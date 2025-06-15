@@ -163,7 +163,7 @@ const SuccessPage = () => {
 
           {/* Success Message */}
           <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">
-            Payment Successful!
+            {order_id? 'Order Placed Successfully': 'Payment Successfull'} 
           </h1>
           <p className="text-gray-600 text-center mb-6">
             Your order has been placed successfully. Thank you for shopping with
