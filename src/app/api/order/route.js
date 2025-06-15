@@ -4,6 +4,7 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const shippingCharges = process.env.NEXT_PUBLIC_SHIPPING_CHARGES;
 import * as admin from "firebase-admin";
+import { sendConfirmationEmail, sendOrderEmailToAdmins } from '@/app/lib/sendEmail';
 
 // Initialize Firebase Admin SDK
 if (!admin.apps.length) {
@@ -115,6 +116,14 @@ export async function POST(req) {
       const orderRef = db.collection("orders").doc();
       orderMetadata.id = orderRef.id;
       await orderRef.set(orderMetadata);
+
+      if(orderMetadata){
+
+        await sendConfirmationEmail(orderMetadata);
+        await sendOrderEmailToAdmins(orderMetadata);
+      }
+
+
       console.log("Order saved successfully to Firestore.");
     } catch (err) {
       console.error("Error saving order to Firestore:", err.message);
