@@ -258,7 +258,7 @@ const CustomerReviews = ({
                   >
                     <h1 className="text-primary bold">{review.name}</h1>
                     <div className="bg-primary inline px-[3px] text-sm rounded-sm text-white">
-                      Verified
+                      Verified Buyer
                     </div>
                     {/* <div className="text-sm">
                       {new Date(review.timestamp).toLocaleDateString()}
