@@ -169,11 +169,11 @@ const Product = async ({ params }: any) => {
 
     return isHTML ? (
       <div
-        className="my-4 text-gray-400"
+        className="my-4 text-gray-900"
         dangerouslySetInnerHTML={{ __html: description }}
       />
     ) : (
-      <p className="my-4 text-gray-400">{description}</p>
+      <p className="my-4 text-gray-900">{description}</p>
     );
   };
 

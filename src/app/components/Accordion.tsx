@@ -33,7 +33,7 @@ const Accordion = ({ content }: { content: any }) => {
           isOpen ? "max-h-auto" : "max-h-0"
         }`}
       >
-        <div className="py-2 text-gray-600">{content}</div>
+        <div className="py-2 text-black">{content}</div>
       </div>
     </div>
   );
