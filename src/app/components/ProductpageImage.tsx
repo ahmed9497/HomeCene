@@ -64,7 +64,7 @@ const ProductPageImage = ({product}:{product:any}) => {
                 // autoPlay
                 poster={product?.images[0]}
                 preload='none'
-                className="w-full h-auto rounded-lg"
+                className="w-full h-full rounded-lg"
               >
                 <source src={product?.images[index]} type="video/mp4" />
                 Your browser does not support the video tag.
