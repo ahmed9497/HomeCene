@@ -98,8 +98,8 @@ export async function POST(req: NextRequest) {
          paymentId:paymentIntent.id,
          sessionId,
          receiptUrl: charge.receipt_url,
-         last4:charge.payment_method_details?.card?.last4,
-         brand:charge.payment_method_details?.card?.brand
+         last4:charge.payment_method_details?.card?.last4 || "",
+         brand:charge.payment_method_details?.card?.brand|| ""
        };
       
        console.log(orderId,"orderID")
