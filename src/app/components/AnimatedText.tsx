@@ -6,6 +6,7 @@ const messages = [
   // "Ramadan Sale",
   "Pay in installments with Tabby",
   "Free shipping",
+  "100% Secure Payment"
 ];
 
 export default function AnimatedText() {
