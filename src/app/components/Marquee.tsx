@@ -3,37 +3,37 @@ export default function Marquee() {
     <div className="marquee">
       <ul>
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
       </ul>
 
       <ul aria-hidden="true">
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
         <li>
-          <span className="">Up to 40% OFF </span>
+          <span className="">Summer Sale Up to 40% - 60% OFF </span>
         </li>
       </ul>
     </div>

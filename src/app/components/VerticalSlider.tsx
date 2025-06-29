@@ -33,19 +33,22 @@ const slides = [
 ];
 
 const VerticalSlider = ({ products }: { products: any }) => {
-  const [current, setCurrent] = useState(0);
-  const [itemWidth, setItemWidth] = useState(400);
+  const [current, setCurrent] = useState(1);
+  const [itemWidth, setItemWidth] = useState<any>(0);
 
   useEffect(() => {
+    setItemWidth(window.innerWidth >= 768 ? 500 : window.innerWidth);
     const interval = setInterval(() => {
       setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+      // setItemWidth(window.innerWidth >= 768 ? 500 : window.innerWidth);
     }, 5000);
 
     return () => clearInterval(interval);
   }, []);
   useEffect(() => {
     const handleResize = () => {
-      setItemWidth(window.innerWidth >= 768 ? 500 : 400); // 500 for desktop, 400 for mobile
+      console.log(window.innerWidth >= 768 ? 500 : window.innerWidth ,"----")
+      setItemWidth(window.innerWidth >= 768 ? 500 : window.innerWidth - 90); // 500 for desktop, 400 for mobile
     };
 
     handleResize(); // Set initial width
@@ -53,17 +56,19 @@ const VerticalSlider = ({ products }: { products: any }) => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   return (
-    <div className="h-[710px] overflow-x-hidden rounded-md relative">
+    <div className="h-[710px]  overflow-x-hidden rounded-m relative">
       <div
-        className="w-max h-full flex transition-all ease-in-out rounded-md duration-1000"
-        style={{ transform: `translateX(-${current * itemWidth}px)` }}
+        className="gap-x-3 h-full flex transition-all ease-in-out rounded-md duration-1000"
+        style={{ transform: `translateX(-${current * (itemWidth+18)}px)`}}
       >
         {products.map((product: any) => (
+          <div key={product.id} style={{ width: `${itemWidth}px)`}}>
           <Link
             href={"/product/" + product?.title?.replaceAll(" ", "-")}
-            className="w-full h-full relative group"
-            key={product.id}
+            className="h-full relative group"            
+            style={{ width: `${itemWidth+12}px)` }}
           >
             <div className="">
               <AddToCartButton
@@ -81,7 +86,8 @@ const VerticalSlider = ({ products }: { products: any }) => {
                 // fill
                 unoptimized
                 sizes="100%"
-                className="object-cover w-[400px] sm:w-[500px] h-[630px] rounded-md"
+                style={{width:`${itemWidth+8}px`,maxWidth:`${itemWidth+12}px`}}
+                className="object-cover  h-[630px] rounded-md"
               />
 
               <div className="text-center mt-2 group-hover:bg-[#0a5d5d3b] group-hover:p-[2px] group-hover:rounded">
@@ -116,6 +122,7 @@ const VerticalSlider = ({ products }: { products: any }) => {
               </div>
             </div>
           </Link>
+          </div>
         ))}
       </div>
       <div className="absolute m-auto left-1/2 bottom-28 flex gap-4">
