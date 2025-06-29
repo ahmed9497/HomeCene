@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { FaPlay, FaRegCirclePlay, FaVideo } from 'react-icons/fa6';
+import { FaPlay} from 'react-icons/fa6';
 
 const ProductPageImage = ({product}:{product:any}) => {
     const [activeImg,setActiveImg] = useState(0);

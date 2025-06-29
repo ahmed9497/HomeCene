@@ -1,10 +1,8 @@
 // components/Header.tsx
 "use client";
 import { useEffect, useState } from "react";
-import { FaShoppingCart } from "react-icons/fa"; // Using React Icons for Cart icon
 import { useCart } from "../context/CartContext";
 import { usePathname, useRouter } from "next/navigation";
-import { IoCartOutline } from "react-icons/io5";
 import { FaAngleDown, FaRegCircleUser, FaUser } from "react-icons/fa6";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase/config";
@@ -13,10 +11,6 @@ import Image from "next/image";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Link from "next/link";
 import {
-  collection,
-  getDocs,
-  query,
-  where,
   doc,
   getDoc,
 } from "firebase/firestore";

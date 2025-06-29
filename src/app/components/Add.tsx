@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC,  useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { ProductProps } from "../types/types";
 import { useCart } from "../context/CartContext";
@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 // import SelectSize from "./SelectSize";
 import { FaCircle } from "react-icons/fa6";
-import { HiLightBulb } from "react-icons/hi";
-import { fbEvent } from "@/app/lib/fpixel";
+
+// import { fbEvent } from "@/app/lib/fpixel";
 import TabbyPromo from "./Tabby";
 import CartDrawer from "./CartDrawer";
 interface AddToCartButtonProps {

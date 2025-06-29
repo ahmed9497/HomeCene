@@ -5,7 +5,6 @@ import { getAuth } from "firebase/auth";
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "@/app/firebase/config"; // Replace with your Firebase config
 import Link from "next/link";
-import { FaAngleDoubleDown } from "react-icons/fa";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 
 const OrdersPage = () => {

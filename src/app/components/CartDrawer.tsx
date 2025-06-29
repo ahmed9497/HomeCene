@@ -1,9 +1,9 @@
 "use client"; // Required for Next.js App Router
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FaArrowRight, FaShoppingCart } from "react-icons/fa";
-import { FaCross, FaMinus, FaPlus } from "react-icons/fa6";
+
+import { FaArrowRight } from "react-icons/fa";
+import { FaMinus, FaPlus } from "react-icons/fa6";
 import { IoCartOutline, IoClose } from "react-icons/io5";
 import { useCart } from "../context/CartContext";
 import Image from "next/image";

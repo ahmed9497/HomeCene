@@ -168,14 +168,16 @@ export default async function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-4 sm:py-20">
           <div className="grid-cols-1 relative rounded overflow-hidden ">
             <SlideIn direction="right">
+            <Link href={"/shop/lamps"} >
               <Image
                 src="/lamp.webp"
                 alt="lamps"
                 unoptimized
                 width={100}
                 height={100}
-                className="hover:scale-105 object-cover h-full w-full transition-all"
+                className="cursor-pointer hover:scale-105 object-cover h-full w-full transition-all"
               />
+              </Link>
             </SlideIn>
           </div>
           <div className="flex grid-cols-1 relative rounded overflow-hidden">
@@ -221,7 +223,7 @@ export default async function Home() {
                   <p className="text-xl my-3 text-gray-500">
                     Get up to 40% off
                   </p>
-                  <Link href={"/shop/lamps"}>
+                  <Link href={"/shop/vase-&-decore"}>
                     <div className="shop-btn mt-4">
                       <span className="text">Shop Now</span>
                       <span>Shop Now</span>
@@ -233,6 +235,7 @@ export default async function Home() {
           </div>
           <div className="grid-cols-1 relative sm:order-2 order-1 rounded overflow-hidden">
             <SlideIn direction="right">
+            <Link href={"/shop/vase-&-decore"} >
               <Image
                 src="/vases.jpg"
                 alt="lamps"
@@ -241,6 +244,7 @@ export default async function Home() {
                 height={100}
                 className="hover:scale-105 object-cover h-full w-full transition-all"
               />
+              </Link>
             </SlideIn>
           </div>
         </div>

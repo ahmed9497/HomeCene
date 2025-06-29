@@ -1,20 +1,8 @@
-import PaymentMethod from "@/app/components/PaymentMethod";
-import TabbyCheckout from "@/app/components/TabbyCheckout";
 import { useCart } from "@/app/context/CartContext";
 import { generateStrongPassword } from "@/app/utils/helper";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { db, auth } from "@/app/firebase/config";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  serverTimestamp,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import {
   useStripe,
   useElements,
@@ -27,19 +15,19 @@ import { FieldError, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-const paymentMethods = [
-  {
-    id: "card",
-    label: "Credit/Debit Card",
-    src: "/payment-logos.png",
-  },
-  { id: "cod", label: "Cash on Delivery", src: "/cash-on-delivery.png" },
-  { id: "tabby", label: "Tabby", src: "/tabby.png" },
-  // { id: "tamara", label: "Tamara",src:"/tamara.png" },
-  // { id: "gpay", label: "Gpay",src:"/GPAY.png" },
-  // { id: "apple_pay", label: "Apple Pay",src:"/applepay.webp" },
-];
-const shippingCharges = process.env.NEXT_PUBLIC_SHIPPING_CHARGES!;
+// const paymentMethods = [
+//   {
+//     id: "card",
+//     label: "Credit/Debit Card",
+//     src: "/payment-logos.png",
+//   },
+//   { id: "cod", label: "Cash on Delivery", src: "/cash-on-delivery.png" },
+//   { id: "tabby", label: "Tabby", src: "/tabby.png" },
+//   // { id: "tamara", label: "Tamara",src:"/tamara.png" },
+//   // { id: "gpay", label: "Gpay",src:"/GPAY.png" },
+//   // { id: "apple_pay", label: "Apple Pay",src:"/applepay.webp" },
+// ];
+// const shippingCharges = process.env.NEXT_PUBLIC_SHIPPING_CHARGES!;
 
 export default function CheckoutForm({
   user,

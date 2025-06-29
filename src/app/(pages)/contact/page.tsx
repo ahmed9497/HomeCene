@@ -3,8 +3,8 @@ import TopHeaderImg from "@/app/components/TopHeaderImg";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FieldError, useForm } from "react-hook-form";
-import { FaPhone, FaPhoneAlt, FaPhoneSlash } from "react-icons/fa";
-import { FaMessage, FaRegMessage } from "react-icons/fa6";
+import { FaPhoneAlt } from "react-icons/fa";
+import { FaRegMessage } from "react-icons/fa6";
 import { toast } from "react-toastify";
 
 const Contact = () => {
