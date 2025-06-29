@@ -1,5 +1,4 @@
 import TopHeaderImg from "@/app/components/TopHeaderImg";
-import Image from "next/image";
 import React from "react";
 
 const TermsAndConditions = () => {

@@ -1,7 +1,6 @@
 import Product from "@/app/components/Product";
 import ShopCategories from "@/app/components/ShopCategories";
 import { db } from "@/app/firebase/config";
-import { ProductProps } from "@/app/types/types";
 import {
   collection,
   endBefore,
@@ -16,7 +15,6 @@ import {
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 

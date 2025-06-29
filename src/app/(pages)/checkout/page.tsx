@@ -15,26 +15,17 @@ import {
   where,
 } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import {
-  useAuthState,
-  useCreateUserWithEmailAndPassword,
-} from "react-firebase-hooks/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { generateStrongPassword } from "@/app/utils/helper";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import PaymentMethod from "@/app/components/PaymentMethod";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import TabbyCheckout from "@/app/components/TabbyCheckout";
-import { fbEvent } from "@/app/lib/fpixel";
+import { useRouter, useSearchParams } from "next/navigation";
+// import TabbyCheckout from "@/app/components/TabbyCheckout";
+// import { fbEvent } from "@/app/lib/fpixel";
 
 import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-  PaymentElement,
-} from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
@@ -184,7 +175,7 @@ const Checkout = () => {
           body: JSON.stringify({ items, data, totalAmount, selectedMethod }),
         });
 
-        const { message,orderId } = await response.json();
+        const { message, orderId } = await response.json();
         router.push(`/success?orderId=${orderId}`);
         return;
       }

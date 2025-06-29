@@ -2,13 +2,13 @@
 
 import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
 import { useState } from "react";
-import { FaYoutube } from "react-icons/fa6";
+import { FaLinkedin, FaYoutube } from "react-icons/fa6";
 
 const socialLinks = [
   { name: "Facebook", icon: <FaFacebook size={24} />, link: "https://www.facebook.com/profile.php?id=61572005000994" },
   { name: "Instagram", icon: <FaInstagram size={24} />, link: "https://www.instagram.com/home_cene?utm_source=qr&igsh=MTMxaXFuamVlMjFiNA==" },
   { name: "TikTok", icon: <FaTiktok size={24} />, link: "https://www.tiktok.com/@homecene?fbclid=IwY2xjawIWqddleHRuA2FlbQIxMAABHTKTje6bjnfz1e7C8C3oCZPmBhoN3G50sXRd9X2xxxbSEIggTtmEfqM8UQ_aem_pJnUtEaTP2IYTdkWpFCrwQ" },
-  // { name: "YouTube", icon: <FaYoutube size={24} />, link: "https://youtube.com" },
+  { name: "Linkedin", icon: <FaLinkedin size={24} />, link: "https://www.linkedin.com/company/homecene" },
 ];
 
 export default function SocialIcons() {

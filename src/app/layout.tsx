@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { CartProvider } from "@/app/context/CartContext";
 import Header from "./components/Header";
-import { ToastContainer, toast, Slide } from "react-toastify";
+import { ToastContainer, Slide } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
@@ -14,7 +13,7 @@ import AnimatedText from "./components/AnimatedText";
 import GtmClient from "./components/GtmClient";
 
 
-const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
+// const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
   title:

@@ -1,7 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
-import { PiShoppingCartLight } from "react-icons/pi";
 import AddToCartButton from "./AddToCartButton";
 import { ProductProps } from "../types/types";
 import SlideIn from "./SlideIn";

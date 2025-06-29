@@ -6,7 +6,7 @@ import { useCart } from "../context/CartContext";
 import { ProductProps } from "../types/types";
 import { PiShoppingCartLight } from "react-icons/pi";
 import { toast } from "react-toastify";
-import { fbEvent } from "../lib/fpixel";
+// import { fbEvent } from "../lib/fpixel";
 
 interface AddToCartButtonProps {
   product: ProductProps;

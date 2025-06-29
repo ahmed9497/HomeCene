@@ -1,6 +1,6 @@
 "use client"; // Next.js client component
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 
 const TABBY_PUBLIC_KEY = process.env.NEXT_PUBLIC_TABBY_PUBLIC_KEY;

@@ -4,15 +4,12 @@ import Image from "next/image";
 import { FaAngleRight, FaHome } from "react-icons/fa";
 
 import {
-  doc,
-  getDoc,
   collection,
   query,
   where,
   getDocs,
 } from "firebase/firestore";
 import { db } from "../../../firebase/config";
-import Head from "next/head";
 import { Metadata } from "next";
 import ProductPageImage from "@/app/components/ProductpageImage";
 import ViewContentEvent from "@/app/components/ViewContentEvent";
