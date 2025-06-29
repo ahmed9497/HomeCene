@@ -2,10 +2,11 @@
 import { useState, useEffect } from "react";
 
 const messages = [
-  "Upto 40% OFF on everything",
+  "Summer Sale Upto 40%-60% OFF on everything",
   // "Ramadan Sale",
   "Pay in installments with Tabby",
   "Free shipping",
+  "100% Secure Payment"
 ];
 
 export default function AnimatedText() {
@@ -25,9 +26,9 @@ export default function AnimatedText() {
   }, []);
 
   return (
-    <div className="h-10 bg-red-900 flex justify-center items-center overflow-hidden">
+    <div className="h-10 py-1 bg-red-900 flex justify-center items-center overflow-hidden">
       <p
-        className={`font-extrabold capitalize tracking-[0.15rem] transition-all duration-500 transform ${
+        className={`text-center font-extrabold capitalize tracking-[0.15rem] transition-all duration-500 transform ${
           fade ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"
         } text-md  text-white`}
       >
