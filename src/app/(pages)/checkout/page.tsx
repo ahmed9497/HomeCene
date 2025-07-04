@@ -154,7 +154,7 @@ const Checkout = () => {
       } else {
         data.userId = profile?.userId;
       }
-      console.log(items);
+      // console.log(items);
       // fbEvent("InitiateCheckout", {
       //   content_ids: items.map((i) => i.id), // ID of the product added to the cart
       //   content_name: items.map((i) => i.title), // Name of the product
@@ -526,9 +526,9 @@ const Checkout = () => {
 
           <div className="order-1 sm:order-2 bg-slate-200 rounded-md p-3 sm:p-10 ">
             <div className="sticky top-[100px]">
-              {items.map((item) => (
+              {items.map((item,index) => (
                 <div
-                  key={item.id}
+                  key={item.id+index}
                   className="flex justify-between  rounded mb-4 items-center"
                 >
                   <div className="flex items-center gap-x-3">

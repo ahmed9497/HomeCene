@@ -1,8 +1,6 @@
 import Add from "@/app/components/Add";
 import Image from "next/image";
-
 import { FaAngleRight, FaHome } from "react-icons/fa";
-
 import {
   collection,
   query,
@@ -126,6 +124,7 @@ async function fetchProduct(slug: string): Promise<any> {
   return product;
 }
 async function fetchReviews(id: string): Promise<any> {
+  if(!id) return
   const reviewsCollection = collection(db, "reviews");
   const productQuery = query(
     reviewsCollection,
@@ -290,7 +289,7 @@ const Product = async ({ params }: any) => {
           <CustomerReviews
             title={product.title}
             productImg={product.images[0]}
-            reviews={reviews}
+            reviews={reviews||[]}
             productId={product?.id}
             avgRating={product?.averageRating}
             rating={product?.reviewCount}
@@ -298,10 +297,8 @@ const Product = async ({ params }: any) => {
         </div>
         {product?.faqs &&
         <div className="mt-20 sm:container">
-          <Faqs
-            
+          <Faqs            
             faqData={product.faqs}
-            
           />
         </div>}
         <div className="mt-20">
