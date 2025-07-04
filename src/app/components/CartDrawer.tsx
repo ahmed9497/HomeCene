@@ -123,9 +123,9 @@ const CartDrawer = ({isOpen, setIsOpen,icon}:{isOpen:any, setIsOpen:any,icon:any
           ) : (
             <div className="flex flex-col h-[calc(100%-42px)]  gap-5 py-3">
               <div className="flex-1 overflow-y-auto">
-                {items.map((item) => (
+                {items.map((item,index) => (
                   <div
-                    key={item.id}
+                    key={item.id+index}
                     className="flex justify-between mb-3  relative bg-slate-200 rounded  items-start sm:items-center px-3 py-2"
                   >
                     <div

@@ -57,7 +57,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
   const addItemToCart = (item: CartItem) => {
     
-    const itemIndex = items.findIndex((i) => i.id === item.id);
+    const itemIndex = items.findIndex((i) => i.id === item.id && i.selectedSize === item.selectedSize);
     let updatedItems;
 
     if (itemIndex >= 0) {
