@@ -149,7 +149,11 @@ const Product = async ({ params }: any) => {
   const { slug } = await params;
   const product = await fetchProduct(slug);
   // console.log(product)
-  const reviews = await fetchReviews(product.id);
+  
+  let reviews = [];
+  if(product && product.id){
+    reviews = await fetchReviews(product.id);
+  }
 
   if (!product) {
     return (
