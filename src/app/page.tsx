@@ -1,10 +1,8 @@
 import Image from "next/image";
 import Slider from "./components/Slider";
-import { GoRocket } from "react-icons/go";
 import Link from "next/link";
 import Product from "./components/Product";
 import BigProduct from "./components/BigProduct";
-import { RiSecurePaymentLine } from "react-icons/ri";
 import VerticalSlider from "./components/VerticalSlider";
 import {
   collection,
@@ -16,6 +14,7 @@ import {
 import { db } from "./firebase/config";
 import Marquee from "./components/Marquee";
 import SlideIn from "./components/SlideIn";
+import Featured from "./components/Featured";
 
 export const dynamic = "force-dynamic"; // Disables caching for the page
 export default async function Home() {
@@ -33,61 +32,50 @@ export default async function Home() {
   const products = productSnapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
+    createdAt: doc?.data()?.createdAt?.seconds
+    ? new Date(doc?.data()?.createdAt.seconds * 1000).toISOString()
+    : null,
   }));
-  // console.log(products);
+  console.log(products);
   const bigProducts = products?.filter((i: any) => i.bigProduct) || [];
-  // const newArrival = products?.filter((i:any)=>i.newArrival);
-  // console.log(bigProducts);
+  const newArrival = products?.filter((i:any)=>i.newArrival);
+  console.log(newArrival);
   return (
     <div className="pt-[5px]">
       <Slider />
       <Marquee />
       <main className="container">
-        <div className="grid grid-cols-3 sm:grid-cols-3 sm:gap-3 pt-5 sm:py-8">
-          <div
-            className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}
-          >
-            <SlideIn direction="up">
-              <div className="flex justify-center">
-                <GoRocket color="red" className="size-[25px] sm:size-10" />
-              </div>
-              <h2 className="text-[10px] sm:text-[16px] mt-1">Free Shipping</h2>
-            </SlideIn>
-          </div>
-          <div
-            className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 border-x sm:border `}
-          >
-            <SlideIn direction="down">
-              <div className="flex justify-center">
-                <img src="/tabby.png" className="w-10 sm:w-24" />
-              </div>
-              <h2 className="text-[10px] sm:text-[16px] mt-1">
-                Split Payment With Tabby
-              </h2>
-            </SlideIn>
-          </div>
-          <div
-            className={`flex flex-col justify-center rounded-sm text-center sm:grid-cols-1 p-1 sm:p-3 sm:border `}
-          >
-            <SlideIn direction="up">
-              <div className="flex justify-center">
-                <RiSecurePaymentLine
-                  color="light-blue"
-                  className="size-[25px] sm:size-10"
-                />
-              </div>
-              <h2 className="text-[10px] sm:text-[16px] mt-1">
-                Secure Payments
-              </h2>
-            </SlideIn>
-          </div>
-          {/* <div  className={`text-center sm:grid-cols-1 p-1 sm:border `}>
-          <div className="flex justify-center">
-            <GiTakeMyMoney size={15} color="purple" />
-          </div>
-          <h2 className="text-[10px] sm:text-[16px] mt-1">Money Back Guarantee</h2>
-        </div> */}
+       <Featured/>
+
+
+      
+        <div className="sm:mt-28 sm:mb-20 mt-16 mb-16">
+          <SlideIn direction="up">
+            <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
+              New Arrival
+            </h1>
+          </SlideIn>
         </div>
+
+        {/* Products */}
+
+        <div className="grid grid-cols-5 gap-5">
+          <div className="col-span-12 sm:col-span-2">
+            <VerticalSlider products={bigProducts.slice(0, 2)} />
+          </div>
+          <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-x-3 gap-y-5">
+            {products &&
+              products
+                ?.filter((i: any) => i.newArrival)
+                .slice(0, 6)
+                .map((product: any, index: number) => (
+                  <div key={product.id}>
+                    <Product product={product} quickAddBtn={true} index={index}/>
+                  </div>
+                ))}
+          </div>
+        </div>
+
         <div className="grid grid-cols-3  pt-10 sm:pt-20">
           <div className="grid-cols-1 col-span-3 sm:col-span-2 relative  overflow-hidden">
             <SlideIn direction="left">
@@ -122,38 +110,20 @@ export default async function Home() {
           </div>
         </div>
 
+
         <div className="sm:mt-28 sm:mb-20 mt-16 mb-16">
           <SlideIn direction="up">
             <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
-              New Arrival
+              Best Selling
             </h1>
           </SlideIn>
-        </div>
-
-        {/* Products */}
-
-        <div className="grid grid-cols-5 gap-5">
-          <div className="col-span-12 sm:col-span-2">
-            <VerticalSlider products={bigProducts.slice(0, 2)} />
-          </div>
-          <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-x-3 gap-y-5">
-            {products &&
-              products
-                ?.filter((i: any) => i.newArrival)
-                .slice(0, 6)
-                .map((product: any, index: number) => (
-                  <div key={product.id}>
-                    <Product product={product} quickAddBtn={true} index={index}/>
-                  </div>
-                ))}
-          </div>
         </div>
         <div className="grid grid-cols-5 gap-5 mt-10">
           <div className=" grid grid-cols-2 sm:grid-cols-3 col-span-12 sm:col-span-3 gap-x-3 gap-y-5">
             {products &&
               products
-                ?.filter((i: any) => i.newArrival)
-                .slice(6, 12)
+                ?.filter((i: any) => i.featuredProduct)
+                .slice(0, 6)
                 .map((product: any, index: number) => (
                   <div key={product.id}>
                     <Product product={product} quickAddBtn={true} index={index}/>
@@ -165,6 +135,9 @@ export default async function Home() {
             {/* <BigProduct product={bigProducts[3]}/> */}
           </div>
         </div>
+
+   
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-4 sm:py-20">
           <div className="grid-cols-1 relative rounded overflow-hidden ">
             <SlideIn direction="right">
@@ -264,7 +237,7 @@ export default async function Home() {
             {products &&
               products
                 ?.filter((i: any) => i.featuredProduct)
-                .slice(0, 4)
+                .slice(6, 10)
                 .map((product: any, index: number) => (
                   <div key={product.id}>
                     <Product product={product} quickAddBtn={false} index={index}/>
@@ -280,7 +253,7 @@ export default async function Home() {
             {products &&
               products
                 ?.filter((i: any) => i.featuredProduct)
-                .slice(4, 8)
+                .slice(10, 14)
                 .map((product: any, index: number) => (
                   <div key={product.id}>
                     <Product product={product} quickAddBtn={false} />
