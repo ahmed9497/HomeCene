@@ -202,3 +202,43 @@ body {
   transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
 
 }
+.stylish-heading {
+  position: relative;
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+
+}
+
+.stylish-heading::before,
+.stylish-heading::after {
+  content: "";
+  position: absolute;
+  height: 4px;
+  background-color: #111;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  width: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.stylish-heading::before {
+  left: -110px;
+}
+
+.stylish-heading::after {
+  right: -110px;
+}
+@media screen and (max-width: 600px) {
+  .stylish-heading::before {
+    left: -50px;
+    width: 50px;
+  }
+  
+  .stylish-heading::after {
+    right: -50px;
+    width: 50px;
+  }
+}

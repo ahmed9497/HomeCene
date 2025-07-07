@@ -49,9 +49,9 @@ export default async function Home() {
 
 
       
-        <div className="sm:mt-28 sm:mb-20 mt-16 mb-16">
+        <div className="sm:mt-28 sm:mb-20 mt-16 mb-16 text-center">
           <SlideIn direction="up">
-            <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
+            <h1 className="stylish-heading text-3xl sm:text-6xl font-bold uppercase text-center">
               New Arrival
             </h1>
           </SlideIn>
@@ -111,9 +111,9 @@ export default async function Home() {
         </div>
 
 
-        <div className="sm:mt-28 sm:mb-20 mt-16 mb-16">
+        <div className="sm:mt-28 sm:mb-20 mt-16 mb-16 text-center">
           <SlideIn direction="up">
-            <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
+            <h1 className="stylish-heading text-3xl sm:text-6xl font-bold uppercase text-center">
               Best Selling
             </h1>
           </SlideIn>
@@ -222,9 +222,9 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="mt-4 mb-20">
+        <div className="mt-4 mb-20 text-center">
           <SlideIn direction="down">
-            <h1 className="text-3xl sm:text-6xl font-bold uppercase text-center">
+            <h1 className="stylish-heading text-3xl sm:text-6xl font-bold uppercase text-center">
               Our Products
             </h1>
           </SlideIn>
