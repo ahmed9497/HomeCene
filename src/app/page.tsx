@@ -36,10 +36,10 @@ export default async function Home() {
     ? new Date(doc?.data()?.createdAt.seconds * 1000).toISOString()
     : null,
   }));
-  console.log(products);
+  // console.log(products);
   const bigProducts = products?.filter((i: any) => i.bigProduct) || [];
-  const newArrival = products?.filter((i:any)=>i.newArrival);
-  console.log(newArrival);
+  // const newArrival = products?.filter((i:any)=>i.newArrival);
+  // console.log(newArrival);
   return (
     <div className="pt-[5px]">
       <Slider />
