@@ -18,6 +18,7 @@ import ProductSlider from "@/app/components/ProductSlider";
 import CustomerReviews from "@/app/components/CustomerReviews";
 import Accordion from "@/app/components/Accordion";
 import Faqs from "@/app/components/Faqs";
+import { sanitizeProduct } from "@/app/utils/helper";
 
 interface PageProps {
   params: { slug: string };
@@ -120,7 +121,7 @@ async function fetchProduct(slug: string): Promise<any> {
     where("title", "==", decodeURIComponent(slug)?.replaceAll("-", " "))
   );
   const productSnapshot = await getDocs(productQuery);
-  const product = productSnapshot.docs[0]?.data();
+  const product = sanitizeProduct(productSnapshot.docs[0]?.data());
   return product;
 }
 async function fetchReviews(id: string): Promise<any> {
