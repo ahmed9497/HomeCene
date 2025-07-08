@@ -16,8 +16,17 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // images: {
+  //   domains: ['images.pexels.com','vinova-furstore.myshopify.com','res.cloudinary.com'],
+  // },
   images: {
-    domains: ['images.pexels.com','vinova-furstore.myshopify.com','res.cloudinary.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '**',
+      },
+    ],
   },
 };
 

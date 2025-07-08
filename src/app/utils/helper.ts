@@ -29,4 +29,12 @@ export function generateStrongPassword(length = 12) {
     // Shuffle the password to make it random
     return password.sort(() => Math.random() - 0.5).join('');
   }
-  
+  export  function sanitizeProduct(product:any) {
+    return {
+      ...product,
+      createdAt: product.createdAt?.seconds
+        ? new Date(product.createdAt.seconds * 1000).toISOString()
+        : null,
+      // _id: product._id?.toString?.() ?? product._id,
+    };
+  }
