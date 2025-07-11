@@ -133,6 +133,7 @@ const Checkout = () => {
   }, [user]);
 
   const handleFormSubmit = async (data: any) => {
+    if(loading) return;
     try {
       setLoading(true);
       if (!user?.uid) {
@@ -507,6 +508,7 @@ const Checkout = () => {
                   <button
                     name="submit-btn"
                     type="submit"
+                    disabled={loading}
                     className="bg-primary text-white flex justify-center gap-x-2 items-center text-xl !mt-8 py-3  rounded w-full  border-primary border-2 transition"
                   >
                     <>
