@@ -19,6 +19,7 @@ import CustomerReviews from "@/app/components/CustomerReviews";
 import Accordion from "@/app/components/Accordion";
 import Faqs from "@/app/components/Faqs";
 import { sanitizeProduct } from "@/app/utils/helper";
+import WhatsAppButton from "@/app/components/WhatsAppButton";
 
 interface PageProps {
   params: { slug: string };
@@ -181,6 +182,7 @@ const Product = async ({ params }: any) => {
   return (
     <>
       <main className="container page min-h-[900px] pb-20">
+      <WhatsAppButton product={product} />
         <div className="my-10 bg-primary items-center capitalize bg-opacity-20  text-[10px] sm:text-[12px] px-2 py-1 rounded-md gap-x-1 inline-flex">
           <Link href={"/"} className="flex gap-x-1 items-center">
             <FaHome /> Home
