@@ -9,6 +9,8 @@ import {
 import { CartItem, CartContextType } from "../types/types";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/config";
+import WhatsAppButton from "../components/WhatsAppButton";
+import { usePathname } from "next/navigation";
 
 // Initial state
 const initialCartState: CartContextType = {
@@ -35,7 +37,8 @@ export function CartProvider({ children }: CartProviderProps) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [recomendedProducts,setRecomendedProducts] = useState<any>([])
-
+  const path = usePathname();
+  const isProductPage = path.startsWith("/product/");
   // Load cart from localStorage on initial render
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
@@ -176,6 +179,7 @@ export function CartProvider({ children }: CartProviderProps) {
       }}
     >
       {children}
+      {!isProductPage && <WhatsAppButton product={undefined} />}
     </CartContext.Provider>
   );
 }
