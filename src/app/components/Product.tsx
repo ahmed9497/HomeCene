@@ -38,7 +38,9 @@ const Product: any = ({
   product: ProductProps;
   index:number
 }) => {
- 
+  const p = {...product};
+
+  delete p.createdAt;
   return (
     <SlideIn direction="up" delay={index * 100} className="w-full">
     <div
@@ -49,8 +51,14 @@ const Product: any = ({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(getProductSchema(product)) }}
       />
-      
-      <AddToCartButton product={product} btnType="cartBtn" />
+      {product?.soldOut ? (
+        <h2 className="bg-red-500  p-1 rounded-sm absolute top-1 font-bold right-3 z-10">
+          Sold Out
+        </h2>
+      ) : (
+
+      <AddToCartButton product={p} btnType="cartBtn" />
+      )}
       <div className=" min-h-64 w-full">
       <a
         href={"/product/" + product?.title?.replaceAll(" ", "-")}
