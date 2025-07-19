@@ -128,9 +128,14 @@ const Add: FC<AddToCartButtonProps | any> = ({ product }) => {
             lang="en"
           />
         </div>
+        {!product?.soldOut && 
+
         <div className="text-red-600 text-xs md:text-lg font-semibold uppercase tracking-wider animate-pulse">
             Only <span className="text-orange-500 text-3xl ">3 </span> 
             left — grab it before someone else does! ⚡️</div>
+
+        }
+
         {product?.variant[activeVariant]?.size && (
           <div className="flex gap-x-10 mt-4 text-sm ">
             <div className="text-black basis-1/4 font-extrabold uppercase">
