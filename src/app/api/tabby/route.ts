@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import * as admin from "firebase-admin";
+import { sendTabbyOrderEmailToAdmins } from "@/app/lib/sendEmail";
 
 const shippingCharges = process.env.NEXT_PUBLIC_SHIPPING_CHARGES;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -183,11 +184,13 @@ export async function POST(req: Request) {
         shippingFee: totalOrderAmount < 100 ? shippingCharges : 0,
         paymentId:res.payment.id,
         orderReference:res.payment.order.reference_id,
+        orderStatus:'processing',
         createdAt: admin.firestore.FieldValue.serverTimestamp()
       };
       const orderRef = db.collection("orders").doc();
       orderMetadata.id = orderRef.id;
       await orderRef.set(orderMetadata);
+      await sendTabbyOrderEmailToAdmins(orderMetadata);
       return NextResponse.json(res);
     }
     return NextResponse.json(res);

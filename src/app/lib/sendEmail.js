@@ -161,6 +161,7 @@ export async function sendConfirmationEmail(orderDetails) {
     console.log('Error sending email:', error);
   }
 }
+
 export async function sendOrderEmailToAdmins(orderDetails) {
   const msg = {
     from: `HomeCene <${process.env.EMAIL_USERNAME}>`,  // Sender email (this should be your email)
@@ -312,3 +313,139 @@ export async function sendOrderEmailToAdmins(orderDetails) {
     console.log('Error sending email:', error);
   }
 }
+export async function sendTabbyOrderEmailToAdmins(orderDetails) {
+  const msg = {
+    from: `HomeCene <${process.env.EMAIL_USERNAME}>`,  // Sender email (this should be your email)
+    to:  'ahmedkhalil9497@gmail.com,namrah.khalil1234@gmail.com,khurramkhalil276@gmail.com',
+    subject: `Alhamdulilah Order Received - Order #HC_${orderDetails?.id}`,
+    text: `Order with ID #HC_${orderDetails.id} has been successfully placed and payment received.`,
+           html: `
+           <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+          }
+          .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+          }
+          .header {
+            background-color: #0a5d5d;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+          }
+          .content {
+            padding: 20px;
+            color: #333333;
+          }
+          .content p {
+            line-height: 1.6;
+            font-size: 16px;
+          }
+          .order-details {
+            margin-top: 20px;
+            border-top: 1px solid #eeeeee;
+            padding-top: 15px;
+          }
+          .order-details ul {
+            list-style-type: none;
+            padding: 0;
+          }
+          .order-details li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eeeeee;
+            display: flex;
+            align-items: center;
+          }
+          .order-details li:last-child {
+            border-bottom: none;
+          }
+          .order-details img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 5px;
+          }
+          .total {
+            font-weight: bold;
+            color: #2ecc71;
+          }
+          .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777777;
+          }
+          a {
+            color: #3498db;
+            text-decoration: none;
+          }
+          @media (max-width: 600px) {
+            .container {
+              width: 100% !important;
+              padding: 15px;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+           Alhamdulilah Order Received - Order #HC_${orderDetails?.id}
+          </div>
+      
+          <div class="content">
+            <p>Dear Admins</p>
+            <p>We have received order with ID <strong>#HC_${orderDetails?.id}</strong> </p>
+             <p>From:<strong>${orderDetails?.name}</strong> </p>
+            <div class="order-details">
+              <h3>Order Details:</h3>
+              <ul>
+                <li><strong>Total:</strong> ${orderDetails?.totalAmount || "N?A"} Aed </li>
+                <li><strong>Address:</strong> ${orderDetails?.address||"0"}</li>
+                <li><strong>Phone:</strong> ${orderDetails?.phone||"N/A"} </li>
+                <li><strong>Payment Method:</strong> ${orderDetails?.paymentMethod||"N/A"} </li>
+                <li><strong>State:</strong> ${orderDetails?.state||"0"}  </li>
+                 <li><strong>Shipping:</strong> ${orderDetails?.shippingFee||"0"} Aed</li>
+                               
+              </ul>
+            </div>
+      
+            <p>We will notify you once your order is shipped. If you have any questions, feel free to reach out to our support team.</p>
+            <p>Thank you for shopping with us!</p>
+          </div>
+      
+          <div class="footer">
+            <p>If you did not make this order, please <a href="mailto:support@homecene.com">contact support</a>.</p>
+          </div>
+        </div>
+      </body>
+      </html>
+          `,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(msg);
+    console.log('Tabby notify Email Sent Successfully.');
+  } catch (error) {
+    console.log('Error sending email:', error);
+  }
+}
+
