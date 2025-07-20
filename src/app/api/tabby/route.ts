@@ -183,6 +183,7 @@ export async function POST(req: Request) {
         shippingFee: totalOrderAmount < 100 ? shippingCharges : 0,
         paymentId:res.payment.id,
         orderReference:res.payment.order.reference_id,
+        orderStatus:'processing',
         createdAt: admin.firestore.FieldValue.serverTimestamp()
       };
       const orderRef = db.collection("orders").doc();
