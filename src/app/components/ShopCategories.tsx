@@ -71,10 +71,11 @@ const categories=[
     href:'/shop/vase-&-decore',
     subCategories:[]
   },
-  // {
-  //   title:'Artificial Plants',
-  //   href:'/shop/artificial-plants'
-  // },
+  {
+    title:'Artificial Plants & pots',
+    href:'/shop/artificial-plants-and-pots',
+    subCategories:[]
+  },
   // {
   //   title:'Wooden Decor',
   //   href:'/shop/wooden-decore'

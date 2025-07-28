@@ -86,10 +86,10 @@ const headerMenu = [
     title: "Vase & Decor",
     href: "/shop/vase-&-decore",
   },
-  // {
-  //   title: "Artifical Plants",
-  //   href: "/shop/artificial-plants",
-  // },
+  {
+    title: "Artifical Plants & Pots",
+    href: "/shop/artificial-plants-and-pots",
+  },
   // {
   //   title: "Wooden Decor",
   //   href: "/shop/wooden-decore",
