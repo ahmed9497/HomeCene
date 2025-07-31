@@ -93,9 +93,13 @@ async function fetchProducts(
       // direction === "next" ? startAfter(cursor) : endBefore(cursor),
       // direction === "next" ? limit(pageSize) : limitToLast(pageSize)
     ];
-    if (subcategory) {
+    if (subcategory === 'plants' || subcategory === 'pots') {
+      filters.push(where("subcategory", "==", decodeURIComponent(`${subcategory}`)?.replaceAll("-", " ")));
+    }
+    else if (subcategory) {
       filters.push(where("subcategory", "==", decodeURIComponent(`${subcategory} ${slug}`)?.replaceAll("-", " ")));
     }
+
     if (cursor) {
       filters.push(direction === "next" ? startAfter(cursor) : endBefore(cursor));
       filters.push(direction === "next" ? limit(pageSize) : limitToLast(pageSize));
@@ -166,7 +170,7 @@ console.log(slug,"_______");
   // Extract category & optional subcategory
   const category = slugArray[0] || "all products"; // Default if no category
   const subcategory = slugArray[1] || null;
-
+console.log(category,subcategory,"********")
   const { cursor, page, id, direction = "next" } = await searchParams;
   const currentPage = parseInt(page || "1", 10);
   const pageSize = 30;

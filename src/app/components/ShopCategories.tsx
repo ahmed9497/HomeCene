@@ -72,9 +72,22 @@ const categories=[
     subCategories:[]
   },
   {
-    title:'Artificial Plants & pots',
+    title:'Artificial Plants & Pots',
     href:'/shop/artificial-plants-and-pots',
-    subCategories:[]
+    subCategories:[
+      {
+        title:'All Plants & Pots',
+        href:'/shop/artificial-plants-and-pots',
+      },
+      {
+        title:'Plants',
+        href:'/shop/artificial-plants-and-pots/plants',
+      },
+      {
+        title:'Pots',
+        href:'/shop/artificial-plants-and-pots/pots',
+      },
+    ]
   },
   // {
   //   title:'Wooden Decor',
