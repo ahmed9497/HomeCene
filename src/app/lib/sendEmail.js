@@ -396,6 +396,11 @@ export async function sendTabbyOrderEmailToAdmins(orderDetails) {
             color: #3498db;
             text-decoration: none;
           }
+          .warn {
+            font-size:3rem;
+            color:red;
+            text-transform:uppercase;
+          }  
           @media (max-width: 600px) {
             .container {
               width: 100% !important;
@@ -412,12 +417,13 @@ export async function sendTabbyOrderEmailToAdmins(orderDetails) {
       
           <div class="content">
             <p>Dear Admins</p>
+             <p class="warn">Please verify first does order completed and payment done</p>
             <p>We have received order with ID <strong>#HC_${orderDetails?.id}</strong> </p>
              <p>From:<strong>${orderDetails?.name}</strong> </p>
             <div class="order-details">
               <h3>Order Details:</h3>
               <ul>
-                <li><strong>Total:</strong> ${orderDetails?.totalAmount || "N?A"} Aed </li>
+                <li><strong>Total:</strong> ${orderDetails?.totalAmount /100 || "N?A"} Aed </li>
                 <li><strong>Address:</strong> ${orderDetails?.address||"0"}</li>
                 <li><strong>Phone:</strong> ${orderDetails?.phone||"N/A"} </li>
                 <li><strong>Payment Method:</strong> ${orderDetails?.paymentMethod||"N/A"} </li>
@@ -426,7 +432,7 @@ export async function sendTabbyOrderEmailToAdmins(orderDetails) {
                                
               </ul>
             </div>
-      
+       
             <p>We will notify you once your order is shipped. If you have any questions, feel free to reach out to our support team.</p>
             <p>Thank you for shopping with us!</p>
           </div>

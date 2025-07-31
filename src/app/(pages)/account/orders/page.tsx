@@ -157,7 +157,7 @@ const OrdersPage = () => {
               <p className="text-sm flex gap-x-4  text-gray-600 mb-3">
                 <span className="basis-40">Order Status:</span>
                 <span className="capitalize  bg-primary bg-opacity-20 px-4 rounded-sm text-primary font-medium">
-                  {/* {order.status} */} Processing
+                  {order?.orderStatus}
                 </span>
               </p>
               <p className="text-sm flex gap-x-4  text-gray-600 mb-3">
