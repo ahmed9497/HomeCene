@@ -133,7 +133,9 @@ const Checkout = () => {
   }, [user]);
 
   const handleFormSubmit = async (data: any) => {
-    if(loading) return;
+    data.phone = `+971${data.phone}`;
+   
+    if (loading) return;
     try {
       setLoading(true);
       if (!user?.uid) {
@@ -383,18 +385,46 @@ const Checkout = () => {
                   )}
                 </div>
 
+               
                 <div>
-                  <label htmlFor="phone">Phone Number</label>
-                  <input
-                    id="phone"
-                    type="tel"
-                    {...register("phone", {
-                      required: "Phone number is required",
-                    })}
-                    className="border p-2 rounded w-full"
-                  />
+                  <label htmlFor="phone" className="block mb-1">
+                    Phone Number
+                  </label>
+        
+                  <div className="flex items-center border rounded w-full overflow-hidden">
+                    <span className="flex items-center h-10 text-2xl bg-gray-100 pl-1 whitespace-nowrap">
+                      🇦🇪 
+                    </span>
+                    <span className="flex items-center h-10 text-sm bg-gray-100 px-2 whitespace-nowrap">
+                       +971
+                    </span>
+                    <input
+                      id="phone"
+                      type="tel"
+                      max={9}
+                      maxLength={9}
+                      // inputMode="numeric"
+                      placeholder="501234567"
+                      {...register("phone", {
+                        required: "Phone number is required",
+                        minLength: {
+                          value: 9,
+                          message: "Phone number must be exactly 9 digits",
+                        },
+                        maxLength: {
+                          value: 9,
+                          message: "Phone number must be exactly 9 digits",
+                        },                       
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message: "Only numbers are allowed",
+                        },
+                      })}
+                      className="p-2 flex-1 "
+                    />
+                  </div>
                   {errors.phone && (
-                    <p className="text-red-500">
+                    <p className="text-red-500 text-sm mt-1">
                       {(errors.phone as FieldError).message}
                     </p>
                   )}
@@ -512,7 +542,7 @@ const Checkout = () => {
                     className="bg-primary text-white flex justify-center gap-x-2 items-center text-xl !mt-8 py-3  rounded w-full  border-primary border-2 transition"
                   >
                     <>
-                      {selectedMethod === "card" && `Pay ${totalAmount} Aed`}
+                      {selectedMethod === "card" && `Pay ${totalAmount} AED`}
                       {/* {selectedMethod === "cod" && `Checkout`} */}
                       {selectedMethod === "cod" && `Order Now`}
                       {selectedMethod === "tabby" &&
@@ -528,61 +558,63 @@ const Checkout = () => {
 
           <div className="order-1 sm:order-2 bg-slate-200 rounded-md p-3 sm:p-10 ">
             <div className="sticky top-[100px]">
-              {items.map((item,index) => (
-                <div
-                  key={item.id+index}
-                  className="flex justify-between  rounded mb-4 items-center"
-                >
-                  <div className="flex items-center gap-x-3">
-                    <div className="relative">
-                      <div className="absolute bg-primary text-white -top-2 -right-1 rounded-full flex justify-center items-center size-5 text-sm">
-                        {item.quantity}
-                      </div>
+              {items.map((item, index) => (
+                <div key={item.id + index}>
+                  <div className="flex flex-wrap justify-between  rounded mb-4 items-center">
+                    <div className="flex items-center gap-x-3">
+                      <div className="relative">
+                        <div className="absolute bg-primary text-white -top-2 -right-1 rounded-full flex justify-center items-center size-5 text-sm">
+                          {item.quantity}
+                        </div>
 
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        width={80}
-                        height={80}
-                        className="rounded size-[80px] object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="text-slate-500 text-sm">{item.title}</h4>
-                      <p className="text-gray-600">Aed {item.price}</p>
-                      <div className="flex gap-x-3">
-                        {item?.selectedSize && (
-                          <p className="text-gray-600 text-[12px]">
-                            {item?.selectedSize}
-                          </p>
-                        )}
-                        {item?.selectedColor && (
-                          <>
-                            <div className="h-4 w-[1px] bg-black transition"></div>
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          width={80}
+                          height={80}
+                          className="rounded size-[80px] object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="text-slate-500 text-sm">{item.title}</h4>
+                        <p className="text-gray-600">AED {item.price}</p>
+                        <div className="flex gap-x-3">
+                          {item?.selectedSize && (
                             <p className="text-gray-600 text-[12px]">
-                              {item?.selectedColor}
+                              {item?.selectedSize}
                             </p>
-                          </>
-                        )}
-                        {item?.selectedFeature && (
-                          <>
-                            <div className="h-4 w-[1px] bg-black transition"></div>
-                            <p className="text-gray-600 text-[12px]">
-                              {item?.selectedFeature}
-                            </p>
-                          </>
-                        )}
+                          )}
+                          {item?.selectedColor && (
+                            <>
+                              <div className="h-4 w-[1px] bg-black transition"></div>
+                              <p className="text-gray-600 capitalize text-[12px]">
+                                {item?.selectedColor}
+                              </p>
+                            </>
+                          )}
+                          {item?.selectedFeature && (
+                            <>
+                              <div className="h-4 w-[1px] bg-black transition"></div>
+                              <p className="text-gray-600 text-[12px]">
+                                {item?.selectedFeature}
+                              </p>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
+                    {selectedMethod === "cod" ? (
+                      <div className="basis-52 text-right">
+                        <p>Subtotal: AED {(item.price / 2) * item.quantity}</p>
+                      </div>
+                    ) : (
+                      <div className="basis-52 text-right">
+                        <p>Subtotal: AED {item.price * item.quantity}</p>
+                      </div>
+                    )}
                   </div>
-                  {selectedMethod === "cod" ? (
-                    <div className="basis-52 text-right">
-                      <p>Subtotal: Aed {(item.price / 2) * item.quantity}</p>
-                    </div>
-                  ) : (
-                    <div className="basis-52 text-right">
-                      <p>Subtotal: Aed {item.price * item.quantity}</p>
-                    </div>
+                  {index !== items.length - 1 && (
+                    <div className="border-b border-gray-300 my-4" />
                   )}
                 </div>
               ))}
@@ -599,9 +631,9 @@ const Checkout = () => {
                     &nbsp;Items
                   </div>
                   {/* {selectedMethod === "cod" ? (
-                    <div className="text-right">Aed {totalAmount / 2}</div>
+                    <div className="text-right">AED {totalAmount / 2}</div>
                   ) : (
-                    <div className="text-right">Aed {totalAmount}</div>
+                    <div className="text-right">AED {totalAmount}</div>
                   )} */}
                 </div>
                 <div className="grid grid-cols-2">
@@ -614,7 +646,7 @@ const Checkout = () => {
                     <>
                       <div>Standard Shipping: </div>
                       <div className="text-right">
-                        Aed {process.env.NEXT_PUBLIC_SHIPPING_CHARGES}
+                        AED {process.env.NEXT_PUBLIC_SHIPPING_CHARGES}
                       </div>
                     </>
                   )}
@@ -623,18 +655,18 @@ const Checkout = () => {
                   <>
                     <div className="grid grid-cols-2 text-xl text-red-500  my-6 font-extrabold">
                       <div className="">Remaining via COD</div>
-                      <div className="text-right">Aed {totalAmount / 2}</div>
+                      <div className="text-right">AED {totalAmount / 2}</div>
                     </div>
                     <div className="grid grid-cols-2 text-xl text-green-500  my-6 font-extrabold">
                       <div className="">Pay Now</div>
-                      <div className="text-right">Aed {totalAmount / 2}</div>
+                      <div className="text-right">AED {totalAmount / 2}</div>
                     </div>
                   </>
                 ) : null} */}
                 <div className="grid grid-cols-2 text-2xl  my-6 font-extrabold">
                   <div className="">Total</div>
                   <div className="text-right">
-                    Aed{" "}
+                    AED{" "}
                     {totalAmount > 100
                       ? totalAmount
                       : totalAmount +

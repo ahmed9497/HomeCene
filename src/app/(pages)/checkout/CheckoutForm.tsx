@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 // ];
 // const shippingCharges = process.env.NEXT_PUBLIC_SHIPPING_CHARGES!;
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export default function CheckoutForm({
   user,
   isDisable,
@@ -82,7 +83,8 @@ export default function CheckoutForm({
   }, [profile]);
 
   const handleFormSubmit = async (data: any, event: any) => {
-    console.log(data);
+    data.phone = `+971${data.phone}`;
+
     event.preventDefault();
 
     setLoading(true);
@@ -203,7 +205,7 @@ export default function CheckoutForm({
       elements,
       redirect: "if_required",
       confirmParams: {
-        return_url: "http://localhost:3000/success",
+        return_url: `${BASE_URL}/success`,
       },
     });
 
@@ -278,17 +280,46 @@ export default function CheckoutForm({
       </div>
 
       <div>
-        <label htmlFor="phone">Phone Number</label>
-        <input
-          id="phone"
-          type="tel"
-          {...register("phone", {
-            required: "Phone number is required",
-          })}
-          className="border p-2 rounded w-full"
-        />
+        <label htmlFor="phone" className="block mb-1">
+          Phone Number
+        </label>
+
+        <div className="flex items-center border rounded w-full overflow-hidden">
+          <span className="flex items-center h-10 text-2xl bg-gray-100 pl-1 whitespace-nowrap">
+            🇦🇪
+          </span>
+          <span className="flex items-center h-10 text-sm bg-gray-100 px-2 whitespace-nowrap">
+            +971
+          </span>
+          <input
+            id="phone"
+            type="tel"
+            max={9}
+            maxLength={9}
+            // inputMode="numeric"
+            placeholder="501234567"
+            {...register("phone", {
+              required: "Phone number is required",
+              minLength: {
+                value: 9,
+                message: "Phone number must be exactly 9 digits",
+              },
+              maxLength: {
+                value: 9,
+                message: "Phone number must be exactly 9 digits",
+              },
+              pattern: {
+                value: /^[0-9]+$/,
+                message: "Only numbers are allowed",
+              },
+            })}
+            className="p-2 flex-1 "
+          />
+        </div>
         {errors.phone && (
-          <p className="text-red-500">{(errors.phone as FieldError).message}</p>
+          <p className="text-red-500 text-sm mt-1">
+            {(errors.phone as FieldError).message}
+          </p>
         )}
       </div>
 
