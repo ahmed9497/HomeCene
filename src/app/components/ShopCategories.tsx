@@ -69,7 +69,24 @@ const categories=[
   {
     title:'Vase & Decor',
     href:'/shop/vase-&-decore',
-    subCategories:[]
+    subCategories:[
+      {
+        title:'All vase & decore',
+        href:'/shop/vase-&-decore'
+      },
+      {
+        title:'pampas & caspia',
+        href:'/shop/vase-&-decore/pampas-&-caspia'
+      },
+      {
+        title:'tissue boxes',
+        href:'/shop/vase-&-decore/tissue-boxes'
+      },
+      {
+        title:'vase & decore',
+        href:'/shop/vase-&-decore/vase-&-decore'
+      },
+    ]
   },
   {
     title:'Artificial Plants & Pots',
