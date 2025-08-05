@@ -106,6 +106,28 @@ const categories=[
       },
     ]
   },
+  {
+    title:'Furniture',
+    href:'/shop/furniture',
+    subCategories:[
+      {
+        title:'All Furniture',
+        href:'/shop/furniture',
+      },
+      {
+        title:'Coffee Tables',
+        href:'/shop/furniture/coffee-tables',
+      },
+      // {
+      //   title:'Plants',
+      //   href:'/shop/artificial-plants-and-pots/plants',
+      // },
+      // {
+      //   title:'Pots',
+      //   href:'/shop/artificial-plants-and-pots/pots',
+      // },
+    ]
+  },
   // {
   //   title:'Wooden Decor',
   //   href:'/shop/wooden-decore'

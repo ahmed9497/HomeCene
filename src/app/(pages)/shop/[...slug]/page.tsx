@@ -99,6 +99,7 @@ async function fetchProducts(
         "tissue boxes",
         "vase & decore",
         "pampas & caspia",
+        "coffee tables"
       ].includes(decodeURIComponent(`${subcategory}`)?.replaceAll("-", " "))
     ) {
       filters.push(
