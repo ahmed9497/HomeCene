@@ -20,12 +20,10 @@ import { IoMenu } from "react-icons/io5";
 
 type tParams = Promise<{ slug: string }>;
 
-
-
-const categoryMeta:any = {
-
+const categoryMeta: any = {
   "all-products": {
-    title: "Buy Mirrors, Vaeses,Lamps and Decor Online in UAE | Luxury Wall & Floor Mirrors | Dubai",
+    title:
+      "Buy Mirrors, Vaeses,Lamps and Decor Online in UAE | Luxury Wall & Floor Mirrors | Dubai",
     description:
       "Discover premium wall & floor mirrors in UAE. Shop modern, LED, and decorative mirrors for home & office. Fast delivery & best prices at Homecene!",
     image: "https://www.homecene.com/mirror-slide.webp",
@@ -48,7 +46,7 @@ const categoryMeta:any = {
       "Shop high-quality decorative vases in UAE. Find modern, ceramic, and glass vases perfect for any space. Exclusive designs & fast shipping!",
     image: "https://www.homecene.com/vase.webp",
   },
-  'wooden-decore': {
+  "wooden-decore": {
     title: "Wooden Decor Accessories UAE | Buy Stylish Interior Pieces | Dubai",
     description:
       "Upgrade your home with elegant decor pieces. Shop wall art, sculptures, candles & more for a modern interior. Fast delivery in UAE!",
@@ -56,14 +54,13 @@ const categoryMeta:any = {
   },
 };
 
-
 async function fetchProducts(
   slug = "all-product",
   cursor = null,
   id = null,
   direction = "next",
   pageSize = 6,
-  subcategory= null
+  subcategory = null
 ) {
   const productCollection = collection(db, "products");
   let productQuery;
@@ -85,7 +82,7 @@ async function fetchProducts(
           limit(pageSize)
         );
   } else {
-    const filters:any = [
+    const filters: any = [
       where("category", "==", decodeURIComponent(slug)?.replaceAll("-", " ")), // Main category
       where("status", "==", true),
       orderBy("slug"),
@@ -93,21 +90,46 @@ async function fetchProducts(
       // direction === "next" ? startAfter(cursor) : endBefore(cursor),
       // direction === "next" ? limit(pageSize) : limitToLast(pageSize)
     ];
-    if (subcategory === 'plants' || subcategory === 'pots') {
-      filters.push(where("subcategory", "==", decodeURIComponent(`${subcategory}`)?.replaceAll("-", " ")));
-    }
-    else if (subcategory) {
-      filters.push(where("subcategory", "==", decodeURIComponent(`${subcategory} ${slug}`)?.replaceAll("-", " ")));
+
+    if (
+      subcategory &&
+      [
+        "plants",
+        "pots",
+        "tissue boxes",
+        "vase & decore",
+        "pampas & caspia",
+      ].includes(decodeURIComponent(`${subcategory}`)?.replaceAll("-", " "))
+    ) {
+      filters.push(
+        where(
+          "subcategory",
+          "==",
+          decodeURIComponent(`${subcategory}`)?.replaceAll("-", " ")
+        )
+      );
+    } else if (subcategory) {
+      filters.push(
+        where(
+          "subcategory",
+          "==",
+          decodeURIComponent(`${subcategory} ${slug}`)?.replaceAll("-", " ")
+        )
+      );
     }
 
     if (cursor) {
-      filters.push(direction === "next" ? startAfter(cursor) : endBefore(cursor));
-      filters.push(direction === "next" ? limit(pageSize) : limitToLast(pageSize));
+      filters.push(
+        direction === "next" ? startAfter(cursor) : endBefore(cursor)
+      );
+      filters.push(
+        direction === "next" ? limit(pageSize) : limitToLast(pageSize)
+      );
     } else {
       filters.push(limit(pageSize)); // First-time query
     }
 
-     productQuery = query(productCollection, ...filters);
+    productQuery = query(productCollection, ...filters);
   }
   const snapshot = await getDocs(productQuery);
   const products = snapshot.docs.map((doc) => ({
@@ -127,7 +149,11 @@ async function fetchProducts(
 
   return { products, firstCursor, lastCursor };
 }
-export async function generateMetadata({ params }: { params: tParams }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: tParams;
+}): Promise<Metadata> {
   const { slug } = await params;
   const meta = categoryMeta[slug] || {
     title: "Shop Home Accessories in UAE | Best Prices & Quality",
@@ -165,12 +191,12 @@ export default async function ShopPage({
   searchParams: any;
 }) {
   const { slug } = await params;
-console.log(slug,"_______");
+  console.log(slug, "_______");
   const slugArray = Array.isArray(slug) ? slug : [slug];
   // Extract category & optional subcategory
   const category = slugArray[0] || "all products"; // Default if no category
   const subcategory = slugArray[1] || null;
-console.log(category,subcategory,"********")
+  console.log(category, subcategory, "********");
   const { cursor, page, id, direction = "next" } = await searchParams;
   const currentPage = parseInt(page || "1", 10);
   const pageSize = 30;
@@ -180,11 +206,11 @@ console.log(category,subcategory,"********")
     id,
     direction,
     pageSize,
-    subcategory,
+    subcategory
   );
 
   const nextPageCursor = lastCursor;
- 
+
   const prevPageCursor = firstCursor;
 
   return (
@@ -192,11 +218,11 @@ console.log(category,subcategory,"********")
       <div className="grid grid-cols-1 sm:grid-cols-4 sm:gap-x-16">
         <div className="col-span-1 sm:cols-span-2  pt-4 sm:p-4">
           <div className="sticky top-[100px]">
-          <div className=" gap-x-3 flex items-center text-xl font-bold uppercase">
-            <IoMenu size={30} />
-            Categories
-          </div>
-          <ShopCategories />
+            <div className=" gap-x-3 flex items-center text-xl font-bold uppercase">
+              <IoMenu size={30} />
+              Categories
+            </div>
+            <ShopCategories />
           </div>
         </div>
         <div className="cols-span-1 sm:col-span-3  sm:p-4">
@@ -204,7 +230,7 @@ console.log(category,subcategory,"********")
             {products &&
               products.map((product, index) => (
                 <div key={product.id + index}>
-                  <Product product={product} quickAddBtn={true} index={index}/>
+                  <Product product={product} quickAddBtn={true} index={index} />
                 </div>
               ))}
           </div>
@@ -217,36 +243,43 @@ console.log(category,subcategory,"********")
                 }&id=${prevPageCursor[1]}&direction=previous`}
                 className="flex items-center justify-center gap-x-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black rounded w-[150px] text-center"
               >
-                <FaAngleLeft color="black"/> Previous 
+                <FaAngleLeft color="black" /> Previous
               </a>
             )}
-            {nextPageCursor && !(products.length < 30) &&(
-              <a 
+            {nextPageCursor && !(products.length < 30) && (
+              <a
                 href={`?page=${+currentPage + 1}&cursor=${
                   nextPageCursor[0]
                 }&id=${nextPageCursor[1]}&direction=next`}
                 className="flex items-center justify-center gap-x-2 px-4 py-2 bg-black  hover:bg-primary text-white rounded w-[150px] text-center"
               >
-                Next <FaAngleRight color="white"/>
+                Next <FaAngleRight color="white" />
               </a>
             )}
 
-            {!prevPageCursor && !nextPageCursor &&
-               <div className="bg-white p-8 rounded-2xl  flex flex-col items-center">
-               {/* Empty Checkout Illustration */}
-               <Image src={'/no-data.svg'} alt="Empty Cart" width={300} height={300} />
-               {/* Message */}
-              
-               <p className="text-gray-500 mt-2 text-center max-w-md">
-                 No more products in this categories!
-               </p>
-               {/* Continue Shopping Button */}
-               <Link href={'/shop/all-products'} className="mt-6 px-6 py-3 bg-primary text-white rounded shadow-md hover:bg-green-700 transition">
-                 Explore More Products
-               </Link>
-             </div>
-            
-            }
+            {!prevPageCursor && !nextPageCursor && (
+              <div className="bg-white p-8 rounded-2xl  flex flex-col items-center">
+                {/* Empty Checkout Illustration */}
+                <Image
+                  src={"/no-data.svg"}
+                  alt="Empty Cart"
+                  width={300}
+                  height={300}
+                />
+                {/* Message */}
+
+                <p className="text-gray-500 mt-2 text-center max-w-md">
+                  No more products in this categories!
+                </p>
+                {/* Continue Shopping Button */}
+                <Link
+                  href={"/shop/all-products"}
+                  className="mt-6 px-6 py-3 bg-primary text-white rounded shadow-md hover:bg-green-700 transition"
+                >
+                  Explore More Products
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
